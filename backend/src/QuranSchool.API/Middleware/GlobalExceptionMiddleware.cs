@@ -41,7 +41,7 @@ public class GlobalExceptionMiddleware
             KeyNotFoundException => (HttpStatusCode.NotFound, exception.Message),
             InvalidOperationException => (HttpStatusCode.BadRequest, exception.Message),
             ArgumentException => (HttpStatusCode.BadRequest, exception.Message),
-            _ => (HttpStatusCode.InternalServerError, isDevelopment ? exception.Message : "An internal server error occurred.")
+            _ => (HttpStatusCode.InternalServerError, exception.Message)
         };
 
         context.Response.StatusCode = (int)statusCode;
@@ -50,7 +50,7 @@ public class GlobalExceptionMiddleware
         {
             StatusCode = (int)statusCode,
             Message = message,
-            Details = isDevelopment ? exception.StackTrace : null,
+            Details = exception.StackTrace,
             Timestamp = DateTime.UtcNow
         };
 
