@@ -8,6 +8,9 @@ using QuranSchool.Infrastructure.Hubs;
 using Serilog;
 using QuestPDF.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using QuranSchool.Domain.Entities;
+using QuranSchool.Domain.Enums;
+using QuranSchool.Infrastructure.Data;
 
 // QuestPDF License
 // QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseKind.Community;
@@ -104,9 +107,7 @@ using (var scope = app.Services.CreateScope())
 {
     try 
     {
-        Console.WriteLine(">>> Resolving AppDbContext...");
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        Console.WriteLine(">>> AppDbContext resolved.");
         
         if (seedReset)
         {
@@ -141,7 +142,6 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine($">>> Error during database initialization: {ex.Message}");
-        Console.WriteLine(ex.StackTrace);
     }
 }
 Console.WriteLine(">>> Startup logic finished. Starting web host...");
