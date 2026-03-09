@@ -43,4 +43,12 @@ public class AuthController : ControllerBase
         await _authService.RevokeTokenAsync(userId);
         return NoContent();
     }
+
+    /// <summary>Get diagnostic information about the database and users</summary>
+    [HttpGet("diagnostic")]
+    public async Task<ActionResult<object>> GetDiagnostic()
+    {
+        var info = await _authService.GetDiagnosticInfoAsync();
+        return Ok(info);
+    }
 }

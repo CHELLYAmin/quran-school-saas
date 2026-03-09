@@ -26,6 +26,7 @@ public interface IAuthService
     Task<AuthResponse> RegisterAsync(RegisterRequest request);
     Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequest request);
     Task RevokeTokenAsync(Guid userId);
+    Task<object> GetDiagnosticInfoAsync();
 }
 
 public interface IUserService

@@ -147,6 +147,26 @@ public class AuthService : IAuthService
         }
     }
 
+    public async Task<object> GetDiagnosticInfoAsync()
+    {
+        var userCount = await _context.Users.CountAsync();
+        var superAdmin = await _context.Users.FirstOrDefaultAsync(u => u.Email == "superadmin@quranschool.com");
+        var schoolCount = await _context.Schools.CountAsync();
+        var roleCount = await _context.Roles.CountAsync();
+
+        return new
+        {
+            Timestamp = DateTime.UtcNow,
+            UserCount = userCount,
+            SuperAdminExists = superAdmin != null,
+            SuperAdminId = superAdmin?.Id,
+            SuperAdminActive = superAdmin?.IsActive,
+            SchoolCount = schoolCount,
+            RoleCount = roleCount,
+            DatabaseProvider = _context.Database.ProviderName
+        };
+    }
+
     private async Task<string> GenerateJwtTokenAsync(User user, List<string> roles)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? "SuperSecretKeyAtLeast32Characters!"));
