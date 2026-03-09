@@ -133,64 +133,7 @@ using (var scope = app.Services.CreateScope())
         }
         else 
         {
-            // Manual Schema Repair for SQLite (Environment Fix)
-            Console.WriteLine(">>> Checking for SQLite schema repair...");
-            try 
-            {
-                using var connection = db.Database.GetDbConnection();
-                await connection.OpenAsync();
-                
-                // Add missing columns if they don't exist
-                var columns = new[] { "Badges", "TotalXP", "CurrentStreak", "LongestStreak" };
-                foreach (var col in columns)
-                {
-                    var checkTable = connection.CreateCommand();
-                    checkTable.CommandText = $"PRAGMA table_info(Students);";
-                    bool exists = false;
-                    using (var reader = await checkTable.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            if (reader.GetString(1).Equals(col, StringComparison.OrdinalIgnoreCase))
-                            {
-                                exists = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!exists)
-                    {
-                        Console.WriteLine($">>> Adding missing column {col} to Students table...");
-                        var addCol = connection.CreateCommand();
-                        if (col == "Badges")
-                            addCol.CommandText = $"ALTER TABLE Students ADD COLUMN {col} TEXT NOT NULL DEFAULT '';";
-                        else
-                            addCol.CommandText = $"ALTER TABLE Students ADD COLUMN {col} INTEGER NOT NULL DEFAULT 0;";
-                        await addCol.ExecuteNonQueryAsync();
-                    }
-                }
-
-                // Sync Migrations History to prevent "Table already exists" on next migration
-                var migrations = new[] { "20260306191005_AddStudentMissions", "20260306211538_AddGamificationToStudent", "20260307051631_AddSessionVirtualMeeting" };
-                foreach (var migration in migrations)
-                {
-                    var checkMig = connection.CreateCommand();
-                    checkMig.CommandText = $"SELECT COUNT(*) FROM __EFMigrationsHistory WHERE MigrationId = '{migration}';";
-                    var count = (long)(await checkMig.ExecuteScalarAsync() ?? 0L);
-                    if (count == 0)
-                    {
-                        Console.WriteLine($">>> Syncing migration history for {migration}...");
-                        var insertMig = connection.CreateCommand();
-                        insertMig.CommandText = $"INSERT INTO __EFMigrationsHistory (MigrationId, ProductVersion) VALUES ('{migration}', '8.0.0');";
-                        await insertMig.ExecuteNonQueryAsync();
-                    }
-                }
-            }
-            catch (Exception dbEx)
-            {
-                Console.WriteLine($">>> Warning: Manual schema repair failed: {dbEx.Message}");
-            }
+            // SQLite manual schema repair removed to allow PostgreSQL connection.
         }
 
         if (seed)
