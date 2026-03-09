@@ -49,21 +49,11 @@ builder.Services.AddCors(options =>
     });
 
     // Production Policy (to be configured via env var)
-    var prodOrigin = builder.Configuration["AllowedOrigins"] ?? "";
     options.AddPolicy("ProductionPolicy", policy =>
     {
-        if (!string.IsNullOrEmpty(prodOrigin))
-        {
-            policy.WithOrigins(prodOrigin.Split(','))
-                  .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials();
-        }
-        else
-        {
-            // Fallback for security
-            policy.AllowAnyMethod().AllowAnyHeader();
-        }
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 
@@ -133,7 +123,10 @@ using (var scope = app.Services.CreateScope())
         }
         else 
         {
-            // SQLite manual schema repair removed to allow PostgreSQL connection.
+            // Auto-migrate in Production
+            Console.WriteLine(">>> Running migrations...");
+            db.Database.Migrate();
+            Console.WriteLine(">>> Migrations applied.");
         }
 
         if (seed)
@@ -174,8 +167,8 @@ if (app.Environment.IsDevelopment())
 }
 else 
 {
-    app.UseHsts();
-    app.UseHttpsRedirection();
+    // app.UseHsts();
+    // app.UseHttpsRedirection();
     app.UseCors("ProductionPolicy");
 }
 
