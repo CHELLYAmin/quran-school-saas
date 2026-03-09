@@ -1,0 +1,30 @@
+﻿
+> quran-school-frontend@1.0.0 build
+> next build
+
+   ▲ Next.js 14.1.0
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+npm.cmd : Failed to compile.
+Au caractère Ligne:1 : 1
++ npm.cmd run build > build_output.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./src/app/dashboard/sessions/page.tsx:374:37
+Type error: 's.groupName' is possibly 'undefined'.
+
+[0m [90m 372 |[39m         [36mif[39m (searchQuery[33m.[39mtrim()) {[0m
+[0m [90m 373 |[39m             [36mconst[39m q [33m=[39m searchQuery[33m.[39mtoLowerCase()[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 374 |[39m             list [33m=[39m list[33m.[39mfilter(s [33m=>[39m 
+s[33m.[39mgroupName[33m.[39mtoLowerCase()[33m.[39mincludes(q) [33m||[39m 
+s[33m.[39mobjective[33m.[39mtoLowerCase()[33m.[39mincludes(q))[33m;[39m[0m
+[0m [90m     |[39m                                     [31m[1m^[22m[39m[0m
+[0m [90m 375 |[39m         }[0m
+[0m [90m 376 |[39m         [36mreturn[39m list[33m;[39m[0m
+[0m [90m 377 |[39m     }[33m,[39m [sessions[33m,[39m currentDate[33m,[39m viewMode[33m,[39m 
+statusFilter[33m,[39m searchQuery])[33m;[39m[0m

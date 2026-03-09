@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cinzel-title {
+  font-family: 'Cinzel', serif;
+  letter-spacing: -0.025em;
+}
+
+@font-face {
+  font-family: 'KFGQPC Uthman Taha Naskh';
+  src: url('https://cdn.alquran.cloud/public/fonts/KFGQPC_Uthman_Taha_Naskh_Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quran Tajweed';
+  src: url('https://cdn.alquran.cloud/public/fonts/quran-tajweed.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'me_quran';
+  src: url('https://cdn.alquran.cloud/public/fonts/me_quran.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --gradient-primary: linear-gradient(135deg, #064E3B 0%, #0e231a 100%);
+  --gradient-accent: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+  --gradient-dark: linear-gradient(145deg, #1A2A22 0%, #080F0B 100%);
+  --shadow-glass: 0 8px 32px rgba(6, 78, 59, 0.08);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dark {
+  --gradient-dark: linear-gradient(145deg, #0F1D16 0%, #080F0B 100%);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-pearl text-dark-800 dark:bg-dark-950 dark:text-dark-100;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cinzel', serif;
+    @apply font-bold tracking-tight text-primary-900;
+  }
+
+  h1 {
+    @apply uppercase;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  [dir='rtl'] {
+    font-family: 'Amiri', serif;
+  }
+}
+
+@layer utilities {
+  .font-madani {
+    font-family: 'KFGQPC Uthman Taha Naskh', 'Amiri', serif;
+  }
+
+  .font-tajweed {
+    font-family: 'Quran Tajweed', 'Amiri', serif;
+  }
+
+  .font-indopak {
+    font-family: 'me_quran', 'Amiri', serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 dark:bg-dark-900/80 backdrop-blur-2xl border border-white/20 dark:border-primary-900/20 rounded-2xl shadow-lg dark:shadow-2xl dark:shadow-black/30;
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-dark-500 dark:text-dark-300 hover:bg-primary-50 dark:hover:bg-primary-900/15 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item.active {
+    @apply bg-primary-50 dark:bg-primary-900/25 text-primary-600 dark:text-primary-400 font-medium dark:shadow-sm dark:shadow-primary-900/20;
+  }
+
+  .btn-primary {
+    @apply px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2.5 bg-dark-100 dark:bg-dark-700 hover:bg-dark-200 dark:hover:bg-dark-600 text-dark-700 dark:text-dark-200 rounded-xl font-medium transition-all duration-200;
+  }
+
+  .btn-accent {
+    @apply px-6 py-2.5 bg-accent-500 hover:bg-accent-600 text-white rounded-xl font-medium transition-all duration-200 shadow-md hover:shadow-lg;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white dark:bg-dark-800/80 border border-dark-200 dark:border-dark-700 rounded-xl text-dark-900 dark:text-dark-100 placeholder-dark-400 dark:placeholder-dark-500 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-700 focus:border-transparent outline-none transition-all duration-200;
+  }
+
+  .stat-card {
+    @apply glass-card p-6 animate-slide-up;
+  }
+
+  .table-container {
+    @apply glass-card overflow-hidden;
+  }
+
+  .table-header {
+    @apply bg-dark-50 dark:bg-dark-900/80 text-dark-600 dark:text-dark-300 text-xs font-semibold uppercase tracking-wider;
+  }
+
+  .table-row {
+    @apply border-b border-dark-100 dark:border-dark-800 hover:bg-dark-50 dark:hover:bg-primary-900/10 transition-colors duration-150;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400;
+  }
+
+  .badge-danger {
+    @apply badge bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400;
+  }
+
+  .badge-info {
+    @apply badge bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400;
+  }
+
+  .zellige-pattern {
+    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChU32RNwT4azwUJs52NC8ElIduZ6R3AbPyAfzRPf8VWjNpZjmpxYCrJUyfreOon9K_Oiu2Z1Xq34HZ8h2Sn-IppqvrZ4G3St2nkTNyYSPWtCAo3X-724BHk3pU04ClvKcJt5xSfcneo8k9SJOvg36eG4zjOfL6S0c9clcZcT-WV8dWWQkNQVR-Ae90Uvw1NRoUcKqgxe5TB1cUdxeV_hYluLgnHu7Dc9SUESk--plK9eZOlx375KltR5cv7YTgJrf2MXVGXxJx77Vk');
+    background-repeat: repeat;
+    opacity: 0.03;
+  }
+
+  .islamic-pattern {
+    background-color: transparent;
+    background-image: radial-gradient(circle at 2px 2px, rgba(6, 78, 59, 0.05) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+
+  .arabesque-bg {
+    background-color: #fcfdfc;
+    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9zfZ3GykeumAsvr3l_9xA8bnvkb8YF5_dr56jDrkHC7J7JcEfuXa8RfC6SNn8FUFrgan-hzI4CWaSz2UWa_-547oeP0FhhWbyTbgbItgN8IgVYht59sm2Z14j3YM6MjfjVmXSpz_voVPczdmFU2h2_4SyLpnApa3q06uluLmnmTFOMqc6ecYN8uKBmBSaYU-iu4K-rQfq2saIxXfFXoABWCOR-b4QjG9709MBiIB1urGDbCT3ug68Z9dQpPB6t0Ycs2-zS4dHvh_L');
+    background-attachment: fixed;
+  }
+
+  .cinzel-title {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-dark-300 dark:bg-dark-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-dark-400 dark:bg-dark-500;
+}
+
+/* Loading skeleton */
+.skeleton {
+  @apply bg-dark-100 dark:bg-dark-800 relative overflow-hidden;
+}
+
+.skeleton::after {
+  content: "";
+  @apply absolute inset-0 -translate-x-full;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .skeleton::after {
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 100%);
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}

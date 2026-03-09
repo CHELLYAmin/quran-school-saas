@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Quran School Dashboard</string>
+    <string name="title_activity_main">Quran School Dashboard</string>
+    <string name="package_name">com.quranschool.dashboard</string>
+    <string name="custom_url_scheme">com.quranschool.dashboard</string>
+</resources>

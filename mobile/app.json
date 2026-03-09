@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Quran School",
+    "slug": "quran-school-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#2f9268"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "fr.alnoor.quranschool",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#16423C"
+      },
+      "package": "fr.alnoor.quranschool",
+      "versionCode": 1
+    },
+    "extra": {
+      "apiUrl": "https://fuzzy-carrots-kiss.loca.lt/api",
+      "eas": {
+        "projectId": "9aedd510-613a-4dad-95db-4e373c063ff5"
+      }
+    },
+    "owner": "amin_chelly"
+  }
+}

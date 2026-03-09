@@ -1,0 +1,16 @@
+
+> quran-school-frontend@1.0.0 dev
+> next dev
+
+   ▲ Next.js 14.1.0
+   - Local:        http://localhost:3000
+
+ ✓ Ready in 2.7s
+ ○ Compiling /not-found ...
+ ✓ Compiled /not-found in 6.4s (453 modules)
+ ✓ Compiled in 597ms (233 modules)
+ ○ Compiling /dashboard/admin ...
+ ✓ Compiled /dashboard/admin in 2.5s (705 modules)
+ ○ Compiling /login ...
+ ✓ Compiled /login in 524ms (711 modules)
+ ✓ Compiled /dashboard in 392ms (717 modules)

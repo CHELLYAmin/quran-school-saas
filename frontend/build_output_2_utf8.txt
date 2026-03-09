@@ -1,0 +1,31 @@
+﻿
+> quran-school-frontend@1.0.0 build
+> next build
+
+   ▲ Next.js 14.1.0
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+npm.cmd : Failed to compile.
+Au caractère Ligne:1 : 1
++ npm.cmd run build > build_output_2.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./src/app/dashboard/teachers/page.tsx:102:13
+Type error: Type 'string' is not assignable to type 'UserRole'.
+
+[0m [90m 100 |[39m             phone[33m:[39m user[33m.[39mphone [33m||[39m [32m''[39m[33m,[39m[0m
+[0m [90m 101 |[39m             password[33m:[39m [32m''[39m[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m 102 |[39m             role[33m:[39m 
+user[33m.[39mroles[33m?[39m[33m.[39m[[35m0[39m] [33m||[39m 
+[33mUserRole[39m[33m.[39m[33mTeacher[39m[33m,[39m[0m
+[0m [90m     |[39m             [31m[1m^[22m[39m[0m
+[0m [90m 103 |[39m             isExaminer[33m:[39m user[33m.[39misExaminer [33m||[39m 
+user[33m.[39mroles[33m?[39m[33m.[39mincludes([33mUserRole[39m[33m.[39m[33mExaminer[39m) [33m||[39m 
+[36mfalse[39m[0m
+[0m [90m 104 |[39m         })[33m;[39m[0m
+[0m [90m 105 |[39m         setShowModal([36mtrue[39m)[33m;[39m[0m
