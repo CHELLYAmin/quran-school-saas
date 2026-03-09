@@ -1,0 +1,137 @@
+
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(202,67): 
+error CS0117: 
+'ExamType' ne contient 
+pas de d??finition 
+pour 'Entry' [C:\Users\
+aminc\.gemini\antigravi
+ty\scratch\quran-school
+-saas\backend\src\Quran
+School.Infrastructure\Q
+uranSchool.Infrastructu
+re.csproj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(202,108): 
+error CS0117: 
+'ExamType' ne contient 
+pas de d??finition 
+pour 
+'LevelProgression' [C:\
+Users\aminc\.gemini\ant
+igravity\scratch\quran-
+school-saas\backend\src
+\QuranSchool.Infrastruc
+ture\QuranSchool.Infras
+tructure.csproj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(202,160): 
+error CS0117: 
+'ExamType' ne contient 
+pas de d??finition 
+pour 'Periodic' [C:\Use
+rs\aminc\.gemini\antigr
+avity\scratch\quran-sch
+ool-saas\backend\src\Qu
+ranSchool.Infrastructur
+e\QuranSchool.Infrastru
+cture.csproj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(203,72): 
+error CS0117: 
+'ExamStatus' ne 
+contient pas de 
+d??finition pour 
+'Passed' [C:\Users\amin
+c\.gemini\antigravity\s
+cratch\quran-school-saa
+s\backend\src\QuranScho
+ol.Infrastructure\Quran
+School.Infrastructure.c
+sproj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(203,116): 
+error CS0117: 
+'ExamStatus' ne 
+contient pas de 
+d??finition pour 
+'Failed' [C:\Users\amin
+c\.gemini\antigravity\s
+cratch\quran-school-saa
+s\backend\src\QuranScho
+ol.Infrastructure\Quran
+School.Infrastructure.c
+sproj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(203,160): 
+error CS0117: 
+'ExamStatus' ne 
+contient pas de 
+d??finition pour 
+'Scheduled' [C:\Users\a
+minc\.gemini\antigravit
+y\scratch\quran-school-
+saas\backend\src\QuranS
+chool.Infrastructure\Qu
+ranSchool.Infrastructur
+e.csproj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(257,25): 
+error CS0117: 
+'HomeworkAssignment' 
+ne contient pas de 
+d??finition pour 
+'Score' [C:\Users\aminc
+\.gemini\antigravity\sc
+ratch\quran-school-saas
+\backend\src\QuranSchoo
+l.Infrastructure\QuranS
+chool.Infrastructure.cs
+proj]
+C:\Users\aminc\.gemini\
+antigravity\scratch\qur
+an-school-saas\backend\
+src\QuranSchool.Infrast
+ructure\Seed\AdvancedDa
+taSeeder.cs(258,25): 
+error CS0117: 
+'HomeworkAssignment' 
+ne contient pas de 
+d??finition pour 
+'Feedback' [C:\Users\am
+inc\.gemini\antigravity
+\scratch\quran-school-s
+aas\backend\src\QuranSc
+hool.Infrastructure\Qur
+anSchool.Infrastructure
+.csproj]
+
+

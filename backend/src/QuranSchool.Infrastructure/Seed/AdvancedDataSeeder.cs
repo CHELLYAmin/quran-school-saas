@@ -193,7 +193,136 @@ public class AdvancedDataSeeder
         var paymentFaker = new PaymentFaker(schoolId, students.Select(s => s.Id).ToList());
         var payments = paymentFaker.Generate(600); // multiple payments per student
         _context.Payments.AddRange(payments);
+        await _context.SaveChangesAsync();
+
+        Console.WriteLine(">>> Generating Exams, Homework, and Missions...");
         
+        // 1. Exams
+        var exams = new List<Exam>();
+        var examTypes = new[] { QuranSchool.Domain.Enums.ExamType.Hifdh, QuranSchool.Domain.Enums.ExamType.Tajwid, QuranSchool.Domain.Enums.ExamType.Revision };
+        var examStatuses = new[] { QuranSchool.Domain.Enums.ExamStatus.Completed, QuranSchool.Domain.Enums.ExamStatus.Planned, QuranSchool.Domain.Enums.ExamStatus.InProgress };
+        
+        foreach (var student in students.Take(150)) // 150 students have exams
+        {
+            var exam = new Exam
+            {
+                Id = Guid.NewGuid(),
+                SchoolId = schoolId,
+                Title = $"Examen de {faker.PickRandom("Hifdh", "Tajwid", "Révision")}",
+                Type = faker.PickRandom(examTypes),
+                ExamDate = faker.Date.Past(1),
+                Description = "Examen d'évaluation périodique",
+                StudentId = student.Id,
+                ExaminerId = faker.PickRandom(examinerIds),
+                GlobalComment = "Très bon effort, continuer la révision.",
+                FinalScore = faker.Random.Number(50, 100),
+                FinalStatus = faker.PickRandom(examStatuses),
+                IsLevelProgressionExam = faker.Random.Bool(),
+                GroupId = student.GroupId
+            };
+            exams.Add(exam);
+        }
+        _context.Exams.AddRange(exams);
+        
+        // 2. Homeworks
+        var homeworks = new List<Homework>();
+        var homeworkAssignments = new List<HomeworkAssignment>();
+        foreach (var group in groups)
+        {
+            for (int i = 0; i < 3; i++) // 3 homeworks per group
+            {
+                var hw = new Homework
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Title = $"Devoir: {faker.PickRandom("Mémoriser", "Réviser")} {faker.PickRandom("Al-Baqarah", "Yasin", "Al-Mulk")}",
+                    Description = "Veuillez enregistrer votre récitation et l'envoyer.",
+                    Type = QuranSchool.Domain.Enums.HomeworkType.Memorization,
+                    DueDate = faker.Date.Soon(7),
+                    GroupId = group.Id,
+                    TeacherId = group.TeacherId.Value
+                };
+                homeworks.Add(hw);
+                
+                var groupStudents = students.Where(s => s.GroupId == group.Id).ToList();
+                foreach (var gs in groupStudents)
+                {
+                    homeworkAssignments.Add(new HomeworkAssignment
+                    {
+                        Id = Guid.NewGuid(),
+                        SchoolId = schoolId,
+                        HomeworkId = hw.Id,
+                        StudentId = gs.Id,
+                        Status = faker.PickRandom(QuranSchool.Domain.Enums.HomeworkStatus.Pending, QuranSchool.Domain.Enums.HomeworkStatus.Submitted, QuranSchool.Domain.Enums.HomeworkStatus.Graded),
+                        Grade = faker.Random.Int(10, 20),
+                        TeacherFeedback = "Bien reçu."
+                    });
+                }
+            }
+        }
+        _context.Homeworks.AddRange(homeworks);
+        _context.HomeworkAssignments.AddRange(homeworkAssignments);
+        
+        // 3. Student Missions (Gamification)
+        var missions = new List<StudentMission>();
+        var missionTypes = new[] { QuranSchool.Domain.Enums.MissionType.ManualAssignment, QuranSchool.Domain.Enums.MissionType.SmartRevision };
+        var targetTypes = new[] { QuranSchool.Domain.Enums.MissionTargetType.Surah, QuranSchool.Domain.Enums.MissionTargetType.Hizb };
+        foreach (var student in students)
+        {
+            for (int i = 0; i < 2; i++) // 2 missions per student
+            {
+                missions.Add(new StudentMission
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    StudentId = student.Id,
+                    Type = faker.PickRandom(missionTypes),
+                    TargetType = faker.PickRandom(targetTypes),
+                    DueDate = faker.Date.Soon(5),
+                    Status = faker.PickRandom(QuranSchool.Domain.Enums.MissionStatus.Pending, QuranSchool.Domain.Enums.MissionStatus.Completed),
+                    QualityScore = faker.Random.Int(1, 5),
+                    CompletedAt = faker.Date.Recent(5)
+                });
+            }
+        }
+        _context.StudentMissions.AddRange(missions);
+
+        // 4. Volunteer & Donations
+        var donationCampaigns = new List<DonationCampaign>();
+        for (int i = 1; i <= 3; i++)
+        {
+            donationCampaigns.Add(new DonationCampaign
+            {
+                Id = Guid.NewGuid(),
+                SchoolId = schoolId,
+                Title = $"Campagne {faker.PickRandom("Ramadan", "Agrandissement", "Soutien")}",
+                Description = faker.Lorem.Paragraph(),
+                TargetAmount = faker.Random.Number(5000, 50000),
+                CurrentAmount = faker.Random.Number(1000, 5000),
+                EndDate = faker.Date.Future(1),
+                IsPublished = true
+            });
+        }
+        _context.DonationCampaigns.AddRange(donationCampaigns);
+        
+        var volunteerMissions = new List<VolunteerMission>();
+        for (int i = 1; i <= 3; i++)
+        {
+            volunteerMissions.Add(new VolunteerMission
+            {
+                Id = Guid.NewGuid(),
+                SchoolId = schoolId,
+                Title = $"Bénévolat: {faker.PickRandom("Nettoyage", "Sécurité", "Organisation")}",
+                Description = faker.Lorem.Sentence(),
+                RequiredVolunteers = faker.Random.Number(5, 20),
+                CurrentVolunteers = faker.Random.Number(1, 5),
+                Date = faker.Date.Future(1),
+                IsPublished = true,
+                Location = "Mosquée Principale"
+            });
+        }
+        _context.VolunteerMissions.AddRange(volunteerMissions);
+
         await _context.SaveChangesAsync();
 
         Console.WriteLine($">>> Bogus Seeding Finished! Created {students.Count} students across {groups.Count} groups.");

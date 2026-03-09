@@ -1,0 +1,340 @@
+﻿>>> Connection String: 'Host=quranschool-db.cjcuksmdtyuo2.ca-central-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=postgres;Password=^&Kakashi123;'
+>>> Using PostgreSQL (fallback)
+>>> Resolving AppDbContext...
+>>> AppDbContext resolved.
+>>> Checking for SQLite schema repair...
+>>> Warning: Manual schema repair failed: H├┤te inconnu.
+>>> Startup logic finished. Starting web host...
+[14:54:31 FTL] Application startup exception
+System.InvalidOperationException: The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the CORS policy by listing individual origins if credentials needs to be supported.
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.Build()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsOptions.AddPolicy(String name, Action`1 configurePolicy)
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(CorsOptions options) in C:\Users\aminc\.gemini\antigravity\scratch\quran-school-saas\backend\src\QuranSchool.API\Program.cs:line 53
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsService..ctor(IOptions`1 options, ILoggerFactory loggerFactory)
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitDisposeCache(ServiceCallSite transientCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+[14:54:31 FTL] Application startup exception
+System.InvalidOperationException: The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the CORS policy by listing individual origins if credentials needs to be supported.
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.Build()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsOptions.AddPolicy(String name, Action`1 configurePolicy)
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(CorsOptions options) in C:\Users\aminc\.gemini\antigravity\scratch\quran-school-saas\backend\src\QuranSchool.API\Program.cs:line 53
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsService..ctor(IOptions`1 options, ILoggerFactory loggerFactory)
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitDisposeCache(ServiceCallSite transientCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+[14:54:31 ERR] Hosting failed to start
+System.InvalidOperationException: The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the CORS policy by listing individual origins if credentials needs to be supported.
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.Build()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsOptions.AddPolicy(String name, Action`1 configurePolicy)
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(CorsOptions options) in C:\Users\aminc\.gemini\antigravity\scratch\quran-school-saas\backend\src\QuranSchool.API\Program.cs:line 53
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsService..ctor(IOptions`1 options, ILoggerFactory loggerFactory)
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitDisposeCache(ServiceCallSite transientCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+[14:54:31 ERR] Hosting failed to start
+System.InvalidOperationException: The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the CORS policy by listing individual origins if credentials needs to be supported.
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.Build()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsOptions.AddPolicy(String name, Action`1 configurePolicy)
+   at Program.<>c__DisplayClass0_0.<<Main>$>b__1(CorsOptions options) in C:\Users\aminc\.gemini\antigravity\scratch\quran-school-saas\backend\src\QuranSchool.API\Program.cs:line 53
+   at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
+   at Microsoft.Extensions.Options.UnnamedOptionsManager`1.get_Value()
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsService..ctor(IOptions`1 options, ILoggerFactory loggerFactory)
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.RuntimeConstructorInfo.Invoke(BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitDisposeCache(ServiceCallSite transientCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.ConstructorMatcher.CreateInstance(IServiceProvider provider)
+   at Microsoft.Extensions.Internal.ActivatorUtilities.CreateInstance(IServiceProvider provider, Type instanceType, Object[] parameters)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.ReflectionMiddlewareBinder.CreateMiddleware(RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.ApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+dotnet : Unhandled 
+exception. System.Inval
+idOperationException: 
+The CORS protocol does 
+not allow specifying a 
+wildcard (any) origin 
+and credentials at the 
+same time. Configure 
+the CORS policy by 
+listing individual 
+origins if credentials 
+needs to be supported.
+Au caractère Ligne:1 : 
+1
++ dotnet run 
+--environment 
+Production > 
+run_prod_err2.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Unhandled exc   
+ ep...o be supporte    
+d.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+   at Microsoft.AspNetC
+ore.Cors.Infrastructure
+.CorsPolicyBuilder.Buil
+d()
+   at Microsoft.AspNetC
+ore.Cors.Infrastructure
+.CorsOptions.AddPolicy(
+String name, Action`1 
+configurePolicy)
+   at Program.<>c__Disp
+layClass0_0.<<Main>$>b_
+_1(CorsOptions 
+options) in C:\Users\am
+inc\.gemini\antigravity
+\scratch\quran-school-s
+aas\backend\src\QuranSc
+hool.API\Program.cs:lin
+e 53
+   at Microsoft.Extensi
+ons.Options.OptionsFact
+ory`1.Create(String 
+name)
+   at Microsoft.Extensi
+ons.Options.UnnamedOpti
+onsManager`1.get_Value(
+)
+   at Microsoft.AspNetC
+ore.Cors.Infrastructure
+.CorsService..ctor(IOpt
+ions`1 options, 
+ILoggerFactory 
+loggerFactory)
+   at System.RuntimeMet
+hodHandle.InvokeMethod(
+Object target, Void** 
+arguments, Signature 
+sig, Boolean 
+isConstructor)
+   at System.Reflection
+.MethodBaseInvoker.Invo
+keDirectByRefWithFewArg
+s(Object obj, Span`1 
+copyOfArgs, 
+BindingFlags 
+invokeAttr)
+   at System.Reflection
+.MethodBaseInvoker.Invo
+keWithFewArgs(Object 
+obj, BindingFlags 
+invokeAttr, Binder 
+binder, Object[] 
+parameters, 
+CultureInfo culture)
+   at System.Reflection
+.RuntimeConstructorInfo
+.Invoke(BindingFlags 
+invokeAttr, Binder 
+binder, Object[] 
+parameters, 
+CultureInfo culture)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceLookup.CallSite
+RuntimeResolver.VisitCo
+nstructor(ConstructorCa
+llSite 
+constructorCallSite, 
+RuntimeResolverContext 
+context)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceLookup.CallSite
+Visitor`2.VisitCallSite
+Main(ServiceCallSite 
+callSite, TArgument 
+argument)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceLookup.CallSite
+RuntimeResolver.VisitDi
+sposeCache(ServiceCallS
+ite transientCallSite, 
+RuntimeResolverContext 
+context)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceLookup.CallSite
+Visitor`2.VisitCallSite
+(ServiceCallSite 
+callSite, TArgument 
+argument)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceLookup.CallSite
+RuntimeResolver.Resolve
+(ServiceCallSite 
+callSite, ServiceProvid
+erEngineScope scope)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceLookup.DynamicS
+erviceProviderEngine.<>
+c__DisplayClass2_0.<Rea
+lizeService>b__0(Servic
+eProviderEngineScope 
+scope)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceProvider.GetSer
+vice(ServiceIdentifier 
+serviceIdentifier, Serv
+iceProviderEngineScope 
+serviceProviderEngineSc
+ope)
+   at Microsoft.Extensi
+ons.DependencyInjection
+.ServiceProvider.GetSer
+vice(Type serviceType)
+   at Microsoft.Extensi
+ons.Internal.ActivatorU
+tilities.ConstructorMat
+cher.CreateInstance(ISe
+rviceProvider provider)
+   at Microsoft.Extensi
+ons.Internal.ActivatorU
+tilities.CreateInstance
+(IServiceProvider 
+provider, Type 
+instanceType, Object[] 
+parameters)
+   at Microsoft.AspNetC
+ore.Builder.UseMiddlewa
+reExtensions.Reflection
+MiddlewareBinder.Create
+Middleware(RequestDeleg
+ate next)
+   at Microsoft.AspNetC
+ore.Builder.Application
+Builder.Build()
+   at Microsoft.AspNetC
+ore.Builder.Application
+Builder.Build()
+   at Microsoft.AspNetC
+ore.Hosting.GenericWebH
+ostService.StartAsync(C
+ancellationToken 
+cancellationToken)
+   at Microsoft.Extensi
+ons.Hosting.Internal.Ho
+st.<StartAsync>b__15_1(
+IHostedService 
+service, 
+CancellationToken 
+token)
+   at Microsoft.Extensi
+ons.Hosting.Internal.Ho
+st.ForeachService[T](IE
+numerable`1 services, 
+CancellationToken 
+token, Boolean 
+concurrent, Boolean 
+abortOnFirstException, 
+List`1 exceptions, 
+Func`3 operation)
+   at Microsoft.Extensi
+ons.Hosting.Internal.Ho
+st.StartAsync(Cancellat
+ionToken 
+cancellationToken)
+   at Microsoft.Extensi
+ons.Hosting.HostingAbst
+ractionsHostExtensions.
+RunAsync(IHost host, 
+CancellationToken 
+token)
+   at Microsoft.Extensi
+ons.Hosting.HostingAbst
+ractionsHostExtensions.
+RunAsync(IHost host, 
+CancellationToken 
+token)
+   at Microsoft.Extensi
+ons.Hosting.HostingAbst
+ractionsHostExtensions.
+Run(IHost host)
+   at Program.<Main>$(S
+tring[] args) in C:\Use
+rs\aminc\.gemini\antigr
+avity\scratch\quran-sch
+ool-saas\backend\src\Qu
+ranSchool.API\Program.c
+s:line 246
+   at Program.<Main>(St
+ring[] args)
