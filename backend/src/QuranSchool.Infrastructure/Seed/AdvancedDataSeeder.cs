@@ -38,47 +38,79 @@ public class AdvancedDataSeeder
         var students = new List<Student>();
         var parentIds = new List<Guid>();
         var teacherIds = new List<Guid>();
+        var examinerIds = new List<Guid>();
+        var faker = new Faker("fr");
+        
+        var teacherRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Teacher");
+        var parentRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Parent");
+        var studentRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Student");
+        var examinerRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Examiner");
 
-        // Generate 50 Parents
-        for (int i = 0; i < 50; i++)
+        // Generate 100 Parents
+        for (int i = 1; i <= 100; i++)
         {
             var pId = Guid.NewGuid();
+            var email = $"parent{i}@quranschool.com";
             parentIds.Add(pId);
-            _context.Parents.Add(new Parent { Id = pId, SchoolId = schoolId, FirstName = $"Parent{i}", LastName = "Bogus", Phone = "+33600000000" });
+            
+            _context.Parents.Add(new Parent { Id = pId, SchoolId = schoolId, FirstName = faker.Name.FirstName(), LastName = faker.Name.LastName(), Email = email, Phone = faker.Phone.PhoneNumber() });
+            
+            var user = new User { Id = Guid.NewGuid(), SchoolId = schoolId, Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword("Pass@123"), FirstName = "Parent", LastName = $"Test {i}", PreferredLanguage = "fr", LinkedProfileType = QuranSchool.Domain.Enums.ProfileType.Parent, LinkedProfileId = pId };
+            _context.Users.Add(user);
+            if (parentRole != null) _context.UserRoles.Add(new UserRole { Id = Guid.NewGuid(), SchoolId = schoolId, UserId = user.Id, RoleId = parentRole.Id });
         }
 
-        // Generate 10 Teachers
-        for (int i = 0; i < 10; i++)
+        // Generate 40 Teachers
+        for (int i = 1; i <= 40; i++)
         {
             var tId = Guid.NewGuid();
+            var email = $"teacher{i}@quranschool.com";
             teacherIds.Add(tId);
-            _context.Teachers.Add(new Teacher { Id = tId, SchoolId = schoolId, FirstName = $"Enseignant{i}", LastName = "Bogus", HireDate = DateTime.UtcNow.AddYears(-2) });
+            _context.Teachers.Add(new Teacher { Id = tId, SchoolId = schoolId, FirstName = faker.Name.FirstName(), LastName = faker.Name.LastName(), Email = email, HireDate = DateTime.UtcNow.AddYears(-faker.Random.Number(1, 5)), Specialization = faker.PickRandom("Hifdh", "Tajwid", "Qira'at", "Tafsir") });
+
+            var user = new User { Id = Guid.NewGuid(), SchoolId = schoolId, Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword("Pass@123"), FirstName = "Enseignant", LastName = $"Test {i}", PreferredLanguage = "fr", LinkedProfileType = QuranSchool.Domain.Enums.ProfileType.Teacher, LinkedProfileId = tId };
+            _context.Users.Add(user);
+            if (teacherRole != null) _context.UserRoles.Add(new UserRole { Id = Guid.NewGuid(), SchoolId = schoolId, UserId = user.Id, RoleId = teacherRole.Id });
+        }
+
+        // Generate 10 Examiners
+        for (int i = 1; i <= 10; i++)
+        {
+            var pId = Guid.NewGuid();
+            var email = $"examiner{i}@quranschool.com";
+            examinerIds.Add(pId);
+            _context.Teachers.Add(new Teacher { Id = pId, SchoolId = schoolId, FirstName = faker.Name.FirstName(), LastName = faker.Name.LastName(), Email = email, HireDate = DateTime.UtcNow.AddYears(-faker.Random.Number(1, 5)), Specialization = "Examen" });
+
+            var user = new User { Id = Guid.NewGuid(), SchoolId = schoolId, Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword("Pass@123"), FirstName = "Examinateur", LastName = $"Test {i}", PreferredLanguage = "fr", LinkedProfileType = QuranSchool.Domain.Enums.ProfileType.Teacher, LinkedProfileId = pId };
+            _context.Users.Add(user);
+            if (examinerRole != null) _context.UserRoles.Add(new UserRole { Id = Guid.NewGuid(), SchoolId = schoolId, UserId = user.Id, RoleId = examinerRole.Id });
         }
         await _context.SaveChangesAsync();
 
-        // Generate Levels with defined ranges
+        // Generate All Levels
         var levels = new List<Level>
         {
-            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Débutant (Juz Amma)", StartSurah = 78, EndSurah = 114, Order = 1 },
-            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Intermédiaire (Juz Tabarak)", StartSurah = 67, EndSurah = 77, Order = 2 },
-            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Avancé (Al-Baqarah)", StartSurah = 1, EndSurah = 5, Order = 3 }
+            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 1 (Débutants)", StartSurah = 105, EndSurah = 114, Order = 1, Description = "Apprentissage des lettres et petites sourates" },
+            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 2 (Préparatoire)", StartSurah = 87, EndSurah = 104, Order = 2, Description = "Juz Amma pt 2" },
+            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 3 (Intermédiaire)", StartSurah = 78, EndSurah = 86, Order = 3, Description = "Juz Amma pt 1" },
+            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 4 (Avancé)", StartSurah = 67, EndSurah = 77, Order = 4, Description = "Juz Tabarak" },
+            new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 5 (Maîtrise)", StartSurah = 1, EndSurah = 5, Order = 5, Description = "Al-Baqarah et suite" }
         };
         _context.Levels.AddRange(levels);
         await _context.SaveChangesAsync();
 
-        // Generate Groups (Max 20 students per group rule)
+        // Generate Groups (Max 10 students per group rule)
         var groups = new List<Group>();
-        var faker = new Faker();
-        for (int i = 0; i < 15; i++) // 15 groups
+        for (int i = 1; i <= 30; i++) // 30 groups max 10 = 300 capacity (enough for 250 students)
         {
             var grp = new Group
             {
                 Id = Guid.NewGuid(),
                 SchoolId = schoolId,
-                Name = $"Groupe Bogus {i}",
+                Name = $"Groupe Elite {i}",
                 LevelId = faker.PickRandom(levels).Id,
                 TeacherId = faker.PickRandom(teacherIds),
-                MaxCapacity = 20
+                MaxCapacity = 10
             };
             groups.Add(grp);
         }
@@ -89,8 +121,9 @@ public class AdvancedDataSeeder
         var studentFaker = new StudentFaker(schoolId, parentIds);
         var generatedStudents = studentFaker.Generate(250);
 
-        // Distribute students enforcing MaxCapacity = 20
+        // Distribute students enforcing MaxCapacity = 10
         var unassignedStudents = new Queue<Student>(generatedStudents);
+        int studentIdx = 1;
         
         foreach (var group in groups)
         {
@@ -99,9 +132,30 @@ public class AdvancedDataSeeder
             {
                 var student = unassignedStudents.Dequeue();
                 student.GroupId = group.Id;
+                string email = $"student{studentIdx}@quranschool.com";
                 _context.Students.Add(student);
                 students.Add(student);
+
+                var user = new User { Id = Guid.NewGuid(), SchoolId = schoolId, Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword("Pass@123"), FirstName = student.FirstName, LastName = student.LastName, PreferredLanguage = "fr", LinkedProfileType = QuranSchool.Domain.Enums.ProfileType.Student, LinkedProfileId = student.Id };
+                _context.Users.Add(user);
+                if (studentRole != null) _context.UserRoles.Add(new UserRole { Id = Guid.NewGuid(), SchoolId = schoolId, UserId = user.Id, RoleId = studentRole.Id });
+                studentIdx++;
             }
+        }
+        
+        // Add any remaining unassigned students
+        while (unassignedStudents.Any())
+        {
+            var student = unassignedStudents.Dequeue();
+            student.GroupId = null;
+            string email = $"student{studentIdx}@quranschool.com";
+            _context.Students.Add(student);
+            students.Add(student);
+
+            var user = new User { Id = Guid.NewGuid(), SchoolId = schoolId, Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword("Pass@123"), FirstName = student.FirstName, LastName = student.LastName, PreferredLanguage = "fr", LinkedProfileType = QuranSchool.Domain.Enums.ProfileType.Student, LinkedProfileId = student.Id };
+            _context.Users.Add(user);
+            if (studentRole != null) _context.UserRoles.Add(new UserRole { Id = Guid.NewGuid(), SchoolId = schoolId, UserId = user.Id, RoleId = studentRole.Id });
+            studentIdx++;
         }
         await _context.SaveChangesAsync();
 
