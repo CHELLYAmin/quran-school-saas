@@ -254,3 +254,4 @@ app.MapHealthChecks("/health");
 app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();
+// CI Trigger
