@@ -27,7 +27,7 @@ export default function RamadanPage() {
                         Imsakiye <span className="text-accent-gold italic">Ramadan</span>
                     </h1>
                     <p className="text-primary-100/70 text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
-                        Retrouvez les horaires de prière, de l'Imsak et de l'Iftar pour le mois béni à Montréal et ses environs.
+                        Retrouvez les horaires de prière, de l&apos;Imsak et de l&apos;Iftar pour le mois béni à Montréal et ses environs.
                     </p>
                 </div>
             </section>
@@ -79,18 +79,18 @@ export default function RamadanPage() {
                             <div className="size-12 bg-accent-gold/10 text-accent-gold rounded-full flex items-center justify-center">
                                 <span className="material-symbols-outlined">info</span>
                             </div>
-                            <h4 className="text-lg font-bold">Qu'est-ce que l'Imsak ?</h4>
+                            <h4 className="text-lg font-bold">Qu&apos;est-ce que l&apos;Imsak ?</h4>
                             <p className="text-sm text-slate-500 leading-relaxed">
-                                L'Imsak est le moment où l'on cesse de manger et de boire, généralement 10 minutes avant le Fajr, par précaution.
+                                L&apos;Imsak est le moment où l&apos;on cesse de manger et de boire, généralement 10 minutes avant le Fajr, par précaution.
                             </p>
                         </div>
                         <div className="p-8 bg-white border border-primary/5 rounded-[2rem] shadow-sm space-y-4">
                             <div className="size-12 bg-primary/5 text-primary-900 rounded-full flex items-center justify-center">
                                 <span className="material-symbols-outlined">restaurant</span>
                             </div>
-                            <h4 className="text-lg font-bold">L'importance de l'Iftar</h4>
+                            <h4 className="text-lg font-bold">L&apos;importance de l&apos;Iftar</h4>
                             <p className="text-sm text-slate-500 leading-relaxed">
-                                La rupture du jeûne se fait au moment précis du Maghrib. Il est recommandé de rompre le jeûne avec des dattes et de l'eau.
+                                La rupture du jeûne se fait au moment précis du Maghrib. Il est recommandé de rompre le jeûne avec des dattes et de l&apos;eau.
                             </p>
                         </div>
                         <div className="p-8 bg-white border border-primary/5 rounded-[2rem] shadow-sm space-y-4">
@@ -99,7 +99,7 @@ export default function RamadanPage() {
                             </div>
                             <h4 className="text-lg font-bold">Version Imprimable</h4>
                             <p className="text-sm text-slate-500 leading-relaxed mb-4">
-                                Téléchargez notre calendrier complet au format PDF pour l'afficher chez vous.
+                                Téléchargez notre calendrier complet au format PDF pour l&apos;afficher chez vous.
                             </p>
                             <button className="text-primary-900 font-bold text-sm flex items-center gap-2 group">
                                 Télécharger le PDF

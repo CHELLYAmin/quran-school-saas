@@ -1,12 +1,12 @@
 'use client';
 import PageSkeleton from '@/components/ui/PageSkeleton';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
-import { studentApi, groupApi } from '@/lib/api/client';
-import { StudentResponse, GroupResponse, ExamResponse, SessionResponse, HomeworkAssignmentResponse } from '@/types';
+import { studentApi } from '@/lib/api/client';
+import { StudentResponse, ExamResponse, SessionResponse, HomeworkAssignmentResponse, ExamType, ExamStatus } from '@/types';
 import {
     FiArrowLeft, FiEdit2, FiTrash2, FiUser, FiMail, FiPhone,
     FiCalendar, FiHash, FiTarget, FiActivity,
@@ -22,23 +22,23 @@ const MOCK_STUDENT: StudentResponse = {
     id: 's1', firstName: 'Ahmed', lastName: 'Al-Farsi', fullName: 'Ahmed Al-Farsi', email: 'ahmed@example.com',
     phoneNumber: '+33 6 12 34 56 78', dateOfBirth: '2012-05-15', gender: 'Male',
     groupId: 'g1', groupName: 'Groupe Al-Fatiha', enrollmentDate: '2024-09-01',
-    level: 'Débutant', isActive: true, notes: 'Élève très motivé, progresse rapidement.',
+    currentLevel: 'Débutant', isActive: true, notes: 'Élève très motivé, progresse rapidement.',
     createdAt: '2024-09-01T10:00:00Z'
 };
 
 const MOCK_EXAMS: ExamResponse[] = [
     {
-        id: 'ex1', title: 'Hifdh — Sourate Al-Mulk', type: 'Hifdh' as any, examDate: '2026-02-10',
+        id: 'ex1', title: 'Hifdh — Sourate Al-Mulk', type: ExamType.Hifdh, examDate: '2026-02-10',
         finalScore: 88, surahName: 'Al-Mulk', studentId: 's1', studentName: 'Ahmed Al-Farsi',
-        examinerId: 'u1', examinerName: 'Cheikh Ibrahim', finalStatus: 'Completed' as any,
+        examinerId: 'u1', examinerName: 'Cheikh Ibrahim', finalStatus: ExamStatus.Completed,
         isLevelProgressionExam: false, createdAt: '2026-02-10T10:00:00Z'
-    } as any,
+    },
     {
-        id: 'ex2', title: 'Révision — Juz Amma', type: 'Revision' as any, examDate: '2026-01-20',
+        id: 'ex2', title: 'Révision — Juz Amma', type: ExamType.Revision, examDate: '2026-01-20',
         finalScore: 92, surahName: 'Juz Amma', studentId: 's1', studentName: 'Ahmed Al-Farsi',
-        examinerId: 'u1', examinerName: 'Cheikh Ibrahim', finalStatus: 'Completed' as any,
+        examinerId: 'u1', examinerName: 'Cheikh Ibrahim', finalStatus: ExamStatus.Completed,
         isLevelProgressionExam: false, createdAt: '2026-01-20T10:00:00Z'
-    } as any,
+    },
 ];
 
 const MOCK_SESSIONS: SessionResponse[] = [
@@ -49,8 +49,11 @@ const MOCK_SESSIONS: SessionResponse[] = [
 // ═══════════════════════════════════════════════════════════════════════════════
 // PAGE
 // ═══════════════════════════════════════════════════════════════════════════════
+type TabType = 'overview' | 'sessions' | 'homework' | 'exams';
+
 export default function StudentDetailsClient() {
-    const { id } = useParams();
+    const params = useParams();
+    const id = params?.id as string;
     const router = useRouter();
     const { locale } = useUIStore();
     const { t } = useTranslation(locale);
@@ -61,30 +64,29 @@ export default function StudentDetailsClient() {
     const [homeworks, setHomeworks] = useState<HomeworkAssignmentResponse[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const [activeTab, setActiveTab] = useState<'overview' | 'sessions' | 'homework' | 'exams'>('overview');
+    const [activeTab, setActiveTab] = useState<TabType>('overview');
 
-    useEffect(() => {
+    const loadData = useCallback(async () => {
         if (!id) return;
-        loadData();
-    }, [id]);
-
-    const loadData = async () => {
         try {
-            const [studentRes] = await Promise.all([
-                studentApi.getById(id as string)
-            ]);
+            const studentRes = await studentApi.getById(id);
             setStudent(studentRes.data);
             // Fetch related data
             setExams(MOCK_EXAMS);
             setSessions(MOCK_SESSIONS);
+            setHomeworks([]);
         } catch {
             setStudent(MOCK_STUDENT);
             setExams(MOCK_EXAMS);
             setSessions(MOCK_SESSIONS);
         } finally { setLoading(false); }
-    };
+    }, [id]);
 
-    if (!student) return <div className="text-center py-12 text-dark-400">Élève non trouvé.</div>;
+    useEffect(() => {
+        loadData();
+    }, [loadData]);
+
+    if (!student && !loading) return <div className="text-center py-12 text-dark-400">Élève non trouvé.</div>;
 
     if (loading) return <PageSkeleton variant="detail" />;
 
@@ -106,53 +108,59 @@ export default function StudentDetailsClient() {
             </div>
 
             {/* ══ Student Hero ══ */}
-            <div className="bg-white dark:bg-dark-900 rounded-2xl border border-dark-100 dark:border-dark-800 p-6">
-                <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    <div className="w-20 h-20 rounded-2xl gradient-primary flex items-center justify-center text-white text-3xl font-bold">
-                        {student.firstName.charAt(0)}{student.lastName.charAt(0)}
-                    </div>
-                    <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
-                            <h1 className="text-2xl font-bold text-dark-900 dark:text-white">{student.firstName} {student.lastName}</h1>
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${student.isActive ? 'bg-green-100 text-green-700' : 'bg-dark-100 text-dark-500'}`}>
-                                {student.isActive ? 'Actif' : 'Inactif'}
-                            </span>
+            {student && (
+                <div className="bg-white dark:bg-dark-900 rounded-2xl border border-dark-100 dark:border-dark-800 p-6">
+                    <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
+                        <div className="w-20 h-20 rounded-2xl gradient-primary flex items-center justify-center text-white text-3xl font-bold">
+                            {student.firstName.charAt(0)}{student.lastName.charAt(0)}
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-dark-500">
-                            {student.groupName && <span className="flex items-center gap-1.5"><FiBookOpen size={13} className="text-primary-600" />{student.groupName}</span>}
-                            {student.level && <span className="flex items-center gap-1.5"><FiTarget size={13} className="text-purple-600" />{student.level}</span>}
-                            {student.email && <span className="flex items-center gap-1.5"><FiMail size={13} />{student.email}</span>}
-                            {student.phoneNumber && <span className="flex items-center gap-1.5"><FiPhone size={13} />{student.phoneNumber}</span>}
+                        <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-1">
+                                <h1 className="text-2xl font-bold text-dark-900 dark:text-white">{student.firstName} {student.lastName}</h1>
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${student.isActive ? 'bg-green-100 text-green-700' : 'bg-dark-100 text-dark-500'}`}>
+                                    {student.isActive ? 'Actif' : 'Inactif'}
+                                </span>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-dark-500">
+                                {student.groupName && <span className="flex items-center gap-1.5"><FiBookOpen size={13} className="text-primary-600" />{student.groupName}</span>}
+                                {student.currentLevel && <span className="flex items-center gap-1.5"><FiTarget size={13} className="text-purple-600" />{student.currentLevel}</span>}
+                                {student.email && <span className="flex items-center gap-1.5"><FiMail size={13} />{student.email}</span>}
+                                {student.phoneNumber && <span className="flex items-center gap-1.5"><FiPhone size={13} />{student.phoneNumber}</span>}
+                            </div>
                         </div>
-                    </div>
-                    <div className="bg-primary-50 dark:bg-primary-900/10 p-4 rounded-2xl border border-primary-100 dark:border-primary-800/20 text-center min-w-[120px]">
-                        <p className="text-[10px] uppercase tracking-widest text-dark-400 font-bold mb-1">Score Moyen</p>
-                        <p className="text-2xl font-black text-primary-600">85%</p>
+                        <div className="bg-primary-50 dark:bg-primary-900/10 p-4 rounded-2xl border border-primary-100 dark:border-primary-800/20 text-center min-w-[120px]">
+                            <p className="text-[10px] uppercase tracking-widest text-dark-400 font-bold mb-1">Score Moyen</p>
+                            <p className="text-2xl font-black text-primary-600">85%</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* ══ Tabs ══ */}
             <div className="flex gap-1 bg-white dark:bg-dark-900 p-1 rounded-xl border border-dark-100 dark:border-dark-800">
-                {[
-                    { id: 'overview', label: 'Vue d\'ensemble', icon: <FiActivity size={14} /> },
-                    { id: 'sessions', label: 'Historique des cours', icon: <FiClockIcon size={14} /> },
-                    { id: 'homework', label: 'Devoirs', icon: <FiBookOpen size={14} /> },
-                    { id: 'exams', label: 'Examens', icon: <FiTarget size={14} /> },
-                ].map(tab => (
-                    <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id as any)}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-bold rounded-lg transition-all ${activeTab === tab.id ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/20' : 'text-dark-500 hover:bg-dark-50 dark:hover:bg-dark-800'}`}
-                    >
-                        {tab.icon} {tab.label}
-                    </button>
-                ))}
+                {(['overview', 'sessions', 'homework', 'exams'] as TabType[]).map(tabId => {
+                    const tabConfig: Record<TabType, { label: string, icon: any }> = {
+                        overview: { label: "Vue d'ensemble", icon: <FiActivity size={14} /> },
+                        sessions: { label: 'Historique des cours', icon: <FiClockIcon size={14} /> },
+                        homework: { label: 'Devoirs', icon: <FiBookOpen size={14} /> },
+                        exams: { label: 'Examens', icon: <FiTarget size={14} /> }
+                    };
+                    const tab = tabConfig[tabId];
+                    return (
+                        <button
+                            key={tabId}
+                            onClick={() => setActiveTab(tabId)}
+                            className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-bold rounded-lg transition-all ${activeTab === tabId ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/20' : 'text-dark-500 hover:bg-dark-50 dark:hover:bg-dark-800'}`}
+                        >
+                            {tab.icon} {tab.label}
+                        </button>
+                    );
+                })}
             </div>
 
             {/* ══ Tab Content ══ */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {activeTab === 'overview' && (
+                {activeTab === 'overview' && student && (
                     <>
                         <div className="lg:col-span-2 space-y-5">
                             {/* Stats */}
@@ -205,7 +213,7 @@ export default function StudentDetailsClient() {
                                 <div className="space-y-4">
                                     {[
                                         { type: 'Exam', title: 'Examen réussi Al-Mulk', date: 'il y a 2 jours', score: '88%' },
-                                        { type: 'Session', title: 'Cours d\'Hifdh', date: 'il y a 5 jours', score: 'Présent' },
+                                        { type: 'Session', title: "Cours d'Hifdh", date: 'il y a 5 jours', score: 'Présent' },
                                         { type: 'Homework', title: 'Devoir rendu Tajwid', date: 'il y a 1 sem', score: 'Note: 18' },
                                     ].map((act, i) => (
                                         <div key={i} className="flex gap-3 items-start">

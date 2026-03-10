@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
 import { studentApi, groupApi, parentApi } from '@/lib/api/client';
-import { StudentListResponse, GroupResponse } from '@/types';
+import { StudentListResponse, GroupResponse, UserResponse } from '@/types';
 import {
     FiPlus, FiSearch, FiEdit2, FiTrash2, FiEye, FiFilter, FiBookOpen,
     FiUsers, FiX, FiCheck, FiChevronRight, FiDownload,
@@ -68,7 +68,7 @@ export default function StudentsPage() {
 
     const [students, setStudents] = useState<EnrichedStudent[]>([]);
     const [groups, setGroups] = useState<GroupResponse[]>([]);
-    const [parents, setParents] = useState<any[]>([]);
+    const [parents, setParents] = useState<UserResponse[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Filters
@@ -114,7 +114,7 @@ export default function StudentsPage() {
                 { id: '3', name: 'Groupe Al-Imran', level: 'Avancé', maxCapacity: 12, isActive: true, studentCount: 10, createdAt: '2024-09-01' },
             ];
             setGroups(mockGroups);
-            setParents(MOCK_PARENTS);
+            setParents(MOCK_PARENTS as any);
             setStudents([
                 { id: '1', fullName: 'Ahmed Al-Farsi', groupId: '1', groupName: 'Groupe Al-Fatiha', isActive: true, enrollmentDate: '2024-09-01' },
                 { id: '2', fullName: 'Sara Mansour', groupId: '1', groupName: 'Groupe Al-Fatiha', isActive: true, enrollmentDate: '2024-09-01' },
@@ -123,7 +123,7 @@ export default function StudentsPage() {
                 { id: '5', fullName: 'Youssef Benali', groupId: '2', groupName: 'Groupe Al-Baqara', isActive: true, enrollmentDate: '2024-09-01' },
                 { id: '6', fullName: 'Amina Kettani', groupId: '2', groupName: 'Groupe Al-Baqara', isActive: true, enrollmentDate: '2024-09-01' },
                 { id: '7', fullName: 'Hassan Nouri', groupId: '3', groupName: 'Groupe Al-Imran', isActive: true, enrollmentDate: '2024-09-01' },
-                { id: '8', fullName: 'Meryem Idrissi', groupId: '3', groupName: 'Groupe Al-Imran', isActive: true, enrollmentDate: '2024-09-01' },
+                { id: '8', fullName: 'Meryem Idrissi', groupId: '3', groupName: 'Groupe Al-Imran', isActive: true, enrollmentDate: '2024-09-15' },
                 { id: '9', fullName: 'Khalid Bouazzaoui', groupId: '3', groupName: 'Groupe Al-Imran', isActive: false, enrollmentDate: '2024-06-01' },
                 { id: '10', fullName: 'Noura El-Amrani', groupId: '1', groupName: 'Groupe Al-Fatiha', isActive: true, enrollmentDate: '2024-11-01' },
                 { id: '11', fullName: 'Bilal Tazi', groupId: '1', groupName: 'Groupe Al-Fatiha', isActive: true, enrollmentDate: '2024-09-01' },
@@ -237,7 +237,7 @@ export default function StudentsPage() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 dark:bg-primary-900/10 rounded-full blur-3xl -z-0" />
                 <div className="relative z-10">
                     <h1 className="text-3xl font-extrabold text-dark-900 dark:text-white tracking-tight">Gestion des Élèves</h1>
-                    <p className="text-dark-500 mt-2 font-medium">{stats.total} élèves répartis dans {stats.groupCount} groupes d'apprentissage</p>
+                    <p className="text-dark-500 mt-2 font-medium">{stats.total} élèves répartis dans {stats.groupCount} groupes d&apos;apprentissage</p>
                 </div>
                 <button onClick={openCreateModal} className="relative z-10 bg-primary-600 hover:bg-primary-700 text-white font-extrabold py-4 px-8 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-primary-500/30 hover:-translate-y-1 transition-all uppercase tracking-widest text-sm">
                     <FiUserPlus size={18} /> Inscrire un élève
@@ -268,7 +268,7 @@ export default function StudentsPage() {
                 <div className="relative flex-1 min-w-[250px]">
                     <FiSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-dark-400" size={18} />
                     <input type="text" value={search} onChange={e => setSearch(e.target.value)}
-                        placeholder="Rechercher par nom d'élève ou parent..."
+                        placeholder="Rechercher par nom d&apos;élève ou parent..."
                         className="w-full bg-dark-50 dark:bg-dark-950 border-none rounded-2xl pl-12 pr-6 py-4 outline-none font-medium transition-all text-dark-900 dark:text-white placeholder:text-dark-400" />
                 </div>
                 <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
@@ -312,7 +312,7 @@ export default function StudentsPage() {
                                         <span className="flex items-center gap-2">Élève {SortIcon({ col: 'name' })}</span>
                                     </th>
                                     <th className="px-5 py-5 text-left cursor-pointer select-none hover:bg-dark-100 dark:hover:bg-dark-900 transition-colors" onClick={() => toggleSort('group')}>
-                                        <span className="flex items-center gap-2">Groupe d'assignation {SortIcon({ col: 'group' })}</span>
+                                        <span className="flex items-center gap-2">Groupe d&apos;assignation {SortIcon({ col: 'group' })}</span>
                                     </th>
                                     <th className="px-5 py-5 text-center cursor-pointer select-none hover:bg-dark-100 dark:hover:bg-dark-900 transition-colors" onClick={() => toggleSort('score')}>
                                         <span className="flex items-center justify-center gap-2">Moyenne {SortIcon({ col: 'score' })}</span>
@@ -494,7 +494,7 @@ export default function StudentsPage() {
 
                         <div className="p-8 sm:px-10 sm:pt-10 sm:pb-6 border-b border-dark-100 dark:border-dark-800 flex items-center justify-between flex-shrink-0 relative z-10">
                             <div>
-                                <h2 className="text-2xl font-extrabold tracking-tight text-dark-900 dark:text-white">{editingStudent ? 'Modifier l\'élève' : 'Inscrire un nouvel élève'}</h2>
+                                <h2 className="text-2xl font-extrabold tracking-tight text-dark-900 dark:text-white">{editingStudent ? 'Modifier l&apos;élève' : 'Inscrire un nouvel élève'}</h2>
                                 <p className="text-sm font-medium text-dark-500 mt-1">{editingStudent ? 'Mettez à jour les informations de cet élève.' : 'Remplissez ce formulaire pour ajouter un élève au système.'}</p>
                             </div>
                             <button onClick={() => setShowCreateModal(false)} className="w-10 h-10 rounded-2xl bg-dark-50 dark:bg-dark-800 flex items-center justify-center text-dark-500 hover:bg-dark-100 hover:text-dark-900 dark:hover:bg-dark-700 dark:hover:text-white transition-all"><FiX size={20} /></button>
@@ -542,7 +542,7 @@ export default function StudentsPage() {
                                     <label className="text-xs font-bold uppercase tracking-widest text-dark-500 mb-2 block pl-2">Parent</label>
                                     <select value={form.parentId} onChange={e => setForm({ ...form, parentId: e.target.value })} className="w-full bg-dark-50 dark:bg-dark-950 border-2 border-transparent focus:border-primary-500 rounded-2xl px-6 py-4 outline-none font-medium transition-all text-dark-900 dark:text-white appearance-none cursor-pointer">
                                         <option value="">Sélectionner un parent</option>
-                                        {parents.map((p: any) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
+                                        {parents.map((p: UserResponse) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
                                     </select>
                                 </div>
                             </div>
@@ -558,7 +558,7 @@ export default function StudentsPage() {
                             <div className="bg-dark-50 dark:bg-dark-950 p-6 rounded-[2rem] border border-dark-100 dark:border-dark-800 flex items-center justify-between">
                                 <div>
                                     <span className="text-base font-extrabold text-dark-900 dark:text-white block tracking-tight">Compte actif</span>
-                                    <p className="text-xs font-medium text-dark-500 mt-1">L'élève pourra accéder à son espace et participer aux sessions.</p>
+                                    <p className="text-xs font-medium text-dark-500 mt-1">L&apos;élève pourra accéder à son espace et participer aux sessions.</p>
                                 </div>
                                 <button type="button" onClick={() => setForm({ ...form, isActive: !form.isActive })}
                                     className={`relative inline-flex h-8 w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 ${form.isActive ? 'bg-emerald-500 shadow-inner' : 'bg-dark-200 dark:bg-dark-700'}`}>
@@ -572,7 +572,7 @@ export default function StudentsPage() {
                                 Annuler
                             </button>
                             <button onClick={handleSubmit} className="w-full sm:w-auto bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-extrabold py-4 px-10 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-primary-500/30 hover:-translate-y-1 transition-all uppercase tracking-widest text-sm">
-                                <FiCheck size={18} /> {editingStudent ? 'Enregistrer' : 'Inscrire l\'élève'}
+                                <FiCheck size={18} /> {editingStudent ? 'Enregistrer' : 'Inscrire l&apos;élève'}
                             </button>
                         </div>
                     </div>
@@ -589,7 +589,7 @@ export default function StudentsPage() {
                             <FiTrash2 size={28} className="text-rose-500" />
                         </div>
                         <h3 className="text-2xl font-extrabold mb-3 tracking-tight text-dark-900 dark:text-white relative z-10">Supprimer cet élève ?</h3>
-                        <p className="text-sm font-medium text-dark-500 mb-8 leading-relaxed relative z-10">Cette action est irréversible. L'élève sera retiré de son groupe et ses données liées seront supprimées.</p>
+                        <p className="text-sm font-medium text-dark-500 mb-8 leading-relaxed relative z-10">Cette action est irréversible. L&apos;élève sera retiré de son groupe et ses données liées seront supprimées.</p>
                         <div className="flex flex-col gap-3 relative z-10">
                             <button onClick={() => handleDelete(deleteConfirm)} className="w-full bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-extrabold py-4 rounded-2xl shadow-xl shadow-rose-500/30 hover:-translate-y-1 transition-all uppercase tracking-widest text-sm">
                                 Confirmer la suppression

@@ -34,13 +34,24 @@ interface PrayerTime {
     iqama?: string;
     active?: boolean;
     isRamadan?: boolean;
+    labelOverride?: string;
+}
+
+interface PublicContentItem {
+    id: string;
+    title: string;
+    slug: string;
+    excerpt?: string;
+    category: string;
+    type: 'cms' | 'donation' | 'volunteer';
+    createdAt: string;
 }
 
 export default function SiteHomePage() {
     const router = useRouter();
     const [filter, setFilter] = useState<'all' | 'announcement' | 'event' | 'service' | 'donation' | 'volunteer'>('all');
     const [announcements, setAnnouncements] = useState<CmsPage[]>([]);
-    const [publicContent, setPublicContent] = useState<any[]>([]);
+    const [publicContent, setPublicContent] = useState<PublicContentItem[]>([]);
     const [stats, setStats] = useState<SaasStats | null>(null);
     const [prayerTimes, setPrayerTimes] = useState<PrayerTime[]>([]);
     const [loading, setLoading] = useState(true);
@@ -71,15 +82,23 @@ export default function SiteHomePage() {
             const volData = volRes.data || [];
 
             // Normalize for Hub de Vie
-            const normalized = [
-                ...cmsData.map((p: any) => ({ ...p, type: 'cms' })),
+            const normalized: PublicContentItem[] = [
+                ...cmsData.map((p: CmsPage) => ({ 
+                    id: p.id,
+                    title: p.title,
+                    slug: p.slug,
+                    excerpt: p.excerpt,
+                    category: p.category,
+                    type: 'cms' as const,
+                    createdAt: p.createdAt 
+                })),
                 ...donData.map((d: any) => ({
                     id: d.id,
                     title: d.title,
                     slug: `donate/${d.id}`,
                     excerpt: d.description,
                     category: 'donation',
-                    type: 'donation',
+                    type: 'donation' as const,
                     createdAt: d.createdAt
                 })),
                 ...volData.map((v: any) => ({
@@ -88,13 +107,13 @@ export default function SiteHomePage() {
                     slug: `volunteer/${v.id}`,
                     excerpt: v.description,
                     category: 'volunteer',
-                    type: 'volunteer',
+                    type: 'volunteer' as const,
                     createdAt: v.createdAt
                 }))
             ];
 
             setPublicContent(normalized.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
-            setAnnouncements(cmsData.filter((p: any) => p.category === 'announcement'));
+            setAnnouncements(cmsData.filter((p: CmsPage) => p.category === 'announcement'));
         } catch (e) {
             console.error('Public content load error', e);
         }
@@ -184,8 +203,6 @@ export default function SiteHomePage() {
         d.setDate(d.getDate() + i);
         visibleDates.push(d);
     }
-
-    const visibleContent = publicContent.filter(item => filter === 'all' || item.category === filter);
 
     const getCategoryIcon = (cat: string) => {
         const icons: Record<string, string> = {
@@ -290,7 +307,7 @@ export default function SiteHomePage() {
                         {[
                             { label: 'Élèves actifs', value: stats?.activeStudentsCount ?? '450', suffix: '+' },
                             { label: 'Enseignants', value: stats?.activeTeachersCount ?? '32', suffix: '' },
-                            { label: 'Niveaux d\'étude', value: stats?.totalGroupsCount ?? '12', suffix: '' },
+                            { label: "Niveaux d'étude", value: stats?.totalGroupsCount ?? '12', suffix: '' },
                             { label: 'Progression', value: '100', suffix: '%' }
                         ].map((stat, i) => (
                             <div key={i} className="flex flex-col gap-2 items-center group">

@@ -111,8 +111,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiTarget size={18} />, label: 'Missions & Révisions', href: '/dashboard/missions' },
                 { icon: <FiCheckSquare size={18} />, label: 'Corrections Audio', href: '/dashboard/missions/review', permissions: [Permissions.HomeworkManage] },
                 { icon: <FiCheckSquare size={18} />, label: 'Évaluations', href: '/dashboard/evaluations', permissions: [Permissions.ExamsView] },
-                { icon: <FiCalendar size={18} />, label: (t.common as any).sessions || 'Séances', href: '/dashboard/sessions', permissions: [Permissions.SessionsView] },
-                { icon: <FiBookOpen size={18} />, label: (t.common as any).mushaf || 'Mushaf', href: '/dashboard/mushaf' },
+                { icon: <FiCalendar size={18} />, label: t.common.sessions, href: '/dashboard/sessions', permissions: [Permissions.SessionsView] },
+                { icon: <FiBookOpen size={18} />, label: t.common.mushaf, href: '/dashboard/mushaf' },
                 { icon: <FiBook size={18} />, label: t.common.exams, href: '/dashboard/exams', permissions: [Permissions.ExamsView] },
                 { icon: <FiBookOpen size={18} />, label: t.common.homework, href: '/dashboard/homework' },
             ]
@@ -136,7 +136,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             module: 'scolarite',
             items: [
                 { icon: <FiGrid size={18} />, label: t.common.groups, href: '/dashboard/groups', permissions: [Permissions.GroupsView] },
-                { icon: <FiLayers size={18} />, label: (t.common as any).levels || 'Niveaux', href: '/dashboard/levels', permissions: [Permissions.SettingsView] },
+                { icon: <FiLayers size={18} />, label: t.common.levels, href: '/dashboard/levels', permissions: [Permissions.SettingsView] },
                 { icon: <FiCalendar size={18} />, label: t.common.schedule, href: '/dashboard/schedule', permissions: [Permissions.ScheduleView] },
             ]
         },
@@ -221,7 +221,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                         {(() => {
                                             const primaryRole = user?.roles?.[0];
                                             if (!primaryRole) return 'Utilisateur';
-                                            return ((t.common as any).roles?.[primaryRole] as string) || String(primaryRole);
+                                            return t.common.roles[primaryRole as keyof typeof t.common.roles] || String(primaryRole);
                                         })()}
                                     </p>
                                 </div>

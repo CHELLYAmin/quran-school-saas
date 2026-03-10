@@ -1,4 +1,11 @@
 import axios from 'axios';
+import { 
+    LoginRequest, RegisterRequest, UserResponse, SchoolResponse, 
+    StudentResponse, StudentListResponse, GroupResponse, LevelResponse,
+    MessageResponse, NotificationResponse, ExamResponse, PaymentResponse,
+    ProgressResponse, ScheduleResponse, StudentMissionResponse,
+    CreateManualMissionRequest, ProvideMissionFeedbackRequest
+} from '@/types';
 
 const ROOT_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -47,7 +54,7 @@ api.interceptors.response.use(
 
 export const authApi = {
     login: (email: string, password: string) => api.post('/api/auth/login', { email, password }),
-    register: (data: any) => api.post('/api/auth/register', data),
+    register: (data: RegisterRequest) => api.post('/api/auth/register', data),
     logout: () => api.post('/api/auth/logout'),
 };
 
@@ -59,8 +66,8 @@ export const dashboardApi = {
 };
 
 export const teacherApi = {
-    getAll: () => api.get('/api/teacher'),
-    getById: (id: string) => api.get(`/api/teacher/${id}`),
+    getAll: () => api.get<UserResponse[]>('/api/teacher'),
+    getById: (id: string) => api.get<UserResponse>(`/api/teacher/${id}`),
     create: (data: any) => api.post('/api/teacher', data),
     update: (id: string, data: any) => api.put(`/api/teacher/${id}`, data),
     delete: (id: string) => api.delete(`/api/teacher/${id}`),
@@ -71,9 +78,9 @@ export const adminApi = {
 };
 
 export const userApi = {
-    getAll: () => api.get('/api/user'),
-    getById: (id: string) => api.get(`/api/user/${id}`),
-    getByRoles: (roles: string[]) => api.get(`/api/user/roles?roles=${roles.join(',')}`),
+    getAll: () => api.get<UserResponse[]>('/api/user'),
+    getById: (id: string) => api.get<UserResponse>(`/api/user/${id}`),
+    getByRoles: (roles: string[]) => api.get<UserResponse[]>(`/api/user/roles?roles=${roles.join(',')}`),
     create: (data: any) => api.post('/api/user', data),
     update: (id: string, data: any) => api.put(`/api/user/${id}`, data),
     updateRoles: (id: string, roles: string[]) => api.put(`/api/user/${id}/role`, roles),
@@ -90,46 +97,46 @@ export const roleApi = {
 };
 
 export const studentApi = {
-    getAll: () => api.get('/api/student'),
-    getById: (id: string) => api.get(`/api/student/${id}`),
-    getByGroup: (groupId: string) => api.get(`/api/student/group/${groupId}`),
+    getAll: () => api.get<StudentListResponse[]>('/api/student'),
+    getById: (id: string) => api.get<StudentResponse>(`/api/student/${id}`),
+    getByGroup: (groupId: string) => api.get<StudentListResponse[]>(`/api/student/group/${groupId}`),
     create: (data: any) => api.post('/api/student', data),
     update: (id: string, data: any) => api.put(`/api/student/${id}`, data),
     delete: (id: string) => api.delete(`/api/student/${id}`),
 };
 
 export const parentApi = {
-    getAll: () => api.get('/api/parent'),
-    getById: (id: string) => api.get(`/api/parent/${id}`),
+    getAll: () => api.get<UserResponse[]>('/api/parent'),
+    getById: (id: string) => api.get<UserResponse>(`/api/parent/${id}`),
     create: (data: any) => api.post('/api/parent', data),
     update: (id: string, data: any) => api.put(`/api/parent/${id}`, data),
     delete: (id: string) => api.delete(`/api/parent/${id}`),
 };
 
 export const groupApi = {
-    getAll: () => api.get('/api/group'),
-    getById: (id: string) => api.get(`/api/group/${id}`),
+    getAll: () => api.get<GroupResponse[]>('/api/group'),
+    getById: (id: string) => api.get<GroupResponse>(`/api/group/${id}`),
     create: (data: any) => api.post('/api/group', data),
     update: (id: string, data: any) => api.put(`/api/group/${id}`, data),
     delete: (id: string) => api.delete(`/api/group/${id}`),
 };
 
 export const scheduleApi = {
-    getAll: () => api.get('/api/schedule'),
+    getAll: () => api.get<ScheduleResponse[]>('/api/schedule'),
     create: (data: any) => api.post('/api/schedule', data),
 };
 
 export const attendanceApi = {
-    getBySession: (sessionId: string) => api.get(`/api/attendance/session/${sessionId}`),
-    getByDate: (date: string) => api.get(`/api/attendance/date/${date}`),
+    getBySession: (sessionId: string) => api.get<any[]>(`/api/attendance/session/${sessionId}`),
+    getByDate: (date: string) => api.get<any[]>(`/api/attendance/date/${date}`),
     submit: (data: any) => api.post('/api/attendance', data),
     bulkMark: (data: any) => api.post('/api/attendance/bulk', data),
 };
 
 export const progressApi = {
-    getAll: () => api.get('/api/progress'),
-    getStudentProgress: (studentId: string) => api.get(`/api/progress/student/${studentId}`),
-    getGroupProgress: (groupId: string) => api.get(`/api/progress/group/${groupId}`),
+    getAll: () => api.get<ProgressResponse[]>('/api/progress'),
+    getStudentProgress: (studentId: string) => api.get<ProgressResponse[]>(`/api/progress/student/${studentId}`),
+    getGroupProgress: (groupId: string) => api.get<ProgressResponse[]>(`/api/progress/group/${groupId}`),
     create: (data: any) => api.post('/api/progress', data),
     update: (id: string, data: any) => api.put(`/api/progress/${id}`, data),
     delete: (id: string) => api.delete(`/api/progress/${id}`),
@@ -142,8 +149,8 @@ export const mushafApi = {
 };
 
 export const levelApi = {
-    getAll: () => api.get('/api/level'),
-    getById: (id: string) => api.get(`/api/level/${id}`),
+    getAll: () => api.get<LevelResponse[]>('/api/level'),
+    getById: (id: string) => api.get<LevelResponse>(`/api/level/${id}`),
     create: (data: any) => api.post('/api/level', data),
     update: (id: string, data: any) => api.put(`/api/level/${id}`, data),
     delete: (id: string) => api.delete(`/api/level/${id}`),
@@ -151,7 +158,7 @@ export const levelApi = {
 
 export const messageApi = {
     getThreads: () => api.get('/api/messages/threads'),
-    getMessages: (threadId: string) => api.get(`/api/messages/thread/${threadId}`),
+    getMessages: (threadId: string) => api.get<MessageResponse[]>(`/api/messages/thread/${threadId}`),
     send: (data: any) => api.post('/api/messages', data),
 };
 
@@ -177,8 +184,8 @@ export const onlineSessionApi = {
 };
 
 export const examApi = {
-    getAll: () => api.get('/api/exam'),
-    getById: (id: string) => api.get(`/api/exam/${id}`),
+    getAll: () => api.get<ExamResponse[]>('/api/exam'),
+    getById: (id: string) => api.get<ExamResponse>(`/api/exam/${id}`),
     create: (data: any) => api.post('/api/exam', data),
     start: (data: any) => api.post('/api/exam/start', data),
     markInProgress: (id: string) => api.post(`/api/exam/${id}/in-progress`),
@@ -228,22 +235,22 @@ export const sessionApi = {
 
 
 export const missionApi = {
-    getStudentMissions: (studentId: string) => api.get(`/api/missions/student/${studentId}`),
-    getGroupMissions: (groupId: string) => api.get(`/api/missions/group/${groupId}`),
-    create: (data: any) => api.post('/api/missions', data),
+    getStudentMissions: (studentId: string) => api.get<StudentMissionResponse[]>(`/api/missions/student/${studentId}`),
+    getGroupMissions: (groupId: string) => api.get<StudentMissionResponse[]>(`/api/missions/group/${groupId}`),
+    create: (data: CreateManualMissionRequest) => api.post('/api/missions', data),
     createGroupMission: (groupId: string, data: any) => api.post(`/api/missions/group/${groupId}`, data),
     complete: (id: string, data: any) => api.put(`/api/missions/${id}/complete`, data),
     submitAudio: (id: string, data: any) => api.post(`/api/missions/${id}/submit-audio`, data),
-    provideFeedback: (id: string, data: any) => api.post(`/api/missions/${id}/feedback`, data),
-    getPendingEvaluations: () => api.get('/api/missions/evaluations/pending'),
+    provideFeedback: (id: string, data: ProvideMissionFeedbackRequest) => api.post(`/api/missions/${id}/feedback`, data),
+    getPendingEvaluations: () => api.get<StudentMissionResponse[]>('/api/missions/evaluations/pending'),
 };
 
 
 export const paymentApi = {
-    getAll: () => api.get(`/api/payment`),
-    getById: (id: string) => api.get(`/api/payment/${id}`),
-    getPayments: () => api.get('/api/payment'),
-    getParentPayments: (parentId: string) => api.get(`/api/payment/parent/${parentId}`),
+    getAll: () => api.get<PaymentResponse[]>(`/api/payment`),
+    getById: (id: string) => api.get<PaymentResponse>(`/api/payment/${id}`),
+    getPayments: () => api.get<PaymentResponse[]>('/api/payment'),
+    getParentPayments: (parentId: string) => api.get<PaymentResponse[]>(`/api/payment/parent/${parentId}`),
     createCheckoutSession: (paymentId: string, successUrl: string, cancelUrl: string) =>
         api.post(`/api/payment/${paymentId}/checkout`, { successUrl, cancelUrl }),
     markAsPaid: (id: string) => api.post(`/api/payment/${id}/mark-paid`),

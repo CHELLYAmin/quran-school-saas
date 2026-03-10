@@ -1,0 +1,33 @@
+﻿
+> quran-school-frontend@1.0.0 lint
+> next lint
+
+node.exe : Invalid 
+project directory 
+provided, no such 
+directory: C:\Users\ami
+nc\.gemini\antigravity\
+scratch\quran-school-sa
+as\frontend\lint
+Au caractère Ligne:1 : 
+1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Invalid proje   
+ ct...s\frontend\li    
+nt:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+

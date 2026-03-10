@@ -65,14 +65,14 @@ export default function AdminUsersPage() {
                 { id: '1', email: 'admin@quran.com', firstName: 'Admin', lastName: 'Global', fullName: 'Admin Global', roles: [UserRole.SuperAdmin, UserRole.Teacher], isActive: true, preferredLanguage: 'fr', createdAt: '2024-01-01' },
                 { id: '2', email: 'teacher@quran.com', firstName: 'Professeur', lastName: 'A', fullName: 'Professeur A', roles: [UserRole.Teacher], isActive: true, preferredLanguage: 'fr', createdAt: '2024-01-02' },
                 { id: '3', email: 'parent@quran.com', firstName: 'Parent', lastName: 'B', fullName: 'Parent B', roles: [UserRole.Parent], isActive: false, preferredLanguage: 'fr', createdAt: '2024-02-01' },
-            ] as any);
+            ] as UserResponse[]);
             setRoles([
                 { id: '1', name: 'SuperAdmin', isSystemRole: true, permissions: [] },
                 { id: '2', name: 'Teacher', isSystemRole: true, permissions: [] },
                 { id: '3', name: 'Parent', isSystemRole: true, permissions: [] },
                 { id: '4', name: 'Student', isSystemRole: true, permissions: [] },
                 { id: '5', name: 'Admin', isSystemRole: true, permissions: [] },
-            ] as any);
+            ] as RoleResponse[]);
         } finally {
             setLoading(false);
         }
@@ -86,7 +86,7 @@ export default function AdminUsersPage() {
             const rolesStr = u.roles ? u.roles.join(',') : '';
 
             if (q && !u.email.toLowerCase().includes(q) && !fullName.toLowerCase().includes(q) && !rolesStr.toLowerCase().includes(q)) return false;
-            if (roleFilter !== 'all' && !u.roles?.includes(roleFilter as any)) return false;
+            if (roleFilter !== 'all' && !u.roles?.includes(roleFilter as UserRole)) return false;
             if (statusFilter === 'active' && !u.isActive) return false;
             if (statusFilter === 'inactive' && u.isActive) return false;
             return true;
@@ -209,7 +209,7 @@ export default function AdminUsersPage() {
     const openRolesModal = (user: UserResponse) => {
         setEditingUser(user);
         const ids = new Set<string>();
-        (user.roles || []).forEach((rn: any) => {
+        (user.roles || []).forEach((rn: string) => {
             const matched = roles.find(r => r.name === rn);
             if (matched) ids.add(matched.id);
             else {
@@ -387,9 +387,9 @@ export default function AdminUsersPage() {
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-5 text-dark-600 dark:text-dark-400 font-medium whitespace-nowrap">
-                                                    {(user as any).linkedProfileType ? (
+                                                    {(user as UserResponse & { linkedProfileType?: string }).linkedProfileType ? (
                                                         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-50 dark:bg-dark-950 border border-dark-100 dark:border-dark-800 text-xs font-bold uppercase tracking-widest shadow-sm">
-                                                            <FiUser size={14} className="text-dark-400" /> {(user as any).linkedProfileType}
+                                                            <FiUser size={14} className="text-dark-400" /> {(user as UserResponse & { linkedProfileType?: string }).linkedProfileType}
                                                         </span>
                                                     ) : <span className="text-xs font-bold text-dark-400 italic">Aucun profil lié</span>}
                                                 </td>
@@ -505,7 +505,7 @@ export default function AdminUsersPage() {
 
                             <div className="p-8 sm:px-10 sm:pt-10 sm:pb-6 border-b border-dark-100 dark:border-dark-800 flex items-center justify-between flex-shrink-0 relative z-10">
                                 <div>
-                                    <h2 className="text-2xl font-extrabold tracking-tight text-dark-900 dark:text-white">{editingUser ? "Modifier l'utilisateur" : 'Nouvel utilisateur'}</h2>
+                                    <h2 className="text-2xl font-extrabold tracking-tight text-dark-900 dark:text-white">{editingUser ? `Modifier l'utilisateur` : 'Nouvel utilisateur'}</h2>
                                     <p className="text-sm font-medium text-dark-500 mt-1">{editingUser ? editingUser.email : 'Remplissez les informations ci-dessous'}</p>
                                 </div>
                                 <button onClick={() => setShowUserModal(false)} className="w-10 h-10 rounded-2xl bg-dark-50 dark:bg-dark-800 flex items-center justify-center text-dark-500 hover:bg-dark-100 hover:text-dark-900 dark:hover:bg-dark-700 dark:hover:text-white transition-all"><FiX size={20} /></button>
@@ -566,7 +566,7 @@ export default function AdminUsersPage() {
                             <div className="p-8 sm:px-10 sm:py-6 border-t border-dark-100 dark:border-dark-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 flex-shrink-0 relative z-10 bg-white/50 dark:bg-dark-900/50 backdrop-blur-md">
                                 <button onClick={() => setShowUserModal(false)} className="w-full sm:w-auto bg-dark-100 hover:bg-dark-200 dark:bg-dark-800 dark:hover:bg-dark-700 text-dark-700 dark:text-dark-200 font-extrabold py-4 px-8 rounded-2xl transition-all uppercase tracking-widest text-sm text-center">Annuler</button>
                                 <button onClick={handleUserSubmit} className="w-full sm:w-auto bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-extrabold py-4 px-10 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-primary-500/30 hover:-translate-y-1 transition-all uppercase tracking-widest text-sm">
-                                    <FiCheck size={18} /> {editingUser ? 'Enregistrer' : 'Créer l\'utilisateur'}
+                                    <FiCheck size={18} /> {editingUser ? 'Enregistrer' : 'Créer l&apos;utilisateur'}
                                 </button>
                             </div>
                         </div>
@@ -633,8 +633,8 @@ export default function AdminUsersPage() {
                             <div className="w-20 h-20 rounded-[1.5rem] bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center mx-auto mb-6 shadow-inner relative z-10 border border-rose-100 dark:border-rose-800">
                                 <FiTrash2 size={32} />
                             </div>
-                            <h2 className="text-2xl font-extrabold text-dark-900 dark:text-white mb-2 relative z-10 tracking-tight">Supprimer l'utilisateur ?</h2>
-                            <p className="text-dark-500 font-medium mb-8 relative z-10 text-base">Cette action est irréversible. L'utilisateur ne pourra plus se connecter et ses accès seront révoqués.</p>
+                            <h2 className="text-2xl font-extrabold text-dark-900 dark:text-white mb-2 relative z-10 tracking-tight">Supprimer l&apos;utilisateur ?</h2>
+                            <p className="text-dark-500 font-medium mb-8 relative z-10 text-base">Cette action est irréversible. L&apos;utilisateur ne pourra plus se connecter et ses accès seront révoqués.</p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
                                 <button onClick={() => setDeleteConfirm(null)} className="w-full sm:w-auto bg-dark-100 hover:bg-dark-200 dark:bg-dark-800 dark:hover:bg-dark-700 text-dark-700 dark:text-dark-200 font-extrabold py-4 px-8 rounded-2xl transition-all uppercase tracking-widest text-sm text-center">
                                     Annuler

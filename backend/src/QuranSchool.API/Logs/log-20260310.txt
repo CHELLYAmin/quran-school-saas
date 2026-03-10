@@ -969,3 +969,7 @@ CREATE TABLE "AdminProfiles" (
 );
 2026-03-10 10:26:34.679 -04:00 [INF] >>> Request Started: GET /health
 2026-03-10 10:26:34.759 -04:00 [INF] >>> Request Finished: GET /health
+2026-03-10 14:37:53.238 -04:00 [INF] >>> Request Started: POST /api/auth/login
+2026-03-10 14:37:55.338 -04:00 [INF] >>> Request Finished: POST /api/auth/login
+2026-03-10 14:42:04.504 -04:00 [INF] >>> Request Started: POST /api/auth/login
+2026-03-10 14:42:04.991 -04:00 [INF] >>> Request Finished: POST /api/auth/login

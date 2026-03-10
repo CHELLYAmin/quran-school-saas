@@ -129,7 +129,7 @@ export default function MissionRecordingCard({ mission, onSuccess }: MissionReco
                 </div>
                 <div>
                     <h3 className="font-bold text-lg text-dark-900 dark:text-white">Enregistrement Maison</h3>
-                    <p className="text-sm text-dark-500">L'enseignant corrigera votre audio plus tard.</p>
+                    <p className="text-sm text-dark-500">L&apos;enseignant corrigera votre audio plus tard.</p>
                 </div>
             </div>
 
@@ -167,7 +167,7 @@ export default function MissionRecordingCard({ mission, onSuccess }: MissionReco
                 ) : (
                     <div className="flex flex-col items-center gap-3 text-center">
                         <p className="text-dark-400 font-medium">Prêt pour votre récitation ?</p>
-                        <p className="text-xs text-dark-500 max-w-[200px]">Assurez-vous d'être dans un endroit calme.</p>
+                        <p className="text-xs text-dark-500 max-w-[200px]">Assurez-vous d&apos;être dans un endroit calme.</p>
                     </div>
                 )}
             </div>
@@ -187,7 +187,7 @@ export default function MissionRecordingCard({ mission, onSuccess }: MissionReco
                         onClick={stopRecording}
                         className="w-full bg-red-600 hover:bg-red-700 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-600/30"
                     >
-                        <FiSquare size={20} /> Arrêter l'enregistrement
+                        <FiSquare size={20} /> Arrêter l&apos;enregistrement
                     </button>
                 )}
 

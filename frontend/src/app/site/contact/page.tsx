@@ -19,7 +19,7 @@ export default function SiteContactPage() {
                     <div className="flex flex-col items-center gap-2 pt-8">
                         <div className="h-px w-24 bg-accent-gold/30 mb-2" />
                         <p className="text-slate-500 text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-                            Une question, une suggestion ou besoin d'informations ? Notre équipe est à votre entière disposition.
+                            Une question, une suggestion ou besoin d&apos;informations ? Notre équipe est à votre entière disposition.
                         </p>
                     </div>
                 </div>

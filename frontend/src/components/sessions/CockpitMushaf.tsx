@@ -13,7 +13,7 @@ export default function CockpitMushaf() {
     const { cockpit, activeStudentId, setActiveStudent, markStudentRecited, syncMushafState, remoteMushafState } = useLiveSessionStore();
     const student = cockpit?.smartQueue.find(s => s.studentId === activeStudentId);
 
-    const [allSurahs, setAllSurahs] = useState<any[]>([]);
+    const [allSurahs, setAllSurahs] = useState<{ number: number; name: string; englishName: string }[]>([]);
     const [selectedSurah, setSelectedSurah] = useState<string>('');
     const [verses, setVerses] = useState<MushafVerseData[]>([]);
     const [isSuggestion, setIsSuggestion] = useState(false);
@@ -120,7 +120,7 @@ export default function CockpitMushaf() {
                 if (res.ok) {
                     const json = await res.json();
                     const surahName = json.data?.name ?? '';
-                    const loadedVerses = (json.data?.ayahs as any[] ?? []).map((ayah: any, i: number) => ({
+                    const loadedVerses = (json.data?.ayahs as { number: number; numberInSurah: number; text: string }[] ?? []).map((ayah, i: number) => ({
                         id: String(ayah.number),
                         verseNumber: ayah.numberInSurah,
                         textArabic: ayah.text,
@@ -352,7 +352,7 @@ export default function CockpitMushaf() {
                         <p className="text-center text-lg font-medium max-w-sm leading-relaxed">
                             {student.suggestedSurahNumber
                                 ? <>Sourate suggérée : <br /><strong className="text-accent-500 text-xl block mt-2">{student.suggestedSurahName ?? `#${student.suggestedSurahNumber}`}</strong></>
-                                : 'Veuillez sélectionner une sourate pour commencer l\'évaluation détaillée.'}
+                                : 'Veuillez sélectionner une sourate pour commencer l&apos;évaluation détaillée.'}
                         </p>
                     </div>
                 )}

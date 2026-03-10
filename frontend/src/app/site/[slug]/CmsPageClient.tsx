@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 interface CmsPage {
@@ -47,8 +47,8 @@ export default function CmsPageClient({ slug }: { slug: string }) {
             .replace(/^# (.+)$/gm, '<h1 class="text-3xl font-serif font-black text-dark-900 dark:text-white mt-8 mb-4">$1</h1>')
             .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/^\| (.+) \|$/gm, (match) => {
-                const cells = match.split('|').filter(c => c.trim()).map(c => `<td class="px-4 py-2 border border-dark-100 dark:border-dark-700">${c.trim()}</td>`).join('');
+            .replace(/^\| (.+) \|$/gm, (match: string) => {
+                const cells = match.split('|').filter((c: string) => c.trim()).map((c: string) => `<td class="px-4 py-2 border border-dark-100 dark:border-dark-700">${c.trim()}</td>`).join('');
                 return `<tr>${cells}</tr>`;
             })
             .replace(/^- (.+)$/gm, '<li class="ml-6 text-dark-600 dark:text-dark-300 list-disc mb-1.5">$1</li>')

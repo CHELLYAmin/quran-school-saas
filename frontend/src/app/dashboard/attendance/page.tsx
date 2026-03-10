@@ -1,19 +1,18 @@
 'use client';
 import PageSkeleton from '@/components/ui/PageSkeleton';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
 import { FiCheck, FiX, FiClock, FiAlertCircle, FiUsers, FiBriefcase } from 'react-icons/fi';
 import { groupApi, attendanceApi, teacherAttendanceApi, userApi, sessionApi } from '@/lib/api/client';
 import toast from 'react-hot-toast';
-import { UserRole } from '@/types';
+import { UserRole, GroupResponse, UserResponse, SessionResponse, StudentResponse, AttendanceStatus } from '@/types';
 
-type AttStatus = 'Present' | 'Absent' | 'Late' | 'Excused';
 type TabType = 'students' | 'teachers';
 
 // Fallback Mock Data for Demo
-const fallbackGroups = [
+const fallbackGroups: any[] = [
     {
         id: 'g1', name: 'Groupe Al-Fatiha', students: [
             { id: 's1', firstName: 'Youssef', lastName: 'Zahra', fullName: 'Youssef Zahra' },
@@ -32,10 +31,10 @@ const fallbackGroups = [
     }
 ];
 
-const fallbackTeachers = [
-    { id: 't1', firstName: 'Oustadh', lastName: 'Ahmad', fullName: 'Oustadh Ahmad', roles: [UserRole.Teacher] },
-    { id: 't2', firstName: 'Cheikh', lastName: 'Mahmoud', fullName: 'Cheikh Mahmoud', roles: [UserRole.Teacher, UserRole.Admin] },
-    { id: 't3', firstName: 'Moallima', lastName: 'Salma', fullName: 'Moallima Salma', roles: [UserRole.Teacher] },
+const fallbackTeachers: UserResponse[] = [
+    { id: 't1', firstName: 'Oustadh', lastName: 'Ahmad', fullName: 'Oustadh Ahmad', roles: [UserRole.Teacher], email: '', isActive: true, preferredLanguage: 'fr', createdAt: '' },
+    { id: 't2', firstName: 'Cheikh', lastName: 'Mahmoud', fullName: 'Cheikh Mahmoud', roles: [UserRole.Teacher, UserRole.Admin], email: '', isActive: true, preferredLanguage: 'fr', createdAt: '' },
+    { id: 't3', firstName: 'Moallima', lastName: 'Salma', fullName: 'Moallima Salma', roles: [UserRole.Teacher], email: '', isActive: true, preferredLanguage: 'fr', createdAt: '' },
 ];
 
 const generateFallbackSessions = () => {
@@ -57,14 +56,16 @@ const generateFallbackSessions = () => {
         if ([1, 3, 5].includes(dayOfWeek)) {
             sessions.push({
                 id: pseudoGuid(idCounter++), groupId: 'g1', groupName: 'Groupe Al-Fatiha',
-                teacherId: 't1', date: dateStr, startTime: '10:00', endTime: '12:00'
+                teacherId: 't1', date: dateStr, startTime: '10:00', endTime: '12:00',
+                durationMinutes: 120, status: 'Planned', teacherName: 'Oustadh Ahmad', isOnline: false
             });
         }
         // Group 2 (g2): T/Th
         if ([2, 4].includes(dayOfWeek)) {
             sessions.push({
                 id: pseudoGuid(idCounter++), groupId: 'g2', groupName: 'Groupe Al-Baqarah',
-                teacherId: 't2', date: dateStr, startTime: '14:00', endTime: '16:00'
+                teacherId: 't2', date: dateStr, startTime: '14:00', endTime: '16:00',
+                durationMinutes: 120, status: 'Planned', teacherName: 'Cheikh Mahmoud', isOnline: false
             });
         }
     }
@@ -80,28 +81,20 @@ export default function AttendancePage() {
     const [loading, setLoading] = useState(false);
 
     // Data states
-    const [allGroups, setAllGroups] = useState<any[]>([]);
-    const [allTeachers, setAllTeachers] = useState<any[]>([]);
-    const [allSessions, setAllSessions] = useState<any[]>([]);
+    const [allGroups, setAllGroups] = useState<GroupResponse[]>([]);
+    const [allTeachers, setAllTeachers] = useState<UserResponse[]>([]);
+    const [allSessions, setAllSessions] = useState<SessionResponse[]>([]);
 
-    const [plannedSessions, setPlannedSessions] = useState<any[]>([]);
+    const [plannedSessions, setPlannedSessions] = useState<SessionResponse[]>([]);
     const [selectedSession, setSelectedSession] = useState<string>('all');
 
-    const [students, setStudents] = useState<any[]>([]);
-    const [teachers, setTeachers] = useState<any[]>([]);
+    const [students, setStudents] = useState<StudentResponse[]>([]);
+    const [teachers, setTeachers] = useState<UserResponse[]>([]);
 
     // Attendance state: mapping Entity ID -> Status
-    const [attendance, setAttendance] = useState<Record<string, AttStatus>>({});
+    const [attendance, setAttendance] = useState<Record<string, AttendanceStatus>>({});
 
-    useEffect(() => {
-        loadBaseData();
-    }, []);
-
-    useEffect(() => {
-        loadAttendanceForDate();
-    }, [date, activeTab, selectedSession]);
-
-    const loadBaseData = async () => {
+    const loadBaseData = useCallback(async () => {
         try {
             const [groupRes, devRes, sessRes] = await Promise.all([
                 groupApi.getAll(),
@@ -111,7 +104,7 @@ export default function AttendancePage() {
             setAllGroups(groupRes.data);
             setAllSessions(sessRes.data);
 
-            const profs = devRes.data.filter((u: any) =>
+            const profs = devRes.data.filter((u: UserResponse) =>
                 u.roles?.includes(UserRole.Teacher) ||
                 u.roles?.includes(UserRole.Admin) ||
                 u.roles?.includes(UserRole.SuperAdmin) ||
@@ -121,17 +114,17 @@ export default function AttendancePage() {
         } catch (error) {
             console.error("Error loading base data", error);
             toast.error("Mode Démonstration : Données factices (API indisponible)");
-            setAllGroups(fallbackGroups);
+            setAllGroups(fallbackGroups as any);
             setAllTeachers(fallbackTeachers);
-            setAllSessions(generateFallbackSessions());
+            setAllSessions(generateFallbackSessions() as any);
         }
-    };
+    }, []);
 
-    const loadAttendanceForDate = async () => {
+    const loadAttendanceForDate = useCallback(async () => {
         if (!date) return;
         setLoading(true);
         try {
-            const attMap: Record<string, AttStatus> = {};
+            const attMap: Record<string, AttendanceStatus> = {};
 
             // Filter sessions for this date
             const sessionsForDate = allSessions.filter(s => {
@@ -141,22 +134,22 @@ export default function AttendancePage() {
             setPlannedSessions(sessionsForDate);
 
             if (activeTab === 'students') {
-                let sessionStudents: any[] = [];
+                let sessionStudents: StudentResponse[] = [];
                 if (selectedSession === 'all') {
                     // Get all students from all sessions today
                     const groupIds = Array.from(new Set(sessionsForDate.map(s => s.groupId)));
-                    sessionStudents = allGroups.filter(g => groupIds.includes(g.id)).flatMap(g => g.students || []);
+                    sessionStudents = allGroups.filter(g => groupIds.includes(g.id)).flatMap(g => (g as any).students || []);
                     // Deduplicate
                     sessionStudents = Array.from(new Map(sessionStudents.map(s => [s.id, s])).values());
                 } else {
                     const sess = sessionsForDate.find(s => s.id === selectedSession);
                     if (sess) {
                         const targetGroup = allGroups.find(g => g.id === sess.groupId);
-                        sessionStudents = targetGroup?.students || [];
+                        sessionStudents = (targetGroup as any)?.students || [];
                     }
                 }
                 setStudents(sessionStudents);
-                sessionStudents.forEach((s: any) => attMap[s.id] = 'Present');
+                sessionStudents.forEach((s) => attMap[s.id] = AttendanceStatus.Present);
 
                 const res = await attendanceApi.getByDate(date);
                 res.data.forEach((a: any) => {
@@ -171,7 +164,7 @@ export default function AttendancePage() {
                 const activeProfs = allTeachers.filter(t => teacherIds.includes(t.id));
                 setTeachers(activeProfs);
 
-                activeProfs.forEach((t: any) => attMap[t.id] = 'Present');
+                activeProfs.forEach((t) => attMap[t.id] = AttendanceStatus.Present);
 
                 const res = await teacherAttendanceApi.getByDate(date);
                 res.data.forEach((a: any) => {
@@ -187,7 +180,15 @@ export default function AttendancePage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [date, activeTab, selectedSession, allSessions, allGroups, allTeachers]);
+
+    useEffect(() => {
+        loadBaseData();
+    }, [loadBaseData]);
+
+    useEffect(() => {
+        loadAttendanceForDate();
+    }, [loadAttendanceForDate]);
 
     const statusConfig = {
         Present: { icon: <FiCheck />, color: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-300 dark:border-green-700', label: 'Présent' },
@@ -197,9 +198,9 @@ export default function AttendancePage() {
     };
 
     const toggleStatus = (id: string) => {
-        const order: AttStatus[] = ['Present', 'Absent', 'Late', 'Excused'];
+        const order: AttendanceStatus[] = [AttendanceStatus.Present, AttendanceStatus.Absent, AttendanceStatus.Late, AttendanceStatus.Excused];
         const currentId = Object.keys(attendance).find(k => k.toLowerCase() === id.toLowerCase()) || id;
-        const current = attendance[currentId] || 'Present';
+        const current = attendance[currentId] || AttendanceStatus.Present;
         const next = order[(order.indexOf(current) + 1) % order.length];
         setAttendance({ ...attendance, [currentId]: next });
     };
@@ -212,7 +213,7 @@ export default function AttendancePage() {
                 const records = students.map(s => ({
                     studentId: s.id,
                     date: dateObj,
-                    status: attendance[s.id] || attendance[s.id.toLowerCase()] || 'Present',
+                    status: (attendance[s.id] || attendance[s.id.toLowerCase()] || AttendanceStatus.Present) as any,
                     notes: ''
                 }));
                 await attendanceApi.bulkMark({ date: dateObj, records });
@@ -220,7 +221,7 @@ export default function AttendancePage() {
                 const records = teachers.map(t => ({
                     teacherId: t.id,
                     date: dateObj,
-                    status: attendance[t.id] || attendance[t.id.toLowerCase()] || 'Present',
+                    status: (attendance[t.id] || attendance[t.id.toLowerCase()] || AttendanceStatus.Present) as any,
                     notes: ''
                 }));
                 await teacherAttendanceApi.bulkMark({ date: dateObj, records });
@@ -238,11 +239,11 @@ export default function AttendancePage() {
         let present = 0, absent = 0, late = 0, excused = 0;
         activeList.forEach((person) => {
             const targetId = Object.keys(attendance).find(k => k.toLowerCase() === person.id.toLowerCase()) || person.id;
-            const status = attendance[targetId] || 'Present';
-            if (status === 'Present') present++;
-            else if (status === 'Absent') absent++;
-            else if (status === 'Late') late++;
-            else if (status === 'Excused') excused++;
+            const status = attendance[targetId] || AttendanceStatus.Present;
+            if (status === AttendanceStatus.Present) present++;
+            else if (status === AttendanceStatus.Absent) absent++;
+            else if (status === AttendanceStatus.Late) late++;
+            else if (status === AttendanceStatus.Excused) excused++;
         });
         return { present, absent, late, excused };
     }, [attendance, activeList]);
@@ -284,7 +285,7 @@ export default function AttendancePage() {
                     >
                         <option value="all">Toutes les séances de la journée</option>
                         {plannedSessions.map(s => (
-                            <option key={s.id} value={s.id}>Séance {s.groupName} ({s.startTime?.substring(0, 5)})</option>
+                            <option key={s.id} value={s.id}>Séance {s.groupName} ({s.startTime?.substring(11, 16) || s.startTime?.substring(0, 5)})</option>
                         ))}
                     </select>
                 )}
@@ -331,9 +332,9 @@ export default function AttendancePage() {
                 ) : (
                     activeList.map((person) => {
                         const targetId = Object.keys(attendance).find(k => k.toLowerCase() === person.id.toLowerCase()) || person.id;
-                        const status = attendance[targetId] || 'Present';
-                        const config = statusConfig[status];
-                        const name = person.fullName || person.name || `${person.firstName || ''} ${person.lastName || ''}`.trim();
+                        const status = attendance[targetId] || AttendanceStatus.Present;
+                        const config = statusConfig[status as keyof typeof statusConfig];
+                        const name = person.fullName || (person as any).name || `${person.firstName || ''} ${person.lastName || ''}`.trim();
 
                         return (
                             <div key={person.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 hover:bg-dark-50 dark:hover:bg-dark-800/50 transition-colors gap-4">
@@ -344,13 +345,11 @@ export default function AttendancePage() {
                                     <div>
                                         <div className="flex items-center gap-2">
                                             <p className="font-bold text-dark-900 dark:text-white">{name}</p>
-                                            {status === 'Absent' && (
+                                            {status === AttendanceStatus.Absent && (
                                                 <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 uppercase">Alerte</span>
                                             )}
                                         </div>
-                                        <p className="text-xs font-medium text-dark-400 uppercase tracking-wider mt-0.5">
-                                            {activeTab === 'students' ? 'Élève' : (person.roles?.[0] || 'Enseignant')}
-                                        </p>
+                                            {activeTab === 'students' ? 'Élève' : ((person as UserResponse).roles?.[0] || 'Enseignant')}
                                     </div>
                                 </div>
                                 <button

@@ -19,6 +19,19 @@ interface PrayerInfo {
     time: string;
 }
 
+interface MosqueSettings {
+    address?: string;
+    latitude?: number;
+    longitude?: number;
+    calculationMethod?: number;
+}
+
+interface PrayerApiResponse {
+    data: {
+        timings: Record<string, string>;
+    };
+}
+
 export default function SiteLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -44,7 +57,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                 console.warn('MosqueSettings API returned', settingsRes.status);
                 return;
             }
-            const settings = await settingsRes.json();
+            const settings: MosqueSettings = await settingsRes.json();
 
             if (settings?.address) {
                 setMosqueAddress(settings.address);
@@ -56,7 +69,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                 const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${settings.latitude}&longitude=${settings.longitude}&method=${settings.calculationMethod || 2}`;
                 const prayerRes = await fetch(url);
                 if (!prayerRes.ok) return;
-                const prayerJson = await prayerRes.json();
+                const prayerJson: PrayerApiResponse = await prayerRes.json();
 
                 if (prayerJson?.data?.timings) {
                     const timings = prayerJson.data.timings;
@@ -208,7 +221,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                                 </div>
                             </div>
                             <p className="text-sm text-pearl/60 leading-relaxed font-medium">
-                                Le Centre Culturel Islamique de Québec est une institution dédiée à l'épanouissement spirituel et social de la communauté depuis 1985.
+                                Le Centre Culturel Islamique de Québec est une institution dédiée à l&apos;épanouissement spirituel et social de la communauté depuis 1985.
                             </p>
                         </div>
                         

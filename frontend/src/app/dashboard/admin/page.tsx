@@ -94,11 +94,11 @@ export default function DashboardPage() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50 dark:bg-primary-900/10 rounded-full blur-3xl -z-0 pointer-events-none" />
                 <div className="relative z-10">
                     <h1 className="text-3xl font-extrabold text-dark-900 dark:text-white tracking-tight">{t.common.dashboard}</h1>
-                    <p className="text-dark-500 mt-2 font-medium text-lg">Vue d'ensemble et statistiques rapides</p>
+                    <p className="text-dark-500 mt-2 font-medium text-lg">Vue d&apos;ensemble et statistiques rapides</p>
                 </div>
                 <div className="relative z-10 flex items-center gap-2">
                     <span className="bg-dark-50 dark:bg-dark-800 text-dark-600 dark:text-dark-300 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest border border-dark-100 dark:border-dark-700">
-                        Aujourd'hui
+                        Aujourd&apos;hui
                     </span>
                 </div>
             </div>
