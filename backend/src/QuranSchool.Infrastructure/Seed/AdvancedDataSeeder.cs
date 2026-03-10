@@ -16,14 +16,75 @@ public class AdvancedDataSeeder
         Randomizer.Seed = new Random(8675309);
     }
 
-    public async Task SeedLargeDatasetAsync()
-    {
-        // 1. Base Setup (Admin, Roles, Permissions, Quran Data, Users, School)
-        await SeedData.SeedAsync(_context);
+        Console.WriteLine(">>> Starting Advanced Bogus Seeding...");
 
-        var school = await _context.Schools.FirstOrDefaultAsync();
-        if (school == null) return;
-        var schoolId = school.Id;
+        // Seed Hub Content (if empty)
+        if (!await _context.CmsPages.AnyAsync(p => p.SchoolId == schoolId))
+        {
+            Console.WriteLine(">>> Seeding Hub Content...");
+            await SeedData.SeedAsync(_context); // This now includes CmsPages
+        }
+
+        if (!await _context.DonationCampaigns.AnyAsync(d => d.SchoolId == schoolId))
+        {
+             // 4. Volunteer & Donations
+            var donationCampaigns = new List<DonationCampaign>
+            {
+                new DonationCampaign
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Title = "Campagne Ramadan : Paniers Alimentaires",
+                    Description = "Soutenez les familles nécessiteuses de notre communauté pendant ce mois béni. Chaque panier contient des denrées de base pour un mois.",
+                    TargetAmount = 15000,
+                    CurrentAmount = 4500,
+                    EndDate = DateTime.UtcNow.AddDays(20).ToUniversalTime(),
+                    IsPublished = true
+                },
+                new DonationCampaign
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Title = "Extension de la Bibliothèque Islamique",
+                    Description = "Nous souhaitons acquérir de nouveaux ouvrages de Tafsir, Hadith et Fiqh pour enrichir notre bibliothèque scolaire.",
+                    TargetAmount = 5000,
+                    CurrentAmount = 1200,
+                    EndDate = DateTime.UtcNow.AddMonths(2).ToUniversalTime(),
+                    IsPublished = true
+                }
+            };
+            _context.DonationCampaigns.AddRange(donationCampaigns);
+            
+            var volunteerMissions = new List<VolunteerMission>
+            {
+                new VolunteerMission
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Title = "Bénévolat : Accueil des nouveaux élèves",
+                    Description = "Nous cherchons des volontaires pour guider les parents et les élèves lors de la journée d'accueil.",
+                    RequiredVolunteers = 10,
+                    CurrentVolunteers = 3,
+                    Date = DateTime.UtcNow.AddDays(7).ToUniversalTime(),
+                    IsPublished = true,
+                    Location = "Hall principal de l'école"
+                },
+                new VolunteerMission
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Title = "Organisation de la Fête du Coran",
+                    Description = "Participez à la logistique et à l'organisation de notre événement annuel de remise des prix.",
+                    RequiredVolunteers = 15,
+                    CurrentVolunteers = 5,
+                    Date = DateTime.UtcNow.AddMonths(1).ToUniversalTime(),
+                    IsPublished = true,
+                    Location = "Grande Salle Polyvalente"
+                }
+            };
+            _context.VolunteerMissions.AddRange(volunteerMissions);
+            await _context.SaveChangesAsync();
+        }
 
         // Check if large dataset already seeded
         if (await _context.Students.CountAsync() > 200) 
@@ -287,41 +348,7 @@ public class AdvancedDataSeeder
         }
         _context.StudentMissions.AddRange(missions);
 
-        // 4. Volunteer & Donations
-        var donationCampaigns = new List<DonationCampaign>();
-        for (int i = 1; i <= 3; i++)
-        {
-            donationCampaigns.Add(new DonationCampaign
-            {
-                Id = Guid.NewGuid(),
-                SchoolId = schoolId,
-                Title = $"Campagne {faker.PickRandom("Ramadan", "Agrandissement", "Soutien")}",
-                Description = faker.Lorem.Paragraph(),
-                TargetAmount = faker.Random.Number(5000, 50000),
-                CurrentAmount = faker.Random.Number(1000, 5000),
-                EndDate = faker.Date.Future(1).ToUniversalTime(),
-                IsPublished = true
-            });
-        }
-        _context.DonationCampaigns.AddRange(donationCampaigns);
-        
-        var volunteerMissions = new List<VolunteerMission>();
-        for (int i = 1; i <= 3; i++)
-        {
-            volunteerMissions.Add(new VolunteerMission
-            {
-                Id = Guid.NewGuid(),
-                SchoolId = schoolId,
-                Title = $"Bénévolat: {faker.PickRandom("Nettoyage", "Sécurité", "Organisation")}",
-                Description = faker.Lorem.Sentence(),
-                RequiredVolunteers = faker.Random.Number(5, 20),
-                CurrentVolunteers = faker.Random.Number(1, 5),
-                Date = faker.Date.Future(1).ToUniversalTime(),
-                IsPublished = true,
-                Location = "Mosquée Principale"
-            });
-        }
-        _context.VolunteerMissions.AddRange(volunteerMissions);
+        // Hub content moved to beginning of method
 
         await _context.SaveChangesAsync();
 

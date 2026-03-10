@@ -63,6 +63,51 @@ public static class SeedData
         var roles = new[] { superAdminRole, adminRole, teacherRole, examinerRole, parentRole, studentRole, accountantRole };
         context.Roles.AddRange(roles);
 
+        // Seed CMS Pages (Hub de Vie)
+        var cmsPages = new List<CmsPage>
+        {
+            new CmsPage 
+            { 
+                Id = Guid.NewGuid(), 
+                SchoolId = schoolId, 
+                Title = "Ouverture des inscriptions 2024-2025", 
+                Slug = "inscriptions-2024-2025", 
+                Excerpt = "Les inscriptions pour la nouvelle année académique sont désormais ouvertes à tous nos élèves.",
+                Content = "Nous sommes heureux d'annoncer que les inscriptions pour l'année académique 2024-2025 ont commencé. Veuillez vous rendre au bureau de l'école ou utiliser le portail en ligne.",
+                Category = "announcement", 
+                IsPublished = true, 
+                SortOrder = 1,
+                CreatedAt = DateTime.UtcNow.AddDays(-10)
+            },
+            new CmsPage 
+            { 
+                Id = Guid.NewGuid(), 
+                SchoolId = schoolId, 
+                Title = "Nouveau Service : Aide à la Mémorisation", 
+                Slug = "service-memorisation-aide", 
+                Excerpt = "Un nouveau service d'accompagnement personnalisé pour aider les élèves dans leur mémorisation quotidienne.",
+                Content = "Le Centre propose désormais des sessions individuelles de 15 minutes pour aider les élèves qui rencontrent des difficultés spécifiques avec certaines sourates.",
+                Category = "service", 
+                IsPublished = true, 
+                SortOrder = 2,
+                CreatedAt = DateTime.UtcNow.AddDays(-5)
+            },
+            new CmsPage 
+            { 
+                Id = Guid.NewGuid(), 
+                SchoolId = schoolId, 
+                Title = "Les Vertus de l'Apprentissage du Coran", 
+                Slug = "vertus-coran", 
+                Excerpt = "Découvrez l'importance spirituelle de la lecture et de la mémorisation du Noble Coran.",
+                Content = "Le Prophète (que la paix et le salut soient sur lui) a dit : 'Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne'. Ce post explore les bienfaits ici-bas et dans l'au-delà.",
+                Category = "islam", 
+                IsPublished = true, 
+                SortOrder = 3,
+                CreatedAt = DateTime.UtcNow.AddDays(-2)
+            }
+        };
+        context.CmsPages.AddRange(cmsPages);
+
         // Helper to link
         void LinkRolePerms(Role r, IEnumerable<string> perms)
         {
