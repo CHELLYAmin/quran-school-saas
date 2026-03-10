@@ -38,24 +38,22 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     const loadMosqueInfo = async () => {
         try {
-            // Load mosque settings with direct fetch (no apiClient/auth issues)
-            const settingsRes = await fetch('http://localhost:5000/api/MosqueSettings');
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const settingsRes = await fetch(`${apiUrl}/api/MosqueSettings`);
             if (!settingsRes.ok) {
                 console.warn('MosqueSettings API returned', settingsRes.status);
                 return;
             }
             const settings = await settingsRes.json();
-            console.log('Mosque settings loaded:', settings);
 
             if (settings?.address) {
                 setMosqueAddress(settings.address);
             }
 
-            // Load prayer times for next prayer
             if (settings?.latitude && settings?.longitude) {
                 const now = new Date();
                 const dateStr = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
-                const url = `http://api.aladhan.com/v1/timings/${dateStr}?latitude=${settings.latitude}&longitude=${settings.longitude}&method=${settings.calculationMethod || 2}`;
+                const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${settings.latitude}&longitude=${settings.longitude}&method=${settings.calculationMethod || 2}`;
                 const prayerRes = await fetch(url);
                 if (!prayerRes.ok) return;
                 const prayerJson = await prayerRes.json();
