@@ -61,8 +61,15 @@ export default function SiteHomePage() {
     const [calendarBaseDate, setCalendarBaseDate] = useState(new Date());
 
     useEffect(() => {
-        loadPublicContent();
-        loadStats();
+        const init = async () => {
+            await Promise.allSettled([
+                loadPublicContent(),
+                loadStats(),
+                loadPrayerTimes(selectedDate)
+            ]);
+            setLoading(false);
+        };
+        init();
     }, []);
 
     useEffect(() => {
@@ -175,8 +182,6 @@ export default function SiteHomePage() {
             }
         } catch (e) {
             console.error('Prayer times load error', e);
-        } finally {
-            setLoading(false);
         }
     };
 

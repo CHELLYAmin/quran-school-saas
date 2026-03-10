@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, ReactNode } from 'react';
+import api from '@/lib/api/client';
 
 const NAV_LINKS = [
     { name: 'Accueil', href: '/site' },
@@ -51,13 +52,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     const loadMosqueInfo = async () => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const settingsRes = await fetch(`${apiUrl}/api/MosqueSettings`);
-            if (!settingsRes.ok) {
-                console.warn('MosqueSettings API returned', settingsRes.status);
-                return;
-            }
-            const settings: MosqueSettings = await settingsRes.json();
+            const settingsRes = await api.get('/api/MosqueSettings');
+            const settings: MosqueSettings = settingsRes.data;
 
             if (settings?.address) {
                 setMosqueAddress(settings.address);

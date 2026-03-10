@@ -1,6 +1,0 @@
-src/app/dashboard/students/page.tsx(109,24): error TS2345: Argument of type 'ParentResponse[]' is not assignable to parameter of type 'SetStateAction<UserResponse[]>'.
-  Type 'ParentResponse[]' is not assignable to type 'UserResponse[]'.
-    Type 'ParentResponse' is missing the following properties from type 'UserResponse': roles, isActive, preferredLanguage
-src/app/dashboard/teachers/page.tsx(65,31): error TS2339: Property 'create' does not exist on type '{ getAll: () => Promise<AxiosResponse<UserResponse[], any, {}>>; getTeachers: () => Promise<AxiosResponse<UserResponse[], any, {}>>; ... 4 more ...; delete: (id: string) => Promise<...>; }'.
-src/app/dashboard/users/page.tsx(175,31): error TS2339: Property 'create' does not exist on type '{ getAll: () => Promise<AxiosResponse<UserResponse[], any, {}>>; getTeachers: () => Promise<AxiosResponse<UserResponse[], any, {}>>; ... 4 more ...; delete: (id: string) => Promise<...>; }'.
-src/app/login/page.tsx(22,57): error TS2554: Expected 1 arguments, but got 2.
