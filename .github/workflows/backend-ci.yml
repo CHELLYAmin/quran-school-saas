@@ -22,9 +22,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore backend/src/QuranSchool.API/QuranSchool.API.csproj
     - name: Build
-      run: dotnet build backend/src/QuranSchool.API/QuranSchool.API.csproj --no-restore -c Release
+      run: dotnet build backend/src/QuranSchool.API/QuranSchool.API.csproj --no-restore -c Release -v n
     - name: Test
-      run: dotnet test backend/src/QuranSchool.API/QuranSchool.API.csproj --no-build -c Release
+      run: |
+        if [ -d "backend/tests/QuranSchool.Tests" ]; then
+          dotnet test backend/tests/QuranSchool.Tests/QuranSchool.Tests.csproj --no-build -c Release -v n
+        else
+          echo "No tests found, skipping."
+        fi
     - name: Verify Docker Build
       run: docker build -t quranschool-backend:test -f backend/Dockerfile backend/
 
