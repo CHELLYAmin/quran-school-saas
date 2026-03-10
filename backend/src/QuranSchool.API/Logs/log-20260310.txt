@@ -967,3 +967,5 @@ CREATE TABLE "AdminProfiles" (
     "UpdatedAt" timestamp with time zone NOT NULL,
     "IsDeleted" boolean NOT NULL
 );
+2026-03-10 10:26:34.679 -04:00 [INF] >>> Request Started: GET /health
+2026-03-10 10:26:34.759 -04:00 [INF] >>> Request Finished: GET /health
