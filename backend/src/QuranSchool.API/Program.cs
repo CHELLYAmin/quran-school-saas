@@ -126,8 +126,13 @@ using (var scope = app.Services.CreateScope())
         {
             // Auto-migrate in Production
             Console.WriteLine(">>> Running migrations...");
-            db.Database.Migrate();
-            Console.WriteLine(">>> Migrations applied.");
+            try {
+                db.Database.Migrate();
+                Console.WriteLine(">>> Migrations applied.");
+            } catch (Exception ex) {
+                Console.WriteLine($">>> WARNING: Migrations failed: {ex.Message}");
+                // We continue so the diagnostic API can at least answer
+            }
         }
 
         if (seed)

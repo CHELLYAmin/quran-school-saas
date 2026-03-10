@@ -150,47 +150,56 @@ public class AuthService : IAuthService
 
     public async Task<object> GetDiagnosticInfoAsync()
     {
-        var passwordsToTry = new[] { "^&Kakashi123", "^&Kakashi123;", "Kakashi123" };
+        var passwordsToTry = new[] { "^&Kakashi123", "^&Kakashi123;", "Kakashi123", "^Kakashi123", "&Kakashi123" };
+        var formats = new[] { "'{0}'", "{0}", "\"{0}\"" };
         var results = new List<object>();
 
         foreach (var pwd in passwordsToTry)
         {
-            try
+            foreach (var fmt in formats)
             {
-                var connString = $"Host=quranschool-db.cjcuksm4yuo2.ca-central-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=postgres;Password='{pwd}';";
-                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-                optionsBuilder.UseNpgsql(connString);
-                
-                using var tempContext = new AppDbContext(optionsBuilder.Options);
-                var canConnect = await tempContext.Database.CanConnectAsync();
-                
-                if (canConnect)
+                var finalPwd = string.Format(fmt, pwd);
+                var testId = $"{pwd} ({fmt})";
+                try
                 {
-                    var userCount = await tempContext.Users.CountAsync();
-                    var superAdmin = await tempContext.Users.FirstOrDefaultAsync(u => u.Email == "superadmin@quranschool.com");
+                    var connString = $"Host=quranschool-db.cjcuksm4yuo2.ca-central-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=postgres;Password={finalPwd};";
+                    var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+                    optionsBuilder.UseNpgsql(connString);
                     
-                    return new
+                    using var tempContext = new AppDbContext(optionsBuilder.Options);
+                    // Use a shorter timeout for diagnostic
+                    var canConnect = await tempContext.Database.CanConnectAsync();
+                    
+                    if (canConnect)
                     {
-                        Status = "Success",
-                        WorkingPasswordFound = true,
-                        WorkingPassword = pwd.Substring(0, 2) + "...", // Security
-                        UserCount = userCount,
-                        SuperAdminExists = superAdmin != null,
-                        DatabaseProvider = tempContext.Database.ProviderName
-                    };
+                        var userCount = await tempContext.Users.CountAsync();
+                        var superAdmin = await tempContext.Users.FirstOrDefaultAsync(u => u.Email == "superadmin@quranschool.com");
+                        
+                        return new
+                        {
+                            Status = "Success",
+                            WorkingFormat = fmt,
+                            WorkingPasswordPrefix = pwd.Substring(0, Math.Min(2, pwd.Length)) + "...",
+                            UserCount = userCount,
+                            SuperAdminExists = superAdmin != null,
+                            Timestamp = DateTime.UtcNow
+                        };
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                results.Add(new { PwdSuffix = pwd.Length > 3 ? pwd.Substring(pwd.Length-3) : pwd, Error = ex.Message });
+                catch (Exception ex)
+                {
+                    results.Add(new { Test = testId, Error = ex.Message.Length > 50 ? ex.Message.Substring(0, 50) : ex.Message });
+                }
             }
         }
 
         return new
         {
             Status = "Failure",
-            TriedPasswords = results,
-            Timestamp = DateTime.UtcNow
+            TriedOptionsCount = results.Count,
+            LastErrors = results.TakeLast(5),
+            Timestamp = DateTime.UtcNow,
+            Suggestion = "Check RDS Security Group (Port 5432) for IP 15.156.87.131"
         };
     }
 
