@@ -95,7 +95,7 @@ export default function SiteHorairesPage() {
                 <div className="text-center mb-20 space-y-4">
                     <span className="text-accent-gold text-[10px] font-black uppercase tracking-[0.5em] mb-4 block">Rythme Spirituel</span>
                     <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 dark:text-white tracking-tighter cinzel-title uppercase">
-                        Horaires <br className="md:hidden" /> de <span className="text-accent-gold italic">Prière</span>
+                        Horaires <br className="md:hidden" /> de <span className="text-accent-gold">Prière</span>
                     </h1>
                     
                     <div className="flex flex-col items-center gap-2 pt-8">

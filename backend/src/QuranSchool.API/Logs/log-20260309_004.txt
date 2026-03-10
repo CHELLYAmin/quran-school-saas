@@ -2003,3 +2003,51 @@ DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error
 2026-03-09 22:13:00.409 -04:00 [INF] >>> Request Finished: GET /api/cms/pages/cimetiere
 2026-03-09 22:13:00.411 -04:00 [INF] >>> Request Started: GET /api/cms/pages/cimetiere
 2026-03-09 22:13:00.428 -04:00 [INF] >>> Request Finished: GET /api/cms/pages/cimetiere
+2026-03-09 23:35:30.922 -04:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-09 23:37:42.377 -04:00 [INF] >>> Request Started: OPTIONS /api/analytics/overview
+2026-03-09 23:37:42.377 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-09 23:37:42.377 -04:00 [INF] >>> Request Started: OPTIONS /api/donation/campaigns
+2026-03-09 23:37:42.377 -04:00 [INF] >>> Request Started: OPTIONS /api/MosqueSettings
+2026-03-09 23:37:42.377 -04:00 [INF] >>> Request Started: OPTIONS /api/volunteer/missions
+2026-03-09 23:37:42.377 -04:00 [INF] >>> Request Started: OPTIONS /api/cms/pages
+2026-03-09 23:37:42.401 -04:00 [INF] >>> Request Finished: OPTIONS /api/donation/campaigns
+2026-03-09 23:37:42.401 -04:00 [INF] >>> Request Finished: OPTIONS /api/cms/pages
+2026-03-09 23:37:42.401 -04:00 [INF] >>> Request Finished: OPTIONS /api/MosqueSettings
+2026-03-09 23:37:42.401 -04:00 [INF] >>> Request Finished: OPTIONS /api/volunteer/missions
+2026-03-09 23:37:42.401 -04:00 [INF] >>> Request Finished: OPTIONS /api/analytics/overview
+2026-03-09 23:37:42.700 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-09 23:38:15.662 -04:00 [INF] >>> Request Started: OPTIONS /api/cms/pages
+2026-03-09 23:38:15.662 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-09 23:38:15.662 -04:00 [INF] >>> Request Started: OPTIONS /api/analytics/overview
+2026-03-09 23:38:15.662 -04:00 [INF] >>> Request Started: OPTIONS /api/volunteer/missions
+2026-03-09 23:38:15.662 -04:00 [INF] >>> Request Started: OPTIONS /api/donation/campaigns
+2026-03-09 23:38:15.663 -04:00 [INF] >>> Request Finished: OPTIONS /api/volunteer/missions
+2026-03-09 23:38:15.663 -04:00 [INF] >>> Request Finished: OPTIONS /api/cms/pages
+2026-03-09 23:38:15.663 -04:00 [INF] >>> Request Finished: OPTIONS /api/donation/campaigns
+2026-03-09 23:38:15.663 -04:00 [INF] >>> Request Finished: OPTIONS /api/analytics/overview
+2026-03-09 23:38:15.663 -04:00 [INF] >>> Request Started: OPTIONS /api/MosqueSettings
+2026-03-09 23:38:15.664 -04:00 [INF] >>> Request Finished: OPTIONS /api/MosqueSettings
+2026-03-09 23:38:15.737 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-09 23:38:39.577 -04:00 [INF] >>> Request Started: GET /api/cms/pages
+2026-03-09 23:38:39.577 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-09 23:38:39.580 -04:00 [INF] >>> Request Started: GET /api/donation/campaigns
+2026-03-09 23:38:39.580 -04:00 [INF] >>> Request Started: GET /api/volunteer/missions
+2026-03-09 23:38:39.580 -04:00 [INF] >>> Request Started: GET /api/analytics/overview
+2026-03-09 23:38:39.583 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-09 23:38:39.585 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-09 23:38:39.586 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-09 23:38:39.710 -04:00 [INF] >>> Request Finished: GET /api/analytics/overview
+2026-03-09 23:38:39.794 -04:00 [INF] >>> Request Finished: GET /api/donation/campaigns
+2026-03-09 23:38:39.794 -04:00 [INF] >>> Request Finished: GET /api/volunteer/missions
+2026-03-09 23:38:39.795 -04:00 [INF] >>> Request Finished: GET /api/cms/pages

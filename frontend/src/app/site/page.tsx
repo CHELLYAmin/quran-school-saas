@@ -324,8 +324,8 @@ export default function SiteHomePage() {
 
                     <div className="lg:col-span-5 flex justify-center w-full">
                         {/* Prayer Card - Super Precise & Premium */}
-                        <div className="w-full max-w-[420px] bg-white text-dark-900 p-8 md:p-10 rounded-[3rem] shadow-3xl shadow-black relative border-4 border-primary-950 -rotate-1 group hover:rotate-0 transition-all duration-700">
-                            <div className="absolute -top-6 -right-6 size-20 bg-accent-gold rounded-3xl flex items-center justify-center shadow-2xl rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                        <div className="w-full max-w-[420px] bg-white text-dark-900 p-8 md:p-10 rounded-[3rem] shadow-3xl shadow-black relative border-4 border-primary-950 group transition-all duration-700">
+                            <div className="absolute -top-6 -right-6 size-20 bg-accent-gold rounded-3xl flex items-center justify-center shadow-2xl group-hover:rotate-0 transition-transform duration-500">
                                 <span className="material-symbols-outlined text-4xl text-primary-950">mosque</span>
                             </div>
 

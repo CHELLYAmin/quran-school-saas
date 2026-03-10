@@ -48,7 +48,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:3001")
+        policy.WithOrigins("http://localhost:3000", "http://localhost:3001", "http://192.168.2.185:3000")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -57,9 +57,10 @@ builder.Services.AddCors(options =>
     // Production Policy (to be configured via env var)
     options.AddPolicy("ProductionPolicy", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:3000", "http://192.168.2.185:3000")
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -138,33 +139,90 @@ using (var scope = app.Services.CreateScope())
             }
         }
 
+        // Always synchronize Hub de Vie content (Upsert logic)
+        try 
+        {
+            Console.WriteLine(">>> Synchronizing Hub de Vie content...");
+            var schoolId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+            var requiredPages = new List<CmsPage>
+            {
+                new CmsPage { 
+                    SchoolId = schoolId, 
+                    Title = "9e Commémoration — 29 Janvier 2026", 
+                    Slug = "commemoration-2026", 
+                    Category = "announcement", 
+                    IsPublished = true,
+                    Content = "Le 29 janvier 2026 marquera le 9e anniversaire de la tragédie de la Grande Mosquée de Québec. Nous vous invitons à une soirée de commémoration et de recueillement pour honorer la mémoire des victimes et célébrer la résilience de notre communauté."
+                },
+                new CmsPage { 
+                    SchoolId = schoolId, 
+                    Title = "Le Centre — MISSION ET OBJECTIFS", 
+                    Slug = "centre", 
+                    Category = "about", 
+                    IsPublished = true,
+                    Content = "Le Centre Culturel Islamique de Québec (CCIQ) est une institution pilier de la communauté musulmane à Québec depuis 1985. Notre mission est de fournir un espace de culte, d'éducation et de soutien social, favorisant l'épanouissement spirituel et l'intégration harmonieuse dans la société québécoise. Nos objectifs incluent la préservation des valeurs islamiques, l'éducation des jeunes et le dialogue interculturel."
+                },
+                new CmsPage { 
+                    SchoolId = schoolId, 
+                    Title = "Services Funéraires", 
+                    Slug = "services", 
+                    Category = "service", 
+                    IsPublished = true,
+                    Content = "Le CCIQ accompagne les familles dans les moments difficiles en offrant des services funéraires complets conformes aux rites islamiques. Nous assurons le transport, le lavage mortuaire (Ghusl), la prière funéraire (Janaza) et la coordination avec le cimetière. Notre équipe dévouée est disponible 24h/24 pour vous soutenir."
+                },
+                new CmsPage { 
+                    SchoolId = schoolId, 
+                    Title = "L'Islam : Comprendre notre Foi", 
+                    Slug = "islam", 
+                    Category = "islam", 
+                    IsPublished = true,
+                    Content = "L'Islam est une religion de paix, de miséricorde et de justice. Ce portail est dédié à l'explication des piliers de la foi et de la pratique, ainsi qu'à la réponse aux questions fréquentes. Nous organisons régulièrement des conférences et des cercles d'apprentissage pour approfondir la connaissance de la parole divine et de la Sunna du Prophète (PSL)."
+                },
+                new CmsPage { 
+                    SchoolId = schoolId, 
+                    Title = "Cimetière Islamique de Québec", 
+                    Slug = "cimetiere", 
+                    Category = "service", 
+                    IsPublished = true,
+                    Content = "Inauguré pour offrir un lieu de repos éternel digne à notre communauté, le Cimetière Islamique de Québec est un havre de paix géré par le CCIQ. Nous veillons à l'entretien du site et au respect strict des traditions funéraires musulmanes. Des concessions sont disponibles pour les membres et non-membres de la communauté."
+                },
+                new CmsPage { 
+                    SchoolId = schoolId, 
+                    Title = "Ensemble pour notre Mosquée", 
+                    Slug = "ensemble-mosquee", 
+                    Category = "donation", 
+                    IsPublished = true,
+                    Content = "Votre mosquée a besoin de vous. Les dons permettent de couvrir les frais de fonctionnement, d'entretien et le développement de nouveaux projets pour nos enfants. Chaque contribution, petite ou grande, est une Sadaka Jariya qui portera ses fruits dans l'au-delà."
+                }
+            };
+
+            foreach (var p in requiredPages)
+            {
+                var existing = await db.CmsPages.FirstOrDefaultAsync(x => x.Slug == p.Slug);
+                if (existing != null)
+                {
+                    existing.Title = p.Title;
+                    existing.Content = p.Content;
+                    existing.Category = p.Category;
+                    existing.IsPublished = true;
+                }
+                else
+                {
+                    p.Id = Guid.NewGuid();
+                    db.CmsPages.Add(p);
+                }
+            }
+            await db.SaveChangesAsync();
+            Console.WriteLine($">>> Synchronized {requiredPages.Count} CMS pages.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($">>> WARNING: CMS synchronization failed: {ex.Message}");
+        }
+
         if (seed)
         {
             Console.WriteLine(">>> Starting seeding...");
-            
-            // Direct Hub de Vie Seeding for RDS (to be safe)
-            if (!await db.CmsPages.AnyAsync(p => p.Title.Contains("9e Commémoration")))
-            {
-                Console.WriteLine(">>> Seeding Hub de Vie directly...");
-                var schoolId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-                var hubPages = new List<CmsPage>
-                {
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "9e Commémoration — 29 Janvier 2026", Slug = "commemoration-2026", Category = "announcement", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Annonce du début de Ramadan 1447 / 2026", Slug = "annonce-ramadan-2026", Category = "announcement", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Le Centre — MISSION ET OBJECTIFS", Slug = "centre", Category = "about", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Services Funéraires", Slug = "services-funeraires", Category = "service", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Cimetière Islamique de Québec", Slug = "cimetiere", Category = "service", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Ensemble pour notre Mosquée", Slug = "ensemble-mosquee", Category = "donation", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Programme Jeunesse", Slug = "programme-jeunesse", Category = "service", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Inscriptions École Coranique 2026", Slug = "ecole-coranique-inscriptions", Category = "announcement", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Conférence Mensuelle : La Famille en Islam", Slug = "conference-mensuelle", Category = "islam", IsPublished = true },
-                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Aide aux Devoirs et Soutien Scolaire", Slug = "soutien-scolaire", Category = "volunteer", IsPublished = true }
-                };
-                db.CmsPages.AddRange(hubPages);
-                await db.SaveChangesAsync();
-                Console.WriteLine($">>> Inlined {hubPages.Count} CMS pages.");
-            }
-
             var seeder = new AdvancedDataSeeder(db);
             await seeder.SeedLargeDatasetAsync();
             Console.WriteLine(">>> Seeding completed.");

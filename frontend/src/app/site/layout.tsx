@@ -11,7 +11,7 @@ const NAV_LINKS = [
     { name: "L'Islam", href: '/site/islam' },
     { name: 'Horaires', href: '/site/horaires' },
     { name: 'Cimetière', href: '/site/cimetiere' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Contact', href: '/site/contact' },
 ];
 
 interface PrayerInfo {

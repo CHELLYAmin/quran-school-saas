@@ -23,7 +23,7 @@ Start-Job -Name "Backend" -ScriptBlock {
     $env:Path = "$nodeDir;$dotnetDir;" + $env:Path
     $env:ASPNETCORE_ENVIRONMENT = "Development"
     Set-Location $root
-    & $dotnet run --project backend/src/QuranSchool.API --urls=http://localhost:5000 > "$root/backend.log" 2>&1
+    & $dotnet run --project backend/src/QuranSchool.API --urls=http://0.0.0.0:5000 > "$root/backend.log" 2>&1
 } -ArgumentList $DOTNET_EXE, $NODE_DIR, $DOTNET_DIR, $PSScriptRoot
 
 # 4. Frontend Setup & Start
@@ -36,7 +36,7 @@ Start-Job -Name "Frontend" -ScriptBlock {
     if (!(Test-Path "node_modules")) {
         & $npm install
     }
-    & $npm run dev > "../frontend.log" 2>&1
+    & $npm run dev -- -H 0.0.0.0 > "../frontend.log" 2>&1
 } -ArgumentList $NPM_CMD, $NODE_DIR, $DOTNET_DIR, $PSScriptRoot
 
 Write-Host ">>> Application starting in background..." -ForegroundColor Green
