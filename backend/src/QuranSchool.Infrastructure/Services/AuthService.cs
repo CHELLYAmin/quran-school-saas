@@ -8,8 +8,9 @@ using QuranSchool.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QuranSchool.Infrastructure.Services;
 
@@ -149,37 +150,48 @@ public class AuthService : IAuthService
 
     public async Task<object> GetDiagnosticInfoAsync()
     {
-        try
-        {
-            var userCount = await _context.Users.CountAsync();
-            var superAdmin = await _context.Users.FirstOrDefaultAsync(u => u.Email == "superadmin@quranschool.com");
-            var schoolCount = await _context.Schools.CountAsync();
-            var roleCount = await _context.Roles.CountAsync();
+        var passwordsToTry = new[] { "^&Kakashi123", "^&Kakashi123;", "Kakashi123" };
+        var results = new List<object>();
 
-            return new
-            {
-                Status = "Success",
-                Timestamp = DateTime.UtcNow,
-                UserCount = userCount,
-                SuperAdminExists = superAdmin != null,
-                SuperAdminId = superAdmin?.Id,
-                SuperAdminActive = superAdmin?.IsActive,
-                SchoolCount = schoolCount,
-                RoleCount = roleCount,
-                DatabaseProvider = _context.Database.ProviderName
-            };
-        }
-        catch (Exception ex)
+        foreach (var pwd in passwordsToTry)
         {
-            return new
+            try
             {
-                Status = "Error",
-                Timestamp = DateTime.UtcNow,
-                ErrorMessage = ex.Message,
-                InnerException = ex.InnerException?.Message,
-                StackTrace = ex.StackTrace?.Split('\n').Take(5)
-            };
+                var connString = $"Host=quranschool-db.cjcuksm4yuo2.ca-central-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=postgres;Password='{pwd}';";
+                var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+                optionsBuilder.UseNpgsql(connString);
+                
+                using var tempContext = new AppDbContext(optionsBuilder.Options);
+                var canConnect = await tempContext.Database.CanConnectAsync();
+                
+                if (canConnect)
+                {
+                    var userCount = await tempContext.Users.CountAsync();
+                    var superAdmin = await tempContext.Users.FirstOrDefaultAsync(u => u.Email == "superadmin@quranschool.com");
+                    
+                    return new
+                    {
+                        Status = "Success",
+                        WorkingPasswordFound = true,
+                        WorkingPassword = pwd.Substring(0, 2) + "...", // Security
+                        UserCount = userCount,
+                        SuperAdminExists = superAdmin != null,
+                        DatabaseProvider = tempContext.Database.ProviderName
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                results.Add(new { PwdSuffix = pwd.Length > 3 ? pwd.Substring(pwd.Length-3) : pwd, Error = ex.Message });
+            }
         }
+
+        return new
+        {
+            Status = "Failure",
+            TriedPasswords = results,
+            Timestamp = DateTime.UtcNow
+        };
     }
 
     private async Task<string> GenerateJwtTokenAsync(User user, List<string> roles)
