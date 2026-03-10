@@ -150,6 +150,7 @@ public class AuthService : IAuthService
 
     public async Task<object> GetDiagnosticInfoAsync()
     {
+        var version = "V2-MULTI-PWD-15";
         var passwordsToTry = new[] { "^&Kakashi123", "^&Kakashi123;", "Kakashi123", "^Kakashi123", "&Kakashi123" };
         var formats = new[] { "'{0}'", "{0}", "\"{0}\"" };
         var results = new List<object>();
