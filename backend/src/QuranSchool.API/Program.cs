@@ -249,9 +249,10 @@ else
 
 app.UseStaticFiles();
 app.UseAuthentication();
-app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();
+
+// Trigger CI Build
