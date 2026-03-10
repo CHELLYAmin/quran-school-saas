@@ -5,7 +5,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
 import { examApi, mushafApi, studentApi, groupApi, levelApi, userApi } from '@/lib/api/client';
-import { ExamResponse, ExamType, ExamStatus, StudentResponse, SurahResponse, GroupResponse, LevelResponse, UserResponse, UserRole } from '@/types';
+import { ExamResponse, ExamType, ExamStatus, StudentResponse, StudentListResponse, SurahResponse, GroupResponse, LevelResponse, UserResponse, UserRole } from '@/types';
 import {
     FiPlus, FiCalendar, FiAward, FiUsers, FiPlay, FiFileText, FiChevronRight,
     FiSearch, FiFilter, FiX, FiTrash2, FiSlash, FiClock, FiBookOpen,
@@ -53,7 +53,7 @@ export default function ExamsPage() {
     const router = useRouter();
 
     const [exams, setExams] = useState<ExamResponse[]>([]);
-    const [students, setStudents] = useState<StudentResponse[]>([]);
+    const [students, setStudents] = useState<StudentListResponse[]>([]);
     const [surahs, setSurahs] = useState<SurahResponse[]>([]);
     const [groups, setGroups] = useState<GroupResponse[]>([]);
     const [levels, setLevels] = useState<LevelResponse[]>([]);
