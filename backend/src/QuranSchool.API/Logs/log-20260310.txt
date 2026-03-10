@@ -662,3 +662,308 @@ CREATE TABLE "AdminProfiles" (
     "UpdatedAt" timestamp with time zone NOT NULL,
     "IsDeleted" boolean NOT NULL
 );
+2026-03-10 01:09:06.159 -04:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 01:11:41.698 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:11:41.698 -04:00 [INF] >>> Request Started: OPTIONS /api/analytics/overview
+2026-03-10 01:11:41.698 -04:00 [INF] >>> Request Started: OPTIONS /api/cms/pages
+2026-03-10 01:11:41.698 -04:00 [INF] >>> Request Started: OPTIONS /api/MosqueSettings
+2026-03-10 01:11:41.698 -04:00 [INF] >>> Request Started: OPTIONS /api/volunteer/missions
+2026-03-10 01:11:41.698 -04:00 [INF] >>> Request Started: OPTIONS /api/donation/campaigns
+2026-03-10 01:11:41.719 -04:00 [INF] >>> Request Finished: OPTIONS /api/analytics/overview
+2026-03-10 01:11:41.719 -04:00 [INF] >>> Request Finished: OPTIONS /api/volunteer/missions
+2026-03-10 01:11:41.719 -04:00 [INF] >>> Request Finished: OPTIONS /api/cms/pages
+2026-03-10 01:11:41.719 -04:00 [INF] >>> Request Finished: OPTIONS /api/donation/campaigns
+2026-03-10 01:11:41.719 -04:00 [INF] >>> Request Finished: OPTIONS /api/MosqueSettings
+2026-03-10 01:11:41.733 -04:00 [INF] >>> Request Started: GET /api/cms/pages
+2026-03-10 01:11:41.733 -04:00 [INF] >>> Request Started: GET /api/analytics/overview
+2026-03-10 01:11:41.733 -04:00 [INF] >>> Request Started: GET /api/volunteer/missions
+2026-03-10 01:11:41.733 -04:00 [INF] >>> Request Started: GET /api/donation/campaigns
+2026-03-10 01:11:41.855 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:11:41.859 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:11:41.936 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:11:41.968 -04:00 [INF] >>> Request Finished: GET /api/cms/pages
+2026-03-10 01:11:41.988 -04:00 [INF] >>> Request Finished: GET /api/volunteer/missions
+2026-03-10 01:11:42.009 -04:00 [INF] >>> Request Finished: GET /api/analytics/overview
+2026-03-10 01:11:42.012 -04:00 [INF] >>> Request Finished: GET /api/donation/campaigns
+2026-03-10 01:12:47.544 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:12:47.548 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:12:47.549 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:12:47.551 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:12:53.586 -04:00 [INF] >>> Request Started: OPTIONS /api/cms/pages
+2026-03-10 01:12:53.587 -04:00 [INF] >>> Request Started: OPTIONS /api/donation/campaigns
+2026-03-10 01:12:53.588 -04:00 [INF] >>> Request Finished: OPTIONS /api/cms/pages
+2026-03-10 01:12:53.588 -04:00 [INF] >>> Request Finished: OPTIONS /api/donation/campaigns
+2026-03-10 01:12:53.588 -04:00 [INF] >>> Request Started: OPTIONS /api/volunteer/missions
+2026-03-10 01:12:53.588 -04:00 [INF] >>> Request Started: OPTIONS /api/analytics/overview
+2026-03-10 01:12:53.588 -04:00 [INF] >>> Request Finished: OPTIONS /api/volunteer/missions
+2026-03-10 01:12:53.588 -04:00 [INF] >>> Request Finished: OPTIONS /api/analytics/overview
+2026-03-10 01:12:53.592 -04:00 [INF] >>> Request Started: GET /api/cms/pages
+2026-03-10 01:12:53.592 -04:00 [INF] >>> Request Started: GET /api/donation/campaigns
+2026-03-10 01:12:53.592 -04:00 [INF] >>> Request Started: GET /api/analytics/overview
+2026-03-10 01:12:53.592 -04:00 [INF] >>> Request Started: GET /api/volunteer/missions
+2026-03-10 01:12:53.594 -04:00 [INF] >>> Request Started: OPTIONS /api/MosqueSettings
+2026-03-10 01:12:53.594 -04:00 [INF] >>> Request Finished: OPTIONS /api/MosqueSettings
+2026-03-10 01:12:53.594 -04:00 [INF] >>> Request Started: OPTIONS /api/MosqueSettings
+2026-03-10 01:12:53.595 -04:00 [INF] >>> Request Finished: OPTIONS /api/MosqueSettings
+2026-03-10 01:12:53.596 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:12:53.596 -04:00 [INF] >>> Request Finished: GET /api/donation/campaigns
+2026-03-10 01:12:53.596 -04:00 [INF] >>> Request Finished: GET /api/volunteer/missions
+2026-03-10 01:12:53.598 -04:00 [INF] >>> Request Started: GET /api/volunteer/missions
+2026-03-10 01:12:53.599 -04:00 [INF] >>> Request Finished: GET /api/analytics/overview
+2026-03-10 01:12:53.599 -04:00 [INF] >>> Request Started: GET /api/donation/campaigns
+2026-03-10 01:12:53.601 -04:00 [INF] >>> Request Started: GET /api/analytics/overview
+2026-03-10 01:12:53.601 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:12:53.601 -04:00 [INF] >>> Request Finished: GET /api/volunteer/missions
+2026-03-10 01:12:53.602 -04:00 [INF] >>> Request Finished: GET /api/donation/campaigns
+2026-03-10 01:12:53.602 -04:00 [INF] >>> Request Finished: GET /api/cms/pages
+2026-03-10 01:12:53.604 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:12:53.606 -04:00 [INF] >>> Request Started: GET /api/cms/pages
+2026-03-10 01:12:53.607 -04:00 [INF] >>> Request Finished: GET /api/analytics/overview
+2026-03-10 01:12:53.607 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:12:53.611 -04:00 [INF] >>> Request Finished: GET /api/cms/pages
+2026-03-10 01:13:14.107 -04:00 [INF] >>> Request Started: OPTIONS /api/auth/login
+2026-03-10 01:13:14.108 -04:00 [INF] >>> Request Finished: OPTIONS /api/auth/login
+2026-03-10 01:13:14.111 -04:00 [INF] >>> Request Started: POST /api/auth/login
+2026-03-10 01:13:14.887 -04:00 [INF] >>> Request Finished: POST /api/auth/login
+2026-03-10 01:13:15.141 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:13:15.142 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:13:15.142 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:13:15.142 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:13:15.145 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:13:15.271 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:13:15.273 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:13:15.277 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:13:15.375 -04:00 [INF] >>> Request Started: OPTIONS /api/dashboard/admin
+2026-03-10 01:13:15.375 -04:00 [INF] >>> Request Finished: OPTIONS /api/dashboard/admin
+2026-03-10 01:13:15.376 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:13:15.379 -04:00 [INF] >>> Request Started: GET /api/dashboard/admin
+2026-03-10 01:13:15.380 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:13:15.638 -04:00 [INF] >>> Request Finished: GET /api/dashboard/admin
+2026-03-10 01:13:15.640 -04:00 [INF] >>> Request Started: GET /api/dashboard/admin
+2026-03-10 01:13:15.681 -04:00 [INF] >>> Request Finished: GET /api/dashboard/admin
+2026-03-10 01:13:21.386 -04:00 [INF] >>> Request Started: OPTIONS /api/session
+2026-03-10 01:13:21.387 -04:00 [INF] >>> Request Finished: OPTIONS /api/session
+2026-03-10 01:13:21.387 -04:00 [INF] >>> Request Started: OPTIONS /api/group
+2026-03-10 01:13:21.388 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:13:21.388 -04:00 [INF] >>> Request Finished: OPTIONS /api/group
+2026-03-10 01:13:21.388 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:13:21.388 -04:00 [INF] >>> Request Started: OPTIONS /api/session
+2026-03-10 01:13:21.388 -04:00 [INF] >>> Request Finished: OPTIONS /api/session
+2026-03-10 01:13:21.391 -04:00 [INF] >>> Request Started: GET /api/session
+2026-03-10 01:13:21.391 -04:00 [INF] >>> Request Started: GET /api/group
+2026-03-10 01:13:21.391 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:13:21.393 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:13:21.467 -04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-03-10 01:13:21.510 -04:00 [INF] >>> Request Finished: GET /api/group
+2026-03-10 01:13:21.513 -04:00 [INF] >>> Request Started: GET /api/group
+2026-03-10 01:13:21.534 -04:00 [INF] >>> Request Finished: GET /api/group
+2026-03-10 01:13:26.308 -04:00 [INF] >>> Request Started: GET /api/session
+2026-03-10 01:13:26.354 -04:00 [INF] >>> Request Finished: GET /api/session
+2026-03-10 01:13:30.198 -04:00 [INF] >>> Request Finished: GET /api/session
+2026-03-10 01:13:47.902 -04:00 [INF] >>> Request Started: OPTIONS /api/session
+2026-03-10 01:13:47.902 -04:00 [INF] >>> Request Finished: OPTIONS /api/session
+2026-03-10 01:13:47.903 -04:00 [INF] >>> Request Started: POST /api/session
+2026-03-10 01:13:48.060 -04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-03-10 01:13:48.803 -04:00 [INF] >>> Request Finished: POST /api/session
+2026-03-10 01:13:48.807 -04:00 [INF] >>> Request Started: OPTIONS /api/group
+2026-03-10 01:13:48.807 -04:00 [INF] >>> Request Started: GET /api/session
+2026-03-10 01:13:48.807 -04:00 [INF] >>> Request Finished: OPTIONS /api/group
+2026-03-10 01:13:48.809 -04:00 [INF] >>> Request Started: GET /api/group
+2026-03-10 01:13:48.821 -04:00 [INF] >>> Request Finished: GET /api/group
+2026-03-10 01:13:53.611 -04:00 [INF] >>> Request Finished: GET /api/session
+2026-03-10 01:13:57.191 -04:00 [INF] >>> Request Started: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:57.191 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:13:57.191 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:13:57.191 -04:00 [INF] >>> Request Finished: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:57.197 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:13:57.197 -04:00 [INF] >>> Request Started: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:57.197 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:57.197 -04:00 [INF] >>> Request Finished: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:57.200 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:13:57.274 -04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-03-10 01:13:58.117 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:58.119 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:13:58.798 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.104 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:14:03.104 -04:00 [INF] >>> Request Started: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.104 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:14:03.104 -04:00 [INF] >>> Request Finished: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.104 -04:00 [INF] >>> Request Started: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.104 -04:00 [INF] >>> Request Finished: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.108 -04:00 [INF] >>> Request Started: GET /notificationHub
+2026-03-10 01:14:03.109 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:14:03.109 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.111 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:14:03.114 -04:00 [INF] >>> Request Finished: GET /notificationHub
+2026-03-10 01:14:03.127 -04:00 [INF] >>> Request Started: GET /notificationHub
+2026-03-10 01:14:03.128 -04:00 [INF] >>> Request Finished: GET /notificationHub
+2026-03-10 01:14:03.732 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:03.734 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:14:04.493 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:05.881 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:15:05.885 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:15:05.894 -04:00 [INF] >>> Request Started: OPTIONS /api/cms/pages
+2026-03-10 01:15:05.895 -04:00 [INF] >>> Request Finished: OPTIONS /api/cms/pages
+2026-03-10 01:15:05.896 -04:00 [INF] >>> Request Started: OPTIONS /api/donation/campaigns
+2026-03-10 01:15:05.896 -04:00 [INF] >>> Request Finished: OPTIONS /api/donation/campaigns
+2026-03-10 01:15:05.898 -04:00 [INF] >>> Request Started: OPTIONS /api/volunteer/missions
+2026-03-10 01:15:05.898 -04:00 [INF] >>> Request Started: OPTIONS /api/analytics/overview
+2026-03-10 01:15:05.898 -04:00 [INF] >>> Request Started: GET /api/cms/pages
+2026-03-10 01:15:05.898 -04:00 [INF] >>> Request Finished: OPTIONS /api/volunteer/missions
+2026-03-10 01:15:05.898 -04:00 [INF] >>> Request Finished: OPTIONS /api/analytics/overview
+2026-03-10 01:15:05.901 -04:00 [INF] >>> Request Started: GET /api/donation/campaigns
+2026-03-10 01:15:05.903 -04:00 [INF] >>> Request Finished: GET /api/cms/pages
+2026-03-10 01:15:05.903 -04:00 [INF] >>> Request Started: OPTIONS /api/MosqueSettings
+2026-03-10 01:15:05.903 -04:00 [INF] >>> Request Finished: OPTIONS /api/MosqueSettings
+2026-03-10 01:15:05.903 -04:00 [INF] >>> Request Started: GET /api/volunteer/missions
+2026-03-10 01:15:05.903 -04:00 [INF] >>> Request Started: GET /api/analytics/overview
+2026-03-10 01:15:05.904 -04:00 [INF] >>> Request Finished: GET /api/donation/campaigns
+2026-03-10 01:15:05.905 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-10 01:15:05.905 -04:00 [INF] >>> Request Finished: GET /api/volunteer/missions
+2026-03-10 01:15:05.907 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-10 01:15:05.908 -04:00 [INF] >>> Request Finished: GET /api/analytics/overview
+2026-03-10 01:15:24.672 -04:00 [INF] >>> Request Started: OPTIONS /api/auth/login
+2026-03-10 01:15:24.673 -04:00 [INF] >>> Request Finished: OPTIONS /api/auth/login
+2026-03-10 01:15:24.674 -04:00 [INF] >>> Request Started: POST /api/auth/login
+2026-03-10 01:15:24.925 -04:00 [INF] >>> Request Finished: POST /api/auth/login
+2026-03-10 01:15:25.119 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:15:25.119 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:15:25.120 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:15:25.120 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:15:25.122 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:15:25.123 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:15:25.125 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:15:25.126 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:15:25.246 -04:00 [INF] >>> Request Started: OPTIONS /api/dashboard/admin
+2026-03-10 01:15:25.248 -04:00 [INF] >>> Request Started: OPTIONS /api/dashboard/admin
+2026-03-10 01:15:25.248 -04:00 [INF] >>> Request Finished: OPTIONS /api/dashboard/admin
+2026-03-10 01:15:25.246 -04:00 [INF] >>> Request Finished: OPTIONS /api/dashboard/admin
+2026-03-10 01:15:25.250 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:15:25.252 -04:00 [INF] >>> Request Started: GET /api/dashboard/admin
+2026-03-10 01:15:25.253 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:15:25.291 -04:00 [INF] >>> Request Finished: GET /api/dashboard/admin
+2026-03-10 01:15:25.293 -04:00 [INF] >>> Request Started: GET /api/dashboard/admin
+2026-03-10 01:15:25.321 -04:00 [INF] >>> Request Finished: GET /api/dashboard/admin
+2026-03-10 01:15:28.398 -04:00 [INF] >>> Request Started: OPTIONS /api/session
+2026-03-10 01:15:28.399 -04:00 [INF] >>> Request Finished: OPTIONS /api/session
+2026-03-10 01:15:28.400 -04:00 [INF] >>> Request Started: OPTIONS /api/group
+2026-03-10 01:15:28.400 -04:00 [INF] >>> Request Finished: OPTIONS /api/group
+2026-03-10 01:15:28.400 -04:00 [INF] >>> Request Started: OPTIONS /api/session
+2026-03-10 01:15:28.400 -04:00 [INF] >>> Request Finished: OPTIONS /api/session
+2026-03-10 01:15:28.401 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:15:28.402 -04:00 [INF] >>> Request Started: GET /api/session
+2026-03-10 01:15:28.402 -04:00 [INF] >>> Request Started: GET /api/group
+2026-03-10 01:15:28.403 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:15:28.418 -04:00 [INF] >>> Request Finished: GET /api/group
+2026-03-10 01:15:28.421 -04:00 [INF] >>> Request Started: GET /api/group
+2026-03-10 01:15:28.436 -04:00 [INF] >>> Request Finished: GET /api/group
+2026-03-10 01:15:33.294 -04:00 [INF] >>> Request Started: GET /api/session
+2026-03-10 01:15:33.334 -04:00 [INF] >>> Request Finished: GET /api/session
+2026-03-10 01:15:36.287 -04:00 [INF] >>> Request Started: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:36.287 -04:00 [INF] >>> Request Finished: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:36.289 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:36.290 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:15:36.291 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:15:36.293 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:15:36.298 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:15:37.147 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:37.149 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:37.836 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:38.527 -04:00 [INF] >>> Request Finished: GET /api/session
+2026-03-10 01:15:43.081 -04:00 [INF] >>> Request Started: GET /notificationHub
+2026-03-10 01:15:43.082 -04:00 [INF] >>> Request Finished: GET /notificationHub
+2026-03-10 01:15:43.083 -04:00 [INF] >>> Request Started: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:43.083 -04:00 [INF] >>> Request Finished: OPTIONS /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:43.083 -04:00 [INF] >>> Request Started: OPTIONS /api/notifications
+2026-03-10 01:15:43.084 -04:00 [INF] >>> Request Finished: OPTIONS /api/notifications
+2026-03-10 01:15:43.087 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:43.087 -04:00 [INF] >>> Request Started: GET /api/notifications
+2026-03-10 01:15:43.090 -04:00 [INF] >>> Request Finished: GET /api/notifications
+2026-03-10 01:15:43.095 -04:00 [INF] >>> Request Started: GET /notificationHub
+2026-03-10 01:15:43.096 -04:00 [INF] >>> Request Finished: GET /notificationHub
+2026-03-10 01:15:43.973 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:43.975 -04:00 [INF] >>> Request Started: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:15:44.815 -04:00 [INF] >>> Request Finished: GET /api/session/d7267793-b3c1-4e05-966c-a4388bab5a1b/cockpit
+2026-03-10 01:18:56.502 -04:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 01:20:16.668 -04:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 01:21:53.608 -04:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 01:24:23.948 -04:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 07:35:27.371 -04:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 07:36:16.817 -04:00 [ERR] Failed executing DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
