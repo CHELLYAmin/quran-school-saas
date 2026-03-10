@@ -40,7 +40,6 @@ jobs:
       - name: Setup Capacitor
         run: |
           cd frontend
-          npx cap add android
           npx cap sync android
 
       - name: Build Android App (APK)
