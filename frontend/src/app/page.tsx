@@ -1,5 +1,13 @@
-import { redirect } from 'next/navigation';
+'use client';
+import { useLayoutEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  redirect('/site');
+  const router = useRouter();
+  
+  useLayoutEffect(() => {
+    router.replace('/site');
+  }, [router]);
+  
+  return null;
 }
