@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { authApi } from '@/lib/api/client';
 import Link from 'next/link';
+import { authApi } from '@/lib/api/client';
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ export default function RegisterPage() {
             await authApi.register({
                 email: formData.email,
                 password: formData.password,
-                fullName: formData.fullName,
+                name: formData.fullName,
                 phoneNumber: formData.phone
             });
             router.push('/login?registered=true');
@@ -56,9 +56,9 @@ export default function RegisterPage() {
 
                     <div className="relative z-10 flex flex-col justify-between p-16 h-full text-white">
                         <div className="flex items-center gap-3">
-                            <div className="size-12 bg-accent-gold rounded-full flex items-center justify-center shadow-lg">
+                            <Link href="/site" className="size-12 bg-accent-gold rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform group">
                                 <span className="material-symbols-outlined text-primary-900 text-2xl font-bold">mosque</span>
-                            </div>
+                            </Link>
                             <h2 className="cinzel-title text-2xl font-bold tracking-widest uppercase">CCIQ</h2>
                         </div>
 

@@ -58,7 +58,11 @@ const ExamSessionClient = () => {
             try {
                 const { data: examData } = await examApi.getById(id);
                 setExam(examData);
-                const { data: versesData } = await mushafApi.getVerses(examData.surahId, examData.startVerse, examData.endVerse);
+                const { data: versesData } = await mushafApi.getVerses(
+                    examData.surahId?.toString() || '',
+                    (examData.startVerse || 0).toString(),
+                    (examData.endVerse || 0).toString()
+                );
                 setVerses(versesData);
             } catch {
                 // Mock data fallback

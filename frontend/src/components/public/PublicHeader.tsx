@@ -15,6 +15,16 @@ export default function PublicHeader() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Scroll Lock
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isMenuOpen]);
+
     const navLinks = [
         { name: 'Accueil', href: '/site' },
         { name: 'Le Centre', href: '/site/centre' },
@@ -101,39 +111,39 @@ export default function PublicHeader() {
 
             {/* Mobile Drawer */}
             {isMenuOpen && (
-                <div className="fixed inset-0 z-[60] bg-primary-950/40 backdrop-blur-sm transition-opacity duration-300">
-                    <div className="absolute right-0 top-0 h-full w-[80%] max-w-[400px] bg-pearl shadow-2xl animate-slide-in">
-                        <div className="p-8 h-full flex flex-col">
-                            <div className="flex items-center justify-between mb-12">
-                                <span className="text-xl font-serif font-black text-primary-900">MENU</span>
+                <div className="fixed inset-0 z-[60] bg-primary-950/60 backdrop-blur-md transition-opacity duration-300">
+                    <div className="absolute right-0 top-0 h-full w-[85%] max-w-[400px] bg-pearl shadow-2xl animate-slide-in flex flex-col">
+                        <div className="p-8 flex flex-col h-full overflow-y-auto custom-scrollbar">
+                            <div className="flex items-center justify-between mb-10 shrink-0">
+                                <span className="text-xl font-serif font-black text-primary-900 tracking-tighter">ACCÈS RAPIDE</span>
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
-                                    className="size-10 flex items-center justify-center border border-primary/10 rounded-full"
+                                    className="size-10 flex items-center justify-center border border-primary/10 rounded-full hover:bg-primary-900 hover:text-white transition-all shadow-sm"
                                 >
-                                    <span className="material-symbols-outlined">close</span>
+                                    <span className="material-symbols-outlined text-xl">close</span>
                                 </button>
                             </div>
 
-                            <nav className="flex flex-col gap-6">
+                            <nav className="flex flex-col gap-4">
                                 {navLinks.map((link) => (
                                     <Link
                                         key={link.name}
                                         href={link.href}
                                         onClick={() => setIsMenuOpen(false)}
-                                        className="text-2xl font-serif text-primary-900 hover:text-accent-gold transition-colors flex items-center justify-between group"
+                                        className={`py-3 text-xl font-serif border-b border-primary/5 flex items-center justify-between group transition-colors ${pathname === link.href ? 'text-accent-gold' : 'text-primary-900 hover:text-accent-gold'}`}
                                     >
                                         {link.name}
-                                        <span className="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">east</span>
+                                        <span className={`material-symbols-outlined transition-transform duration-300 group-hover:translate-x-1 ${pathname === link.href ? 'opacity-100' : 'opacity-0'}`}>east</span>
                                     </Link>
                                 ))}
                             </nav>
 
-                            <div className="mt-auto pt-10 border-t border-primary/5 space-y-4">
-                                <Link onClick={() => setIsMenuOpen(false)} href="/login" className="flex items-center justify-center gap-3 w-full py-4 rounded-3xl border-2 border-primary-900 text-primary-900 font-bold uppercase tracking-widest">
-                                    <span className="material-symbols-outlined">person</span>
-                                    Connexion
+                            <div className="mt-8 pt-8 border-t border-primary/10 space-y-4 shrink-0">
+                                <Link onClick={() => setIsMenuOpen(false)} href="/login" className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-primary-900 text-white font-bold uppercase tracking-widest shadow-lg shadow-primary-900/20 active:scale-95 transition-all">
+                                    <span className="material-symbols-outlined text-accent-gold">person</span>
+                                    Espace Membre
                                 </Link>
-                                <p className="text-[10px] text-center text-primary-900/40 font-bold uppercase tracking-[0.3em]">
+                                <p className="text-[9px] text-center text-primary-900/40 font-bold uppercase tracking-[0.4em] mt-4">
                                     Baraka Allahou Fikoum
                                 </p>
                             </div>

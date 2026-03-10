@@ -217,7 +217,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             {(sidebarOpen || (typeof window !== 'undefined' && window.innerWidth < 1024)) && (
                                 <div className="animate-fade-in overflow-hidden whitespace-nowrap">
                                     <h1 className="font-bold text-lg text-dark-900 dark:text-white leading-tight">Quran School</h1>
-                                    <p className="text-[10px] text-dark-400 capitalize font-medium tracking-wide">
+                                    <Link href="/site" className="mt-1 flex items-center gap-1.5 text-primary-600 dark:text-accent-gold text-[9px] font-black uppercase tracking-widest hover:underline decoration-2 underline-offset-4">
+                                        <span className="material-symbols-outlined text-[12px]">public</span>
+                                        Voir le site
+                                    </Link>
+                                    <p className="text-[10px] text-dark-400 capitalize font-medium tracking-wide mt-1">
                                         {(() => {
                                             const primaryRole = user?.roles?.[0];
                                             if (!primaryRole) return 'Utilisateur';

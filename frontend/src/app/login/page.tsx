@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { authApi } from '@/lib/api/client';
 import { useAuthStore } from '@/lib/store';
 
@@ -41,10 +42,10 @@ export default function LoginPage() {
             <div className="relative w-full max-w-[480px] z-10">
                 {/* Branding */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary-900 shadow-xl mb-6 text-accent-gold transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <Link href="/site" className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary-900 shadow-xl mb-6 text-accent-gold transform rotate-3 hover:rotate-0 transition-transform duration-500 hover:scale-105 group">
                         <span className="material-symbols-outlined text-4xl font-bold">mosque</span>
-                    </div>
-                    <h1 className="cinzel-title text-4xl font-bold text-primary-900 dark:text-accent-gold mb-2 tracking-widest">BIENVENUE</h1>
+                    </Link>
+                    <h1 className="cinzel-title text-4xl font-bold text-primary-900 dark:text-accent-gold mb-2 tracking-widest uppercase">CCIQ</h1>
                     <p className="text-dark-500 dark:text-dark-400 text-sm font-medium tracking-widest uppercase">Centre Culturel Islamique de Québec</p>
                     <div className="flex justify-center mt-4">
                         <div className="h-0.5 w-12 bg-accent-gold rounded-full"></div>
