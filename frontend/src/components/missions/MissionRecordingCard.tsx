@@ -89,7 +89,8 @@ export default function MissionRecordingCard({ mission, onSuccess }: MissionReco
             formData.append('file', blob, `mission_${mission.id}.webm`);
 
             // Upload to backend
-            const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/uploads/audio`, {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const uploadRes = await fetch(`${apiUrl}/api/uploads/audio`, {
                 method: 'POST',
                 body: formData
             });
@@ -97,7 +98,7 @@ export default function MissionRecordingCard({ mission, onSuccess }: MissionReco
             if (!uploadRes.ok) throw new Error('Upload failed');
 
             const uploadData = await uploadRes.json();
-            const serverFileUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}${uploadData.url}`;
+            const serverFileUrl = `${apiUrl}${uploadData.url}`;
 
             // Submit to mission service
             await missionsService.submitAudio(mission.id, serverFileUrl);

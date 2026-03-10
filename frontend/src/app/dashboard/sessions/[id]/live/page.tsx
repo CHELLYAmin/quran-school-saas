@@ -16,6 +16,10 @@ declare global {
     }
 }
 
+export function generateStaticParams() {
+    return [{ id: '1' }];
+}
+
 export default function VirtualClassroomPage() {
     const { id } = useParams();
     const router = useRouter();

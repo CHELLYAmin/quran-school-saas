@@ -6,6 +6,10 @@ import Link from 'next/link';
 import { FiArrowLeft, FiHeart, FiShare2, FiClock, FiTarget, FiCheckCircle } from 'react-icons/fi';
 import api from '@/lib/api/client';
 
+export function generateStaticParams() {
+    return [{ id: '1' }];
+}
+
 export default function DonationDetailPage() {
     const { id } = useParams();
     const [campaign, setCampaign] = useState<any>(null);

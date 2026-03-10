@@ -6,6 +6,10 @@ import Link from 'next/link';
 import { FiArrowLeft, FiUsers, FiClock, FiMapPin, FiAward, FiSend } from 'react-icons/fi';
 import api from '@/lib/api/client';
 
+export function generateStaticParams() {
+    return [{ id: '1' }];
+}
+
 export default function VolunteerDetailPage() {
     const { id } = useParams();
     const [mission, setMission] = useState<any>(null);

@@ -16,6 +16,10 @@ interface CmsPage {
     updatedAt: string;
 }
 
+export function generateStaticParams() {
+    return [{ slug: 'accueil' }];
+}
+
 export default function SiteSlugPage() {
     const params = useParams();
     const slug = params.slug as string;
