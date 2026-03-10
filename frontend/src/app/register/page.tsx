@@ -28,11 +28,17 @@ export default function RegisterPage() {
 
         setLoading(true);
         try {
+            const [firstName, ...lastNameParts] = formData.fullName.trim().split(/\s+/);
+            const lastName = lastNameParts.join(' ') || '.';
+            
             await authApi.register({
                 email: formData.email,
                 password: formData.password,
-                name: formData.fullName,
-                phoneNumber: formData.phone
+                firstName,
+                lastName,
+                phone: formData.phone,
+                role: 'Student' as any, // Default role for public registration
+                schoolId: '1' // Default school ID
             });
             router.push('/login?registered=true');
         } catch (err: any) {

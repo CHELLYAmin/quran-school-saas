@@ -60,8 +60,8 @@ const ExamSessionClient = () => {
                 setExam(examData);
                 const { data: versesData } = await mushafApi.getVerses(
                     examData.surahId?.toString() || '',
-                    (examData.startVerse || 0).toString(),
-                    (examData.endVerse || 0).toString()
+                    examData.startVerse || 0,
+                    examData.endVerse || 0
                 );
                 setVerses(versesData);
             } catch {
