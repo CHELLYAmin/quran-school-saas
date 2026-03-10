@@ -16,13 +16,22 @@ public class AdvancedDataSeeder
         Randomizer.Seed = new Random(8675309);
     }
 
+    public async Task SeedLargeDatasetAsync()
+    {
+        // 1. Base Setup (Admin, Roles, Permissions, Quran Data, Users, School)
+        await SeedData.SeedAsync(_context);
+
+        var school = await _context.Schools.FirstOrDefaultAsync();
+        if (school == null) return;
+        var schoolId = school.Id;
+
         Console.WriteLine(">>> Starting Advanced Bogus Seeding...");
 
         // Seed Hub Content (if empty)
         if (!await _context.CmsPages.AnyAsync(p => p.SchoolId == schoolId))
         {
             Console.WriteLine(">>> Seeding Hub Content...");
-            await SeedData.SeedAsync(_context); // This now includes CmsPages
+            // CMS pages are now seeded inside SeedData.SeedAsync if they don't exist
         }
 
         if (!await _context.DonationCampaigns.AnyAsync(d => d.SchoolId == schoolId))
@@ -92,8 +101,6 @@ public class AdvancedDataSeeder
             Console.WriteLine(">>> Bogus Dataset already exists. Skipping.");
             return;
         }
-
-        Console.WriteLine(">>> Starting Advanced Bogus Seeding...");
 
         // 3. Create Basic Entities
         var students = new List<Student>();
