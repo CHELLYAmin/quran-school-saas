@@ -175,7 +175,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                 {/* Mobile Menu - Premium Drawer */}
                 {menuOpen && (
                     <div className="lg:hidden fixed inset-0 z-[100] bg-primary-950/40 backdrop-blur-sm animate-fade-in" onClick={() => setMenuOpen(false)}>
-                        <div className="absolute right-0 top-0 bottom-0 w-4/5 bg-white dark:bg-dark-950 p-8 shadow-2xl flex flex-col slide-in-right" onClick={e => e.stopPropagation()}>
+                        <div className="absolute right-0 top-0 bottom-0 w-4/5 bg-white dark:bg-dark-950 p-8 shadow-2xl flex flex-col animate-slide-in-right" onClick={e => e.stopPropagation()}>
                             <div className="flex justify-between items-center mb-12">
                                 <h3 className="text-2xl font-serif font-black text-primary-900 dark:text-white cinzel-title">MENU</h3>
                                 <button onClick={() => setMenuOpen(false)} className="size-10 rounded-full bg-dark-50 dark:bg-dark-900 flex items-center justify-center">

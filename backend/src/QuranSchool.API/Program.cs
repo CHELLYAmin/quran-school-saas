@@ -132,6 +132,71 @@ using (var scope = app.Services.CreateScope())
         {
             Console.WriteLine(">>> Synchronizing Hub de Vie content...");
             var schoolId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+            
+            // ENSURE ADMIN USER EXISTS (PASSIVE SEEDING)
+            var adminEmail = "admin@alnoor-quran.fr";
+            var existingUser = await db.Users.FirstOrDefaultAsync(u => u.Email == adminEmail);
+            if (existingUser == null)
+            {
+                Console.WriteLine($">>> Seeding default admin: {adminEmail}");
+                
+                // Ensure School exists
+                var school = await db.Schools.FirstOrDefaultAsync(s => s.Id == schoolId);
+                if (school == null)
+                {
+                    school = new School
+                    {
+                        Id = schoolId,
+                        SchoolId = schoolId,
+                        Name = "École Al-Noor du Coran",
+                        IsActive = true
+                    };
+                    db.Schools.Add(school);
+                    await db.SaveChangesAsync();
+                }
+
+                // Ensure Role exists
+                var adminRole = await db.Roles.FirstOrDefaultAsync(r => r.Name == "Admin" && r.SchoolId == schoolId);
+                if (adminRole == null)
+                {
+                    adminRole = new Role
+                    {
+                        Id = Guid.NewGuid(),
+                        SchoolId = schoolId,
+                        Name = "Admin",
+                        IsSystemRole = true
+                    };
+                    db.Roles.Add(adminRole);
+                    await db.SaveChangesAsync();
+                }
+
+                var user = new User
+                {
+                    Id = Guid.NewGuid(),
+                    Email = adminEmail,
+                    FirstName = "Admin",
+                    LastName = "Al-Noor",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+                    IsActive = true,
+                    SchoolId = schoolId,
+                    PreferredLanguage = "fr",
+                    LinkedProfileType = "Admin",
+                    LinkedProfileId = Guid.NewGuid()
+                };
+                db.Users.Add(user);
+                
+                db.UserRoles.Add(new UserRole
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = user.Id,
+                    RoleId = adminRole.Id,
+                    SchoolId = schoolId
+                });
+                
+                await db.SaveChangesAsync();
+                Console.WriteLine(">>> Default admin created successfully.");
+            }
+
             var requiredPages = new List<CmsPage>
             {
                 new CmsPage { 

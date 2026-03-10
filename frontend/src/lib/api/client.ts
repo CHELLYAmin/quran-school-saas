@@ -11,7 +11,17 @@ import {
 import { RoleResponse } from '@/types/role';
 import { ParentResponse, CreateParentRequest, UpdateParentRequest } from '@/types/parent';
 
-const ROOT_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const getBaseUrl = () => {
+    if (typeof window !== 'undefined') {
+        const hostname = window.location.hostname;
+        if (hostname !== 'localhost' && !hostname.includes('127.0.0.1')) {
+            return 'https://yge7mixtb4.us-east-1.awsapprunner.com';
+        }
+    }
+    return process.env.NEXT_PUBLIC_API_URL || 'https://yge7mixtb4.us-east-1.awsapprunner.com';
+};
+
+const ROOT_URL = getBaseUrl();
 
 const api = axios.create({
     baseURL: ROOT_URL,

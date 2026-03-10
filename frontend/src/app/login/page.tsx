@@ -23,7 +23,9 @@ export default function LoginPage() {
             login(data);
             router.push('/dashboard');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Login failed');
+            console.error('Login error details:', err);
+            const msg = err.response?.data?.message || err.message || 'Login failed';
+            setError(msg + (err.code ? ` (${err.code})` : ''));
         } finally {
             setLoading(false);
         }
@@ -129,7 +131,7 @@ export default function LoginPage() {
 
                     {/* Demo Accounts - Minimal */}
                     <div className="mt-8 text-center text-[10px] text-dark-400 uppercase tracking-tighter">
-                        <p>Mode Démo : admin@alnoor-quran.fr / Teacher@123</p>
+                        <p>Mode Démo : admin@alnoor-quran.fr / Admin@123</p>
                     </div>
                 </div>
 
