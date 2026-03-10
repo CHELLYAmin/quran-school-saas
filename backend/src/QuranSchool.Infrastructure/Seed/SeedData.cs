@@ -348,7 +348,7 @@ public static class SeedData
             SchoolId = schoolId,
             FirstName = "Youssef",
             LastName = "Zahra",
-            DateOfBirth = new DateTime(2010, 5, 15),
+            DateOfBirth = new DateTime(2010, 5, 15).ToUniversalTime(),
             GroupId = groupId1,
             ParentId = parent.Id,
             IsActive = true
@@ -377,7 +377,7 @@ public static class SeedData
             SchoolId = schoolId,
             FirstName = "Amina",
             LastName = "Zahra",
-            DateOfBirth = new DateTime(2012, 8, 20),
+            DateOfBirth = new DateTime(2012, 8, 20).ToUniversalTime(),
             GroupId = groupId1,
             ParentId = parent.Id,
             IsActive = true
@@ -404,7 +404,7 @@ public static class SeedData
             SchoolId = schoolId,
             FirstName = "Omar",
             LastName = "Al-Fassi",
-            DateOfBirth = new DateTime(2011, 3, 10),
+            DateOfBirth = new DateTime(2011, 3, 10).ToUniversalTime(),
             GroupId = group2.Id,
             IsActive = true
         };
@@ -447,7 +447,7 @@ public static class SeedData
                 SchoolId = schoolId,
                 FirstName = $"Élève",
                 LastName = $"Test {i}",
-                DateOfBirth = new DateTime(2010 + random.Next(5), random.Next(1, 13), random.Next(1, 28)),
+                DateOfBirth = new DateTime(2010 + random.Next(5), random.Next(1, 13), random.Next(1, 28)).ToUniversalTime(),
                 GroupId = assignedGroupId,
                 ParentId = parent.Id, // Link everyone to the single test parent for simplicity
                 IsActive = true
@@ -494,8 +494,8 @@ public static class SeedData
         {
             SchoolId = schoolId,
             Name = "2024-2025",
-            StartDate = new DateTime(2024, 9, 1),
-            EndDate = new DateTime(2025, 6, 30),
+            StartDate = new DateTime(2024, 9, 1).ToUniversalTime(),
+            EndDate = new DateTime(2025, 6, 30).ToUniversalTime(),
             IsCurrent = true
         });
 

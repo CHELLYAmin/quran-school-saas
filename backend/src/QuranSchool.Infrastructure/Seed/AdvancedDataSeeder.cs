@@ -78,10 +78,10 @@ public class AdvancedDataSeeder
         {
             var pId = Guid.NewGuid();
             var email = $"examiner{i}@quranschool.com";
-            examinerIds.Add(pId);
             _context.Teachers.Add(new Teacher { Id = pId, SchoolId = schoolId, FirstName = faker.Name.FirstName(), LastName = faker.Name.LastName(), Email = email, HireDate = DateTime.UtcNow.AddYears(-faker.Random.Number(1, 5)), Specialization = "Examen" });
 
             var user = new User { Id = Guid.NewGuid(), SchoolId = schoolId, Email = email, PasswordHash = BCrypt.Net.BCrypt.HashPassword("Pass@123"), FirstName = "Examinateur", LastName = $"Test {i}", PreferredLanguage = "fr", LinkedProfileType = QuranSchool.Domain.Enums.ProfileType.Teacher, LinkedProfileId = pId };
+            examinerIds.Add(user.Id); // Fix: Use User.Id for Examiner relation
             _context.Users.Add(user);
             if (examinerRole != null) _context.UserRoles.Add(new UserRole { Id = Guid.NewGuid(), SchoolId = schoolId, UserId = user.Id, RoleId = examinerRole.Id });
         }
@@ -210,7 +210,7 @@ public class AdvancedDataSeeder
                 SchoolId = schoolId,
                 Title = $"Examen de {faker.PickRandom("Hifdh", "Tajwid", "Révision")}",
                 Type = faker.PickRandom(examTypes),
-                ExamDate = faker.Date.Past(1),
+                ExamDate = faker.Date.Past(1).ToUniversalTime(),
                 Description = "Examen d'évaluation périodique",
                 StudentId = student.Id,
                 ExaminerId = faker.PickRandom(examinerIds),
@@ -238,7 +238,7 @@ public class AdvancedDataSeeder
                     Title = $"Devoir: {faker.PickRandom("Mémoriser", "Réviser")} {faker.PickRandom("Al-Baqarah", "Yasin", "Al-Mulk")}",
                     Description = "Veuillez enregistrer votre récitation et l'envoyer.",
                     Type = QuranSchool.Domain.Enums.HomeworkType.Memorization,
-                    DueDate = faker.Date.Soon(7),
+                    DueDate = faker.Date.Soon(7).ToUniversalTime(),
                     GroupId = group.Id,
                     TeacherId = group.TeacherId.Value
                 };
@@ -278,10 +278,10 @@ public class AdvancedDataSeeder
                     StudentId = student.Id,
                     Type = faker.PickRandom(missionTypes),
                     TargetType = faker.PickRandom(targetTypes),
-                    DueDate = faker.Date.Soon(5),
+                    DueDate = faker.Date.Soon(5).ToUniversalTime(),
                     Status = faker.PickRandom(QuranSchool.Domain.Enums.MissionStatus.Pending, QuranSchool.Domain.Enums.MissionStatus.Completed),
                     QualityScore = faker.Random.Int(1, 5),
-                    CompletedAt = faker.Date.Recent(5)
+                    CompletedAt = faker.Date.Recent(5).ToUniversalTime()
                 });
             }
         }
@@ -299,7 +299,7 @@ public class AdvancedDataSeeder
                 Description = faker.Lorem.Paragraph(),
                 TargetAmount = faker.Random.Number(5000, 50000),
                 CurrentAmount = faker.Random.Number(1000, 5000),
-                EndDate = faker.Date.Future(1),
+                EndDate = faker.Date.Future(1).ToUniversalTime(),
                 IsPublished = true
             });
         }
@@ -316,7 +316,7 @@ public class AdvancedDataSeeder
                 Description = faker.Lorem.Sentence(),
                 RequiredVolunteers = faker.Random.Number(5, 20),
                 CurrentVolunteers = faker.Random.Number(1, 5),
-                Date = faker.Date.Future(1),
+                Date = faker.Date.Future(1).ToUniversalTime(),
                 IsPublished = true,
                 Location = "Mosquée Principale"
             });
