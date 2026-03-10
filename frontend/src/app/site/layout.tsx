@@ -40,6 +40,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     const [mosqueAddress, setMosqueAddress] = useState('');
     const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
 
+    const [navLinks, setNavLinks] = useState(NAV_LINKS);
+
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
@@ -48,7 +50,23 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         loadMosqueInfo();
+        loadMenu();
     }, []);
+
+    const loadMenu = async () => {
+        try {
+            const res = await api.get('/api/cms/menu');
+            if (res.data && res.data.length > 0) {
+                setNavLinks(res.data.map((item: any) => ({
+                    name: item.title,
+                    href: item.slug === 'home' ? '/site' : `/site/${item.slug}`,
+                    icon: item.icon
+                })));
+            }
+        } catch (e) {
+            console.error('Failed to load menu', e);
+        }
+    };
 
     const loadMosqueInfo = async () => {
         try {
@@ -134,7 +152,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </div>
 
             {/* Main Nav - Floating & Blurred */}
-            <header className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-white/90 dark:bg-dark-950/90 backdrop-blur-xl shadow-2xl shadow-primary-900/10 py-3' : 'bg-transparent py-6'}`}>
+            <header className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled || menuOpen ? 'bg-white dark:bg-dark-950 shadow-2xl shadow-primary-900/10 py-3' : 'bg-transparent py-6'}`}>
                 <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10">
                     <Link href="/site" className="flex items-center gap-4 group">
                         <div className="size-12 bg-primary-900 text-accent-gold rounded-2xl flex items-center justify-center shadow-2xl shadow-primary-900/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-white/10">
@@ -147,7 +165,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                     </Link>
 
                     <nav className="hidden lg:flex items-center gap-8">
-                        {NAV_LINKS.map(link => (
+                        {navLinks.map(link => (
                             <Link key={link.name} href={link.href}
                                 className={`text-[11px] font-black tracking-[0.15em] transition-all hover:text-primary-900 dark:hover:text-white relative group uppercase ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href))
                                     ? 'text-primary-900 dark:text-white'
@@ -183,7 +201,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                                 </button>
                             </div>
                             <div className="space-y-6">
-                                {NAV_LINKS.map(link => (
+                                {navLinks.map(link => (
                                     <Link key={link.name} href={link.href} onClick={() => setMenuOpen(false)}
                                         className={`block py-3 text-2xl font-serif font-bold tracking-tight cinzel-title border-b border-dark-50 dark:border-dark-900/50 ${pathname === link.href ? 'text-primary-900 dark:text-white' : 'text-dark-400'}`}
                                     >
@@ -229,7 +247,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                         <div>
                             <h4 className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-10 pb-2 border-b border-accent-gold/20 inline-block">Navigation</h4>
                             <div className="grid grid-cols-1 gap-4">
-                                {NAV_LINKS.map(l => (
+                                {navLinks.map(l => (
                                     <Link key={l.name} href={l.href} className="text-sm font-bold text-pearl/60 hover:text-white transition-all flex items-center group">
                                         <span className="w-0 group-hover:w-4 h-0.5 bg-accent-gold mr-0 group-hover:mr-2 transition-all rounded-full" />
                                         {l.name}

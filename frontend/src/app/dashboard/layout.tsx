@@ -145,7 +145,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             module: 'scolarite',
             items: [
                 { icon: <FiUsers size={18} />, label: t.common.students, href: '/dashboard/students', permissions: [Permissions.StudentsView, Permissions.UsersView] },
-                { icon: <FiUsers size={18} />, label: t.common.teachers, href: '/dashboard/teachers', permissions: [Permissions.UsersView] },
+                { icon: <FiUsers size={18} />, label: t.common.teachers, href: '/dashboard/teachers', permissions: [Permissions.TeachersView, Permissions.UsersView] },
+                { icon: <FiShield size={18} />, label: t.common.roles.Examiner, href: '/dashboard/teachers', permissions: [Permissions.ExamsView, Permissions.UsersView] },
                 { icon: <FiUsers size={18} />, label: 'Parents', href: '/dashboard/parents', permissions: [Permissions.UsersView, Permissions.UsersManage] },
             ]
         },

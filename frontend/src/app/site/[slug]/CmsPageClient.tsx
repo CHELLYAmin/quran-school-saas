@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import BlockRenderer from '@/components/cms/BlockRenderer';
 
 interface CmsPage {
     id: string;
@@ -12,6 +13,7 @@ interface CmsPage {
     category: string;
     isPublished: boolean;
     excerpt?: string;
+    blocksJson?: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -42,95 +44,98 @@ export default function CmsPageClient({ slug }: { slug: string }) {
     };
 
     const renderContent = (md: string) => {
+        if (!md) return '';
         let html = md
-            .replace(/^### (.+)$/gm, '<h3 class="text-xl font-bold text-dark-900 dark:text-white mt-8 mb-3">$1</h3>')
-            .replace(/^## (.+)$/gm, '<h2 class="text-2xl font-bold text-dark-900 dark:text-white mt-10 mb-4">$1</h2>')
-            .replace(/^# (.+)$/gm, '<h1 class="text-3xl font-serif font-black text-dark-900 dark:text-white mt-8 mb-4">$1</h1>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/^\| (.+) \|$/gm, (match: string) => {
-                const cells = match.split('|').filter((c: string) => c.trim()).map((c: string) => `<td class="px-4 py-2 border border-dark-100 dark:border-dark-700">${c.trim()}</td>`).join('');
-                return `<tr>${cells}</tr>`;
-            })
-            .replace(/^- (.+)$/gm, '<li class="ml-6 text-dark-600 dark:text-dark-300 list-disc mb-1.5">$1</li>')
-            .replace(/^\d+\. (.+)$/gm, '<li class="ml-6 text-dark-600 dark:text-dark-300 list-decimal mb-1.5">$1</li>')
-            .replace(/\n\n/g, '</p><p class="text-dark-600 dark:text-dark-300 leading-relaxed mb-4">')
+            .replace(/^### (.+)$/gm, '<h3 class="text-xl font-serif font-black text-primary-900 dark:text-white mt-12 mb-4 cinzel-title">$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2 class="text-3xl font-serif font-black text-primary-900 dark:text-white mt-16 mb-6 cinzel-title">$1</h2>')
+            .replace(/^# (.+)$/gm, '<h1 class="text-4xl font-serif font-black text-primary-900 dark:text-white mt-10 mb-8 cinzel-title">$1</h1>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong class="text-primary-900 dark:text-white font-black">$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em class="italic text-accent-gold">$1</em>')
+            .replace(/^- (.+)$/gm, '<li class="ml-6 text-dark-900/70 dark:text-pearl/60 list-disc mb-3">$1</li>')
+            .replace(/\n\n/g, '</p><p class="text-dark-900/70 dark:text-pearl/60 leading-relaxed mb-6 font-medium">')
             .replace(/\n/g, '<br/>');
-        return `<p class="text-dark-600 dark:text-dark-300 leading-relaxed mb-4">${html}</p>`;
+        return `<p class="text-dark-900/70 dark:text-pearl/60 leading-relaxed mb-6 font-medium">${html}</p>`;
     };
 
     if (loading) return (
-        <div className="flex justify-center py-32">
-            <div className="spinner w-10 h-10 border-primary-600" />
+        <div className="min-h-screen bg-primary-950 flex flex-col items-center justify-center p-6">
+            <div className="size-16 rounded-3xl border-4 border-accent-gold/20 border-t-accent-gold animate-spin mb-6" />
+            <p className="text-[10px] font-black text-accent-gold uppercase tracking-[0.4em]">Chargement des données sacrées...</p>
         </div>
     );
 
     if (notFound || !page) return (
-        <div className="max-w-4xl mx-auto px-6 py-32 text-center">
-            <p className="text-6xl mb-4">🔍</p>
-            <h1 className="text-3xl font-serif font-black text-dark-900 dark:text-white mb-4">Page introuvable</h1>
-            <p className="text-dark-50 mb-8">La page &laquo; {slug} &raquo; n&apos;existe pas ou n&apos;est pas encore publiée.</p>
-            <Link href="/site" className="bg-primary-900 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm">
+        <div className="min-h-screen bg-pearl dark:bg-dark-950 flex flex-col items-center justify-center p-6 text-center" id="not-found-container">
+            <span className="material-symbols-outlined text-8xl text-primary-900/10 mb-8">find_in_page</span>
+            <h1 className="text-4xl md:text-5xl font-serif font-black text-primary-950 dark:text-white mb-6 cinzel-title italic">Page Introuvable</h1>
+            <p className="text-dark-900/40 dark:text-pearl/40 mb-12 max-w-md font-medium uppercase tracking-widest text-xs leading-loose">
+                Le chemin spécifié ne semble mener à aucune destination connue dans notre portail.
+            </p>
+            <Link href="/site" className="bg-primary-900 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-2xl hover:bg-primary-950 transition-all active:scale-95">
                 Retour à l&apos;accueil
             </Link>
         </div>
     );
 
+    // If page has blocks, render only blocks (Blank Canvas mode)
+    if (page.blocksJson && page.blocksJson !== "[]" && page.blocksJson !== "" && page.blocksJson !== "null") {
+        return <BlockRenderer blocksJson={page.blocksJson} />;
+    }
+
     return (
-        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans relative">
-            <div className="absolute top-0 inset-x-0 h-[50vh] bg-primary-950 -z-10" />
-            <div className="absolute top-0 inset-x-0 h-[50vh] islamic-pattern opacity-5 -z-10" />
+        <div className="min-h-screen bg-pearl dark:bg-dark-950 font-sans relative overflow-hidden" id="cms-page-container">
+            {/* Header Background */}
+            <div className="absolute top-0 inset-x-0 h-[60vh] bg-primary-950 overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-20 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-gradient-to-b from-primary-950/40 via-primary-950/80 to-pearl dark:to-dark-950" />
+            </div>
 
             <div className="max-w-4xl mx-auto px-6 lg:px-8 py-20 md:py-32 relative">
-                <Link href="/site" className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 hover:text-accent-gold uppercase tracking-[0.3em] transition-all mb-12 group">
-                    <span className="size-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
-                        <span className="material-symbols-outlined text-sm">arrow_back</span>
+                <Link href="/site" id="back-to-portal" className="inline-flex items-center gap-3 text-[10px] font-black text-white/40 hover:text-accent-gold uppercase tracking-[0.3em] transition-all mb-16 group">
+                    <span className="size-10 rounded-2xl border border-white/10 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all bg-white/5 backdrop-blur-sm">
+                        <span className="material-symbols-outlined text-lg">arrow_back</span>
                     </span>
-                    Retour au Hub
+                    Retour au portail
                 </Link>
 
-                <div className="bg-white dark:bg-dark-900 rounded-[3.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 dark:border-dark-800 overflow-hidden">
-                    <div className="p-8 md:p-16 border-b border-slate-50 dark:border-dark-800 bg-slate-50/50">
-                        <div className="flex flex-col items-center text-center space-y-6">
-                            <span className="bg-primary-950 text-accent-gold px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] shadow-xl border border-white/5">
+                <div className="bg-white dark:bg-dark-900/40 backdrop-blur-xl rounded-[4rem] shadow-[0_50px_100px_rgba(6,78,59,0.1)] border border-white/20 dark:border-white/5 overflow-hidden animate-slide-up">
+                    <div className="p-10 md:p-20 border-b border-primary-900/5 bg-primary-900/5">
+                        <div className="flex flex-col items-center text-center space-y-8">
+                            <span className="inline-block px-6 py-2 rounded-full bg-primary-900 text-accent-gold text-[10px] font-black uppercase tracking-[0.4em] shadow-2xl border border-white/10">
                                 {page.category}
                             </span>
-                            <h1 className="text-4xl md:text-6xl font-serif font-black text-primary-950 dark:text-white leading-[0.95] tracking-tighter cinzel-title uppercase">
+                            <h1 className="text-4xl md:text-7xl font-serif font-black text-primary-950 dark:text-white leading-[0.95] tracking-tight cinzel-title italic">
                                 {page.title}
                             </h1>
-                            <div className="flex items-center gap-4 pt-4">
-                                <div className="h-px w-8 bg-slate-200" />
-                                <p className="text-xs text-slate-400 font-black uppercase tracking-widest">
-                                    Mis à jour le {new Date(page.updatedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            <div className="flex items-center gap-6 pt-6 opacity-40">
+                                <div className="h-[2px] w-12 bg-primary-900" />
+                                <p className="text-[10px] font-black uppercase tracking-widest italic">
+                                    {new Date(page.updatedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                                 </p>
-                                <div className="h-px w-8 bg-slate-200" />
+                                <div className="h-[2px] w-12 bg-primary-900" />
                             </div>
                         </div>
                     </div>
 
-                    <div className="p-8 md:p-20">
+                    <div className="p-8 md:p-24">
                         {page.excerpt && (
-                            <div className="mb-12 p-8 bg-primary-50 dark:bg-primary-900/10 rounded-[2rem] border-l-8 border-accent-gold">
-                                <p className="text-xl text-primary-900 dark:text-primary-100 font-medium italic leading-relaxed">
-                                    &ldquo;{page.excerpt}&rdquo;
+                            <div className="mb-20 p-10 bg-primary-900/5 rounded-[2.5rem] border-l-8 border-accent-gold relative">
+                                <span className="absolute -top-6 left-6 text-6xl text-accent-gold/20 font-serif">&ldquo;</span>
+                                <p className="text-2xl text-primary-900 dark:text-emerald-50 font-medium italic leading-relaxed text-center">
+                                    {page.excerpt}
                                 </p>
                             </div>
                         )}
-                        <article className="prose prose-xl prose-slate dark:prose-invert max-w-none 
-                            prose-headings:font-serif prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tighter prose-headings:cinzel-title 
-                            prose-h2:text-4xl prose-h2:text-primary-950 prose-h2:mt-16 prose-h2:mb-6
-                            prose-p:text-slate-600 prose-p:leading-[1.8] prose-p:mb-8
-                            prose-strong:text-primary-950 prose-strong:font-black
-                            prose-li:text-slate-600 prose-li:font-medium">
+                        <article className="prose prose-xl prose-emerald dark:prose-invert max-w-none">
                             <div dangerouslySetInnerHTML={{ __html: renderContent(page.content) }} />
                         </article>
                     </div>
                 </div>
 
-                <div className="mt-16 flex justify-center">
-                    <Link href="/site" className="inline-flex items-center gap-4 px-10 py-5 bg-primary-950 text-white rounded-full font-black uppercase tracking-widest text-xs shadow-2xl hover:bg-black transition-all hover:-translate-y-1">
-                        <span className="material-symbols-outlined text-sm">home</span>
-                        Accueil du Centre
+                <div className="mt-20 flex justify-center">
+                    <Link href="/site" id="home-link-footer" className="group flex items-center gap-4 px-12 py-6 bg-primary-950 text-white rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl hover:bg-black transition-all hover:-translate-y-2 active:scale-95 border border-white/5">
+                        <span className="material-symbols-outlined text-lg text-accent-gold group-hover:rotate-12 transition-transform">mosque</span>
+                        Explorer d&apos;autres contenus
                     </Link>
                 </div>
             </div>

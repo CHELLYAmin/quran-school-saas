@@ -973,3 +973,27 @@ CREATE TABLE "AdminProfiles" (
 2026-03-10 14:37:55.338 -04:00 [INF] >>> Request Finished: POST /api/auth/login
 2026-03-10 14:42:04.504 -04:00 [INF] >>> Request Started: POST /api/auth/login
 2026-03-10 14:42:04.991 -04:00 [INF] >>> Request Finished: POST /api/auth/login
+2026-03-10 17:39:28.642 -04:00 [ERR] Failed executing DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);
+2026-03-10 17:44:37.342 -04:00 [ERR] Failed executing DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AdminProfiles" (
+    "Id" uuid NOT NULL CONSTRAINT "PK_AdminProfiles" PRIMARY KEY,
+    "FirstName" character varying(100) NOT NULL,
+    "LastName" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Phone" text NULL,
+    "SchoolId" uuid NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    "IsDeleted" boolean NOT NULL
+);

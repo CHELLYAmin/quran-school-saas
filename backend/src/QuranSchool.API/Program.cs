@@ -8,6 +8,7 @@ using QuranSchool.Infrastructure.Hubs;
 using Serilog;
 using Microsoft.EntityFrameworkCore;
 using QuranSchool.Domain.Entities;
+using QuranSchool.Domain.Enums;
 
 // Npgsql legacy timestamp behavior
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -180,7 +181,7 @@ using (var scope = app.Services.CreateScope())
                     IsActive = true,
                     SchoolId = schoolId,
                     PreferredLanguage = "fr",
-                    LinkedProfileType = "Admin",
+                    LinkedProfileType = ProfileType.Admin,
                     LinkedProfileId = Guid.NewGuid()
                 };
                 db.Users.Add(user);
@@ -201,51 +202,59 @@ using (var scope = app.Services.CreateScope())
             {
                 new CmsPage { 
                     SchoolId = schoolId, 
-                    Title = "9e Commémoration — 29 Janvier 2026", 
-                    Slug = "commemoration-2026", 
-                    Category = "announcement", 
+                    Title = "Accueil", 
+                    Slug = "home", 
+                    Category = "page", 
                     IsPublished = true,
-                    Content = "Le 29 janvier 2026 marquera le 9e anniversaire de la tragédie de la Grande Mosquée de Québec. Nous vous invitons à une soirée de commémoration et de recueillement pour honorer la mémoire des victimes et célébrer la résilience de notre communauté."
+                    IsSystemPage = true,
+                    ShowInMenu = true,
+                    SortOrder = 1,
+                    Icon = "Home",
+                    Content = "Bienvenue sur le portail de l'école Al-Noor."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
-                    Title = "Le Centre — MISSION ET OBJECTIFS", 
+                    Title = "Le Centre", 
                     Slug = "centre", 
                     Category = "about", 
                     IsPublished = true,
-                    Content = "Le Centre Culturel Islamique de Québec (CCIQ) est une institution pilier de la communauté musulmane à Québec depuis 1985. Notre mission est de fournir un espace de culte, d'éducation et de soutien social, favorisant l'épanouissement spirituel et l'intégration harmonieuse dans la société québécoise."
+                    IsSystemPage = true,
+                    ShowInMenu = true,
+                    SortOrder = 2,
+                    Icon = "Info",
+                    Content = "Le Centre Culturel Islamique de Québec (CCIQ) est une institution pilier..."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
-                    Title = "Services Funéraires", 
-                    Slug = "services", 
-                    Category = "service", 
+                    Title = "Hub de Vie", 
+                    Slug = "hub", 
+                    Category = "hub", 
                     IsPublished = true,
-                    Content = "Le CCIQ accompagne les familles dans les moments difficiles en offrant des services funéraires complets conformes aux rites islamiques."
+                    IsSystemPage = true,
+                    ShowInMenu = true,
+                    SortOrder = 3,
+                    Icon = "LayoutGrid",
+                    Content = "Découvrez toute l'actualité, les événements et les missions communautaires de notre école."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
-                    Title = "L'Islam : Comprendre notre Foi", 
+                    Title = "L'Islam", 
                     Slug = "islam", 
                     Category = "islam", 
                     IsPublished = true,
-                    Content = "L'Islam est une religion de paix, de miséricorde et de justice. Ce portail est dédié à l'explication des piliers de la foi et de la pratique."
+                    IsSystemPage = true,
+                    ShowInMenu = true,
+                    SortOrder = 4,
+                    Icon = "BookOpen",
+                    Content = "L'Islam est une religion de paix, de miséricorde et de justice..."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
-                    Title = "Cimetière Islamique de Québec", 
-                    Slug = "cimetiere", 
-                    Category = "service", 
+                    Title = "Actualités", 
+                    Slug = "commemoration-2026", 
+                    Category = "announcement", 
                     IsPublished = true,
-                    Content = "Inauguré pour offrir un lieu de repos éternel digne à notre communauté, le Cimetière Islamique de Québec est un havre de paix géré par le CCIQ."
-                },
-                new CmsPage { 
-                    SchoolId = schoolId, 
-                    Title = "Ensemble pour notre Mosquée", 
-                    Slug = "ensemble-mosquee", 
-                    Category = "donation", 
-                    IsPublished = true,
-                    Content = "Votre mosquée a besoin de vous. Les dons permettent de couvrir les frais de fonctionnement et l'entretien."
+                    Content = "Le 29 janvier 2026 marquera le 9e anniversaire..."
                 }
             };
 
@@ -258,6 +267,10 @@ using (var scope = app.Services.CreateScope())
                     existing.Content = p.Content;
                     existing.Category = p.Category;
                     existing.IsPublished = true;
+                    existing.IsSystemPage = p.IsSystemPage;
+                    existing.ShowInMenu = p.ShowInMenu;
+                    existing.SortOrder = p.SortOrder;
+                    existing.Icon = p.Icon;
                 }
                 else
                 {

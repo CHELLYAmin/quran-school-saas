@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -47,9 +51,41 @@ public class CmsController : ControllerBase
             ParentSlug = p.ParentSlug,
             FeaturedImageUrl = p.FeaturedImageUrl,
             Excerpt = p.Excerpt,
+            SeoTitle = p.SeoTitle,
+            SeoDescription = p.SeoDescription,
+            MetaImage = p.MetaImage,
+            IsSystemPage = p.IsSystemPage,
+            ShowInMenu = p.ShowInMenu,
+            Icon = p.Icon,
+            BlocksJson = p.BlocksJson,
             CreatedAt = p.CreatedAt,
             UpdatedAt = p.UpdatedAt
         }).ToList());
+    }
+
+    /// <summary>
+    /// Get dynamic menu links.
+    /// </summary>
+    [HttpGet("menu")]
+    [AllowAnonymous]
+    public async Task<ActionResult<List<CmsPageDto>>> GetMenuLinks()
+    {
+        var links = await _context.CmsPages
+            .Where(p => p.IsPublished && p.ShowInMenu)
+            .OrderBy(p => p.SortOrder)
+            .Select(p => new CmsPageDto
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Slug = p.Slug,
+                Category = p.Category,
+                IsSystemPage = p.IsSystemPage,
+                Icon = p.Icon,
+                SortOrder = p.SortOrder
+            })
+            .ToListAsync();
+
+        return Ok(links);
     }
 
     /// <summary>
@@ -74,6 +110,13 @@ public class CmsController : ControllerBase
             ParentSlug = page.ParentSlug,
             FeaturedImageUrl = page.FeaturedImageUrl,
             Excerpt = page.Excerpt,
+            SeoTitle = page.SeoTitle,
+            SeoDescription = page.SeoDescription,
+            MetaImage = page.MetaImage,
+            IsSystemPage = page.IsSystemPage,
+            ShowInMenu = page.ShowInMenu,
+            Icon = page.Icon,
+            BlocksJson = page.BlocksJson,
             CreatedAt = page.CreatedAt,
             UpdatedAt = page.UpdatedAt
         });
@@ -96,7 +139,14 @@ public class CmsController : ControllerBase
             SortOrder = dto.SortOrder,
             ParentSlug = dto.ParentSlug,
             FeaturedImageUrl = dto.FeaturedImageUrl,
-            Excerpt = dto.Excerpt
+            Excerpt = dto.Excerpt,
+            SeoTitle = dto.SeoTitle,
+            SeoDescription = dto.SeoDescription,
+            MetaImage = dto.MetaImage,
+            IsSystemPage = dto.IsSystemPage,
+            ShowInMenu = dto.ShowInMenu,
+            Icon = dto.Icon,
+            BlocksJson = dto.BlocksJson
         };
 
         _context.CmsPages.Add(page);
@@ -114,6 +164,13 @@ public class CmsController : ControllerBase
             ParentSlug = page.ParentSlug,
             FeaturedImageUrl = page.FeaturedImageUrl,
             Excerpt = page.Excerpt,
+            SeoTitle = page.SeoTitle,
+            SeoDescription = page.SeoDescription,
+            MetaImage = page.MetaImage,
+            IsSystemPage = page.IsSystemPage,
+            ShowInMenu = page.ShowInMenu,
+            Icon = page.Icon,
+            BlocksJson = page.BlocksJson,
             CreatedAt = page.CreatedAt,
             UpdatedAt = page.UpdatedAt
         });
@@ -138,6 +195,13 @@ public class CmsController : ControllerBase
         page.ParentSlug = dto.ParentSlug;
         page.FeaturedImageUrl = dto.FeaturedImageUrl;
         page.Excerpt = dto.Excerpt;
+        page.SeoTitle = dto.SeoTitle;
+        page.SeoDescription = dto.SeoDescription;
+        page.MetaImage = dto.MetaImage;
+        page.IsSystemPage = dto.IsSystemPage;
+        page.ShowInMenu = dto.ShowInMenu;
+        page.Icon = dto.Icon;
+        page.BlocksJson = dto.BlocksJson;
         page.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -154,6 +218,13 @@ public class CmsController : ControllerBase
             ParentSlug = page.ParentSlug,
             FeaturedImageUrl = page.FeaturedImageUrl,
             Excerpt = page.Excerpt,
+            SeoTitle = page.SeoTitle,
+            SeoDescription = page.SeoDescription,
+            MetaImage = page.MetaImage,
+            IsSystemPage = page.IsSystemPage,
+            ShowInMenu = page.ShowInMenu,
+            Icon = page.Icon,
+            BlocksJson = page.BlocksJson,
             CreatedAt = page.CreatedAt,
             UpdatedAt = page.UpdatedAt
         });
@@ -168,6 +239,9 @@ public class CmsController : ControllerBase
     {
         var page = await _context.CmsPages.FindAsync(id);
         if (page == null) return NotFound();
+
+        if (page.IsSystemPage)
+            return BadRequest(new { Message = "Cannot delete system pages. You can unpublish them instead." });
 
         _context.CmsPages.Remove(page);
         await _context.SaveChangesAsync();
