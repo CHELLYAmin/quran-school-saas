@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FiArrowRight, FiHeart, FiChevronLeft, FiChevronRight, FiCalendar } from 'react-icons/fi';
 import axios from 'axios';
 import api from '@/lib/api/client';
@@ -36,7 +37,8 @@ interface PrayerTime {
 }
 
 export default function SiteHomePage() {
-    const [filter, setFilter] = useState<'all' | 'announcement' | 'service' | 'donation' | 'volunteer'>('all');
+    const router = useRouter();
+    const [filter, setFilter] = useState<'all' | 'announcement' | 'event' | 'service' | 'donation' | 'volunteer'>('all');
     const [announcements, setAnnouncements] = useState<CmsPage[]>([]);
     const [publicContent, setPublicContent] = useState<any[]>([]);
     const [stats, setStats] = useState<SaasStats | null>(null);
@@ -212,24 +214,25 @@ export default function SiteHomePage() {
     };
 
     return (
-        <div className="min-h-screen bg-pearl dark:bg-dark-950 flex flex-col font-sans">
+        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 flex flex-col font-sans">
             {/* Dynamic Announcement Banner */}
             {announcements.length > 0 && (
-                <div className="bg-primary-900 text-white overflow-hidden py-2.5 relative border-b border-white/5">
-                    <div className="absolute inset-0 opacity-10 flex text-[8rem] leading-none whitespace-nowrap overflow-hidden items-center select-none -top-4 -z-0 pointer-events-none">
+                <div className="bg-primary-950 text-white overflow-hidden py-3 relative border-b border-white/5 z-20">
+                    <div className="absolute inset-0 opacity-10 flex text-[8rem] leading-none whitespace-nowrap overflow-hidden items-center select-none -top-4 -z-0 pointer-events-none cinzel-title font-black">
                         CENTRE CULTUREL ISLAMIQUE DE QUÉBEC
                     </div>
-                    <div className="max-w-7xl mx-auto px-4 z-10 relative flex justify-between items-center whitespace-nowrap overflow-x-auto no-scrollbar">
-                        <span className="text-[10px] font-black tracking-widest text-accent-gold mr-8 bg-black/20 px-4 py-1.5 rounded-full shrink-0 uppercase border border-accent-gold/20 shadow-inner">
-                            Annonce
+                    <div className="max-w-7xl mx-auto px-6 z-10 relative flex justify-between items-center whitespace-nowrap overflow-x-auto no-scrollbar">
+                        <span className="text-[10px] font-black tracking-[0.3em] text-accent-gold mr-10 bg-white/5 px-5 py-2 rounded-full shrink-0 uppercase border border-white/10 shadow-2xl">
+                            ANNONCE • LIVE
                         </span>
-                        <div className="animate-marquee flex gap-8 whitespace-nowrap items-center text-sm font-medium">
-                            <Link href={`/site/${announcements[0].slug}`} className="hover:text-accent-gold transition-colors underline decoration-accent-gold/30 underline-offset-4">
+                        <div className="animate-marquee flex gap-12 whitespace-nowrap items-center text-[13px] font-bold tracking-wide">
+                            <Link href={`/site/${announcements[0].slug}`} className="hover:text-accent-gold transition-all flex items-center gap-3 decoration-accent-gold/30 underline-offset-8 group">
+                                <span className="size-2 bg-accent-gold rounded-full animate-ping" />
                                 {announcements[0].title}
                             </Link>
-                            <span className="w-1.5 h-1.5 rounded-full bg-accent-gold" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
                             {publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement').length > 0 && (
-                                <Link href={`/site/${publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement')[0].slug}`} className="hover:text-accent-gold transition-colors">
+                                <Link href={`/site/${publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement')[0].slug}`} className="hover:text-accent-gold transition-all opacity-70 hover:opacity-100">
                                     {publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement')[0].title}
                                 </Link>
                             )}
@@ -238,108 +241,119 @@ export default function SiteHomePage() {
                 </div>
             )}
 
-            {/* Hero Section */}
-            <section className="relative min-h-[85vh] flex items-center bg-white dark:bg-dark-900 overflow-hidden isolate shadow-sm border-b border-dark-100 dark:border-dark-800">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border-[100px] border-primary-50 dark:border-primary-900/10 rounded-full opacity-60 -z-10" />
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-900 rounded-full opacity-[0.03] blur-3xl -z-10" />
+            {/* Hero Section - Super Premium */}
+            <section className="relative min-h-[95vh] flex items-center bg-white dark:bg-dark-900 overflow-hidden isolate shadow-2xl">
+                {/* Architectural Elements */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border-[1px] border-primary-900/5 rounded-full -z-10 animate-pulse-slow" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border-[1px] border-primary-900/10 rounded-full -z-10" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border-[1px] border-primary-900/15 rounded-full -z-10" />
+                
+                {/* Gradient Glows */}
+                <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary-900/5 rounded-full blur-[120px] -z-10" />
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-accent-gold/5 rounded-full blur-[120px] -z-10" />
 
-                <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 flex flex-col items-center justify-center text-center -mt-10">
-                    <span className="text-primary-800 dark:text-primary-400 font-bold tracking-[0.2em] text-[10px] md:text-xs uppercase mb-8 border border-primary-100 dark:border-primary-900/30 bg-primary-50 dark:bg-primary-900/20 px-6 py-2.5 rounded-full shadow-sm">
-                        Sagesse • Éducation • Communauté
-                    </span>
+                <div className="w-full max-w-7xl mx-auto px-6 lg:px-10 flex flex-col items-center justify-center text-center relative z-20">
+                    <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-primary-900/5 border border-primary-900/10 mb-12 animate-fade-in">
+                        <span className="size-2 rounded-full bg-accent-gold animate-pulse" />
+                        <span className="text-primary-950 dark:text-primary-100 font-black tracking-[0.3em] text-[10px] uppercase">
+                            Excellence • Sagesse • Partage
+                        </span>
+                    </div>
 
-                    <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-serif font-black text-dark-900 dark:text-white leading-[1.05] tracking-tight max-w-5xl text-balance">
-                        Nourrissez votre esprit, <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-800 to-primary-600 dark:from-primary-400 dark:to-primary-600 block mt-2 relative">
-                            <span className="absolute -bottom-2 left-1/4 right-1/4 h-3 bg-accent-gold opacity-30 -z-10 rotate-[-1deg]" />
-                            renforcez votre foi.
+                    <h1 className="text-6xl md:text-8xl lg:text-[7.5rem] font-serif font-black text-primary-950 dark:text-white leading-[0.9] tracking-tighter max-w-6xl text-balance cinzel-title uppercase">
+                        Nourrissez votre <br className="hidden md:block" />
+                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary-900 to-primary-700 dark:from-primary-400 dark:to-primary-600 pb-2">
+                             esprit.
+                            <svg className="absolute -bottom-4 left-0 w-full h-8 text-accent-gold opacity-20" preserveAspectRatio="none" viewBox="0 0 400 30">
+                                <path d="M0,15 Q100,0 200,15 T400,15" fill="none" stroke="currentColor" strokeWidth="8" />
+                            </svg>
                         </span>
                     </h1>
 
-                    <p className="mt-8 text-xl text-dark-500 dark:text-dark-400 max-w-2xl font-normal leading-relaxed text-balance">
-                        Rejoignez le Centre Culturel Islamique de Québec, un espace d&apos;apprentissage et d&apos;excellence spirituelle au cœur de notre communauté.
+                    <p className="mt-12 text-xl md:text-2xl text-slate-500 dark:text-dark-400 max-w-3xl font-medium leading-relaxed text-balance">
+                        Rejoignez le <span className="text-primary-950 dark:text-white font-bold">Centre Culturel Islamique de Québec</span>, une institution d&apos;exception pour l&apos;apprentissage et l&apos;épanouissement spirituel.
                     </p>
 
-                    <div className="mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center w-full max-w-md mx-auto sm:max-w-none">
-                        <Link href="/register" className="inline-flex items-center justify-center rounded-full bg-primary-800 px-10 py-5 text-sm font-bold text-white shadow-xl shadow-primary-900/20 hover:bg-primary-900 hover:-translate-y-0.5 transition-all">
-                            S&apos;inscrire à l&apos;école
-                            <FiArrowRight className="ml-2 text-xl" />
+                    <div className="mt-16 flex flex-col sm:flex-row gap-6 justify-center w-full max-w-xl mx-auto sm:max-w-none px-6">
+                        <Link href="/register" className="inline-flex items-center justify-center rounded-[2rem] bg-primary-900 px-12 py-6 text-sm font-black text-white shadow-2xl shadow-primary-900/30 hover:bg-black hover:-translate-y-2 transition-all duration-500 uppercase tracking-widest border border-white/10 group">
+                            S&apos;inscrire à l&apos;académie
+                            <FiArrowRight className="ml-3 text-xl group-hover:translate-x-2 transition-transform" />
                         </Link>
-                        <Link href="/donate" className="inline-flex items-center justify-center rounded-full bg-white dark:bg-dark-800 px-10 py-5 text-sm font-bold text-primary-900 dark:text-white border border-primary-100 dark:border-primary-900 shadow-sm hover:border-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/40 hover:-translate-y-0.5 transition-all">
-                            <FiHeart className="mr-2 text-accent-gold" />
+                        <Link href="/donate" className="inline-flex items-center justify-center rounded-[2rem] bg-white dark:bg-dark-800 px-12 py-6 text-sm font-black text-primary-900 dark:text-white border border-slate-100 dark:border-dark-700 shadow-xl hover:bg-slate-50 dark:hover:bg-primary-900/40 hover:-translate-y-2 transition-all duration-500 uppercase tracking-widest group">
+                            <FiHeart className="mr-3 text-accent-gold group-hover:scale-125 transition-transform" />
                             Soutenir le Centre
                         </Link>
                     </div>
 
-                    {/* Live SaaS Stats */}
-                    <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 pt-12 border-t border-dark-100 dark:border-dark-800 w-full max-w-4xl mx-auto">
-                        <div className="flex flex-col gap-1 items-center">
-                            <span className="text-4xl font-serif font-black text-primary-900 dark:text-white">{stats?.activeStudentsCount ?? '450'}+</span>
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-dark-400">Élèves actifs</span>
-                        </div>
-                        <div className="flex flex-col gap-1 items-center">
-                            <span className="text-4xl font-serif font-black text-primary-900 dark:text-white">{stats?.activeTeachersCount ?? '32'}</span>
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-dark-400">Enseignants</span>
-                        </div>
-                        <div className="flex flex-col gap-1 items-center">
-                            <span className="text-4xl font-serif font-black text-primary-900 dark:text-white">{stats?.totalGroupsCount ?? '12'}</span>
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-dark-400">Niveaux d&apos;étude</span>
-                        </div>
-                        <div className="flex flex-col gap-1 items-center">
-                            <span className="text-4xl font-serif font-black text-primary-900 dark:text-white">{stats ? stats.completedMissionsThisWeek : '100%'}</span>
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-dark-400">Progression</span>
-                        </div>
+                    {/* Live Stats Table - Super Compact & Premium */}
+                    <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-24 py-12 border-t border-slate-100 dark:border-dark-800 w-full max-w-5xl">
+                        {[
+                            { label: 'Élèves actifs', value: stats?.activeStudentsCount ?? '450', suffix: '+' },
+                            { label: 'Enseignants', value: stats?.activeTeachersCount ?? '32', suffix: '' },
+                            { label: 'Niveaux d\'étude', value: stats?.totalGroupsCount ?? '12', suffix: '' },
+                            { label: 'Progression', value: '100', suffix: '%' }
+                        ].map((stat, i) => (
+                            <div key={i} className="flex flex-col gap-2 items-center group">
+                                <span className="text-5xl font-serif font-black text-primary-950 dark:text-white cinzel-title tracking-tighter group-hover:scale-110 transition-transform duration-500">
+                                    {stat.value}{stat.suffix}
+                                </span>
+                                <span className="text-[10px] uppercase font-black tracking-[0.3em] text-accent-gold opacity-80">{stat.label}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* Prayer Schedule — Centered & Calendar Style */}
-            <section id="horaires" className="bg-primary-900 dark:bg-dark-950 text-white relative isolate py-16 lg:py-24 flex items-center min-h-[700px]">
-                <div className="absolute top-0 inset-x-0 h-4 bg-accent-gold/20" />
-                <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at center, #ffffff 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+            {/* Prayer Schedule — High Contrast Dark Mode */}
+            <section id="horaires" className="bg-[#0A100D] text-white relative isolate py-24 lg:py-32 flex items-center min-h-[850px] overflow-hidden">
+                <div className="absolute inset-0 islamic-pattern opacity-[0.03]" />
+                <div className="absolute top-0 inset-x-0 h-px bg-white/10" />
+                
+                {/* Decorative Elements */}
+                <div className="absolute -top-1/4 -right-1/4 w-full h-full border border-white/5 rounded-full" />
+                <div className="absolute -bottom-1/4 -left-1/4 w-full h-full border border-white/5 rounded-full" />
 
-                <div className="max-w-7xl mx-auto px-6 lg:px-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center relative z-10">
-                    <div className="lg:col-span-5 flex justify-center">
-                        {/* Prayer Card */}
-                        <div className="w-full max-w-[380px] bg-white text-dark-900 p-6 md:p-8 rounded-[2.5rem] shadow-2xl border border-dark-100 shadow-black/20">
-                            <div className="flex justify-between items-center border-b border-dark-100 pb-6 mb-6">
-                                <h3 className="font-serif text-2xl font-black text-primary-900">Horaires de Prière</h3>
+                <div className="max-w-7xl mx-auto px-6 lg:px-20 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-32 items-center relative z-10 w-full">
+                    <div className="lg:col-span-12 text-center mb-10">
+                        <span className="text-accent-gold font-black uppercase tracking-[0.5em] text-[10px] mb-4 block">Spiritualité & Rythme</span>
+                        <h2 className="text-5xl md:text-7xl font-serif font-black leading-none cinzel-title uppercase group inline-block">
+                             Horaires de <span className="text-accent-gold italic">Prière</span>
+                             <div className="h-2 w-0 group-hover:w-full bg-accent-gold/30 transition-all duration-1000 mt-2 rounded-full" />
+                        </h2>
+                    </div>
+
+                    <div className="lg:col-span-5 flex justify-center w-full">
+                        {/* Prayer Card - Super Precise & Premium */}
+                        <div className="w-full max-w-[420px] bg-white text-dark-900 p-8 md:p-10 rounded-[3rem] shadow-3xl shadow-black relative border-4 border-primary-950 -rotate-1 group hover:rotate-0 transition-all duration-700">
+                            <div className="absolute -top-6 -right-6 size-20 bg-accent-gold rounded-3xl flex items-center justify-center shadow-2xl rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                                <span className="material-symbols-outlined text-4xl text-primary-950">mosque</span>
+                            </div>
+
+                            <div className="flex justify-between items-end border-b-2 border-slate-50 pb-8 mb-8">
+                                <div>
+                                    <h3 className="font-serif text-3xl font-black text-primary-950 cinzel-title uppercase tracking-tighter">Québec</h3>
+                                    <p className="text-[11px] font-black text-accent-gold tracking-[0.2em] uppercase mt-1">QC, Canada</p>
+                                </div>
                                 <div className="text-right">
-                                    <div className="text-[10px] font-bold text-dark-400 uppercase tracking-widest">
+                                    <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">
                                         {new Intl.DateTimeFormat('fr-FR', { weekday: 'long' }).format(selectedDate)}
                                     </div>
-                                    <div className="text-lg font-black text-primary-900">
-                                        {selectedDate.getDate()} {new Intl.DateTimeFormat('fr-FR', { month: 'short' }).format(selectedDate)}
+                                    <div className="text-2xl font-black text-primary-950 font-serif">
+                                        {selectedDate.getDate()} {new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(selectedDate)}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Calendar Header with "Today" Button */}
-                            <div className="flex items-center justify-between mb-4">
-                                <span className="text-[9px] font-black uppercase tracking-widest text-dark-400 flex items-center gap-1">
-                                    <FiCalendar className="text-accent-gold" /> Calendrier
-                                </span>
-                                {selectedDate.toDateString() !== new Date().toDateString() && (
-                                    <button
-                                        onClick={resetToToday}
-                                        className="text-[9px] font-black uppercase tracking-widest text-primary-600 hover:text-accent-gold transition-colors flex items-center gap-1"
-                                    >
-                                        Aujourd&apos;hui <FiArrowRight className="text-[10px]" />
-                                    </button>
-                                )}
-                            </div>
-
-                            {/* Dynamic Date Carousel - Responsive & Scrollable */}
-                            <div className="flex items-center gap-2 md:gap-4 mb-8 w-full">
-                                <button onClick={() => navigateCalendar(-1)} className="size-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-primary-900 hover:bg-primary-50 transition-all active:scale-95 shrink-0 shadow-sm">
-                                    <FiChevronLeft />
+                            {/* Date Carousel - Minified & Sleek */}
+                            <div className="flex items-center gap-4 mb-10">
+                                <button onClick={() => navigateCalendar(-1)} className="size-11 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary-900 hover:bg-primary-900 hover:text-white transition-all active:scale-95 shrink-0 shadow-sm">
+                                    <FiChevronLeft size={20} />
                                 </button>
 
-                                <div className="flex-1 overflow-x-auto no-scrollbar py-1 px-1">
-                                    <div className="flex gap-3 justify-center min-w-max md:min-w-0">
+                                <div className="flex-1 overflow-x-auto no-scrollbar py-2">
+                                    <div className="flex gap-4 justify-center">
                                         {visibleDates.map((date, idx) => {
                                             const isActive = date.toDateString() === selectedDate.toDateString();
-                                            const isToday = date.toDateString() === new Date().toDateString();
                                             return (
                                                 <button
                                                     key={idx}
@@ -347,160 +361,185 @@ export default function SiteHomePage() {
                                                         setSelectedDate(date);
                                                         setCalendarBaseDate(new Date(date));
                                                     }}
-                                                    className={`flex flex-col items-center justify-center min-w-[58px] size-14 rounded-2xl transition-all duration-500 border relative shrink-0 ${isActive ? 'bg-primary-900 text-white border-primary-900 shadow-xl shadow-primary-900/40 z-10 scale-110' : 'bg-slate-50 text-dark-500 border-slate-100 hover:border-primary-200'}`}
+                                                    className={`flex flex-col items-center justify-center min-w-[64px] size-16 rounded-2xl transition-all duration-700 border relative shrink-0 ${isActive ? 'bg-primary-950 text-white border-primary-950 shadow-2xl scale-110 z-10' : 'bg-slate-50 text-slate-400 border-slate-100 opacity-60'}`}
                                                 >
-                                                    {isToday && !isActive && <span className="absolute -top-1 size-2 bg-accent-gold rounded-full border-2 border-white shadow-sm" />}
-                                                    <span className="text-[9px] font-bold uppercase opacity-60">
+                                                    <span className="text-[10px] font-black uppercase tracking-tighter">
                                                         {new Intl.DateTimeFormat('fr-FR', { weekday: 'short' }).format(date).replace('.', '')}
                                                     </span>
-                                                    <span className="text-lg font-black">{date.getDate()}</span>
+                                                    <span className="text-xl font-black">{date.getDate()}</span>
                                                 </button>
                                             );
                                         })}
                                     </div>
                                 </div>
 
-                                <button onClick={() => navigateCalendar(1)} className="size-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-primary-900 hover:bg-primary-50 transition-all active:scale-95 shrink-0 shadow-sm">
-                                    <FiChevronRight />
+                                <button onClick={() => navigateCalendar(1)} className="size-11 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary-900 hover:bg-primary-900 hover:text-white transition-all active:scale-95 shrink-0 shadow-sm">
+                                    <FiChevronRight size={20} />
                                 </button>
                             </div>
 
-                            {/* Times List */}
-                            <div className="space-y-2.5">
+                            {/* Times List - High Impact Styles */}
+                            <div className="space-y-3">
                                 {prayerTimes.length > 0 ? (
                                     prayerTimes.map((p, i) => (
-                                        <div key={i} className={`flex items-center justify-between p-3.5 rounded-2xl transition-all duration-300 ${p.active ? 'bg-primary-50 border-primary-200 border shadow-sm ring-1 ring-primary-500/20 scale-[1.02]' : 'bg-slate-50 border border-transparent hover:border-dark-100'}`}>
-                                            <div className="flex items-center gap-3">
-                                                {p.isRamadan && <span className="bg-primary-100 text-primary-700 text-[8px] font-black px-1.5 py-0.5 rounded-md uppercase border border-primary-200 shadow-sm shrink-0">Imsakiya</span>}
-                                                <span className={`font-bold shrink-0 ${p.active ? 'text-primary-800 font-black text-lg' : 'text-dark-700'}`}>
+                                        <div key={i} className={`flex items-center justify-between px-6 py-5 rounded-[1.5rem] transition-all duration-500 ${p.active ? 'bg-primary-950 text-white shadow-2xl ring-4 ring-primary-900/10 scale-[1.05] z-10 relative' : 'bg-slate-50/50 hover:bg-slate-50 text-dark-900'}`}>
+                                            <div className="flex flex-col">
+                                                <span className={`text-[10px] font-black uppercase tracking-widest ${p.active ? 'text-accent-gold' : 'text-slate-400'}`}>
+                                                    {p.isRamadan ? 'Ramadan Schedule' : 'Prière'}
+                                                </span>
+                                                <span className={`font-serif font-black text-xl cinzel-title uppercase tracking-tighter leading-tight ${p.active ? 'text-white' : 'text-primary-950'}`}>
                                                     {p.name === 'Maghrib' ? 'Iftar' : p.name}
                                                 </span>
                                             </div>
-                                            <div className="flex gap-6 md:gap-8 text-right shrink-0">
+                                            <div className="flex gap-10 text-right">
                                                 <div>
-                                                    <span className={`block text-[10px] uppercase font-bold ${p.active ? 'text-primary-500' : 'text-dark-400'}`}>Adhan</span>
-                                                    <span className={`font-mono text-sm ${p.active ? 'text-primary-900 font-bold' : 'text-dark-600'}`}>{p.time}</span>
+                                                    <span className={`block text-[9px] uppercase font-black tracking-widest mb-1 ${p.active ? 'text-accent-gold/60' : 'text-slate-300'}`}>Adhan</span>
+                                                    <span className={`font-mono text-base font-black ${p.active ? 'text-white' : 'text-slate-600'}`}>{p.time}</span>
                                                 </div>
                                                 <div>
-                                                    <span className={`block text-[10px] uppercase font-bold ${p.active ? 'text-primary-500' : 'text-dark-400'}`}>Iqama</span>
-                                                    <span className={`font-mono font-bold text-sm ${p.active ? 'text-primary-900 font-black' : 'text-dark-900'}`}>{p.iqama}</span>
+                                                    <span className={`block text-[9px] uppercase font-black tracking-widest mb-1 ${p.active ? 'text-accent-gold/60' : 'text-slate-300'}`}>Iqama</span>
+                                                    <span className={`font-mono text-base font-black ${p.active ? 'text-white' : 'text-primary-950 underline decoration-accent-gold decoration-2 underline-offset-4'}`}>{p.iqama}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="py-12 text-center text-dark-400 animate-pulse">Chargement des horaires...</div>
-                                )}
-                                <div className="mt-6 pt-4 border-t border-dark-100 flex justify-between items-center text-xs">
-                                    <div>
-                                        <span className="block font-bold text-dark-500 uppercase tracking-tighter">Jumu&apos;ah</span>
-                                        <span className="font-black text-primary-900">12:30 & 13:30</span>
+                                    <div className="py-20 text-center animate-pulse flex flex-col items-center gap-4">
+                                        <div className="size-12 rounded-full border-4 border-slate-100 border-t-primary-900 animate-spin" />
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Précision temporelle en cours...</p>
                                     </div>
-                                    <Link href="/site/horaires" className="font-bold text-primary-600 hover:text-primary-700 underline underline-offset-4 uppercase tracking-widest text-[9px]">Tout le mois</Link>
+                                )}
+                            </div>
+                            
+                            <div className="mt-10 pt-8 border-t border-slate-100 flex justify-between items-center group/footer cursor-pointer" onClick={() => router.push('/site/horaires')}>
+                                <div>
+                                    <span className="block font-black text-primary-950 text-xl cinzel-title uppercase tracking-tighter">Jumu&apos;ah</span>
+                                    <p className="text-[10px] font-black text-accent-gold tracking-[0.3em] uppercase opacity-80">Vendredi • Prière Collective</p>
+                                </div>
+                                <div className="text-right">
+                                    <span className="font-black text-primary-950 text-2xl font-mono">12:30</span>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Horaire Fixe</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="lg:col-span-7 py-8">
-                        <span className="text-accent-gold font-black uppercase tracking-widest text-[9px] md:text-[10px] mb-3 block">Identité & Valeurs</span>
-                        <h2 className="text-4xl lg:text-5xl font-serif font-black leading-[0.95] mb-6 uppercase tracking-tighter">Un centre de savoir et d&apos;éducation <span className="text-accent-gold italic">spirituelle.</span></h2>
-                        <div className="space-y-5 text-primary-100/80 text-base font-medium leading-relaxed max-w-xl">
-                            <p>Le Centre Culturel Islamique de Québec est un pilier de la communauté depuis plus de 35 ans. Notre mission est de favoriser l&apos;épanouissement spirituel et social.</p>
-                            <div className="grid grid-cols-2 gap-6 pt-8 mt-8 border-t border-primary-800/50">
-                                <div className="space-y-2">
-                                    <h4 className="text-white font-bold text-lg uppercase tracking-tight">École Coranique</h4>
-                                    <p className="text-xs leading-relaxed opacity-60">Mémorisation (Hifdh) et étude du Tajwid pour enfants et adultes avec des professeurs qualifiés.</p>
+                    <div className="lg:col-span-7 space-y-12">
+                        <div className="space-y-6">
+                            <span className="text-accent-gold font-black uppercase tracking-[0.5em] text-[10px]">Notre Vision</span>
+                            <h2 className="text-5xl lg:text-7xl font-serif font-black leading-[0.9] cinzel-title uppercase tracking-tighter">
+                                Une éducation <span className="text-accent-gold italic">pure</span>,<br />
+                                centrée sur le <span className="underline decoration-accent-gold/40 underline-offset-[12px]">Coran.</span>
+                            </h2>
+                            <p className="text-xl text-white/60 font-medium leading-relaxed max-w-2xl">
+                                Au-delà d&apos;un simple lieu de culte, le CCIQ est un pôle d&apos;excellence académique où chaque enfant et adulte peut s&apos;épanouir dans la mémorisation et la compréhension de la parole divine.
+                            </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-white/5">
+                            {[
+                                { title: 'Authenticité', desc: 'Des professeurs diplômés avec une chaîne de transmission (Ijaza) préservée.', icon: 'verified' },
+                                { title: 'Technologie', desc: 'Un suivi numérique moderne via notre plateforme exclusive QuranSchool SaaS.', icon: 'devices' }
+                            ].map((val, i) => (
+                                <div key={i} className="space-y-4 group">
+                                    <div className="size-12 rounded-2xl bg-accent-gold/10 border border-accent-gold/20 flex items-center justify-center text-accent-gold group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500">
+                                        <span className="material-symbols-outlined text-2xl">{val.icon}</span>
+                                    </div>
+                                    <h4 className="text-white font-black text-2xl cinzel-title uppercase tracking-tighter">{val.title}</h4>
+                                    <p className="text-sm text-white/40 leading-relaxed font-medium">{val.desc}</p>
                                 </div>
-                                <div className="space-y-2">
-                                    <h4 className="text-white font-bold text-lg uppercase tracking-tight">Vie Cultuelle</h4>
-                                    <p className="text-xs leading-relaxed opacity-60">Un espace ouvert pour les 5 prières, le recueillement et les célébrations religieuses.</p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Hub de Vie — Harmonized Colors */}
-            <section className="py-20 lg:py-24 bg-white dark:bg-dark-900 rounded-t-[3rem] relative z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.02)] -mt-10 border-t border-dark-100 dark:border-dark-800">
-                <div className="max-w-7xl mx-auto px-6 lg:px-20">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                        <div className="space-y-3">
-                            <h2 className="text-primary-900 dark:text-white font-serif text-4xl lg:text-6xl font-black uppercase leading-none tracking-tighter">Hub de <span className="text-accent-gold italic">Vie</span></h2>
-                            <p className="text-slate-500 dark:text-dark-400 max-w-xl text-base font-medium leading-relaxed">
-                                Actualités, services et ressources pour la communauté musulmane de Québec.
+            {/* Hub de Vie — Ultra Modern Cards */}
+            <section className="py-24 lg:py-40 bg-[#FDFCFB] rounded-t-[5rem] -mt-20 relative z-30 shadow-2xl border-t border-slate-100">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                    <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-12">
+                        <div className="space-y-4">
+                            <span className="text-accent-gold font-black uppercase tracking-[0.5em] text-[10px]">Vie Sociale</span>
+                            <h2 className="text-primary-950 font-serif text-6xl lg:text-[6.5rem] font-black uppercase leading-[0.85] tracking-tighter cinzel-title italic">
+                                Hub de <span className="text-primary-900 not-italic">Vie</span>
+                            </h2>
+                            <p className="text-slate-500 dark:text-dark-400 max-w-xl text-lg font-medium leading-relaxed border-l-4 border-accent-gold pl-8 md:mt-6">
+                                Connectez-vous aux projets, aux besoins et aux accomplissements de notre communauté vivante à Québec.
                             </p>
                         </div>
 
-                        <div className="flex bg-slate-50 dark:bg-dark-800 p-1.5 rounded-full border border-slate-200/50 dark:border-dark-700 overflow-x-auto no-scrollbar">
-                            {(['all', 'announcement', 'service', 'donation', 'volunteer'] as const).map((t) => (
+                        <div className="flex flex-wrap bg-white p-2 rounded-[2.5rem] border-2 border-slate-50 shadow-2xl shadow-primary-900/5">
+                            {(['all', 'announcement', 'event', 'service', 'donation', 'volunteer'] as const).map((t) => (
                                 <button
                                     key={t}
                                     onClick={() => setFilter(t)}
-                                    className={`px-4 sm:px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shrink-0 ${filter === t ? 'bg-primary-900 text-white shadow-lg shadow-primary-900/20' : 'text-primary-900/40 dark:text-dark-400 hover:text-primary-900 dark:hover:text-white'}`}
+                                    className={`px-8 py-4 rounded-[2rem] text-[11px] font-black uppercase tracking-widest transition-all duration-500 ${filter === t ? 'bg-primary-950 text-white shadow-2xl scale-105 z-10' : 'text-slate-400 hover:text-primary-950 hover:bg-slate-50'}`}
                                 >
-                                    {t === 'all' ? 'Tout' : t === 'announcement' ? 'Annonces' : t === 'service' ? 'Services' : t === 'donation' ? 'Dons' : 'Bénévolat'}
+                                    {t === 'all' ? 'Explorer' : t === 'announcement' ? 'Actualités' : t === 'event' ? 'Événements' : t === 'service' ? 'Services' : t === 'donation' ? 'Soutien' : 'Action'}
                                 </button>
                             ))}
                         </div>
                     </div>
 
                     {loading ? (
-                        <div className="grid md:grid-cols-3 gap-8 animate-pulse">
-                            {[1, 2, 3].map(i => <div key={i} className="h-64 bg-slate-100 dark:bg-dark-800 rounded-[2.5rem]" />)}
+                        <div className="grid md:grid-cols-3 gap-12">
+                            {[1, 2, 3].map(i => <div key={i} className="h-[450px] bg-slate-100 rounded-[3rem] animate-pulse" />)}
                         </div>
                     ) : (publicContent.filter(item => filter === 'all' || item.category === filter).length === 0) ? (
-                        <div className="text-center py-24 bg-slate-50 dark:bg-dark-800 rounded-[3rem] border border-dashed border-slate-200 dark:border-dark-700">
-                            <p className="text-slate-400 dark:text-dark-500 font-bold uppercase tracking-widest text-[10px]">Aucun contenu publié pour le moment</p>
+                        <div className="text-center py-32 bg-slate-50 rounded-[4rem] border-4 border-dashed border-slate-100 flex flex-col items-center justify-center">
+                            <span className="material-symbols-outlined text-[100px] text-slate-200 mb-6">inventory_2</span>
+                            <p className="text-slate-400 font-black uppercase tracking-[0.5em] text-[11px]">Prochainement disponible</p>
                         </div>
                     ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-14">
                             {publicContent
                                 .filter(item => filter === 'all' || item.category === filter)
                                 .map((item) => (
                                     <Link key={item.id} href={`/site/${item.slug}`}
-                                        className="group flex flex-col bg-white dark:bg-dark-800 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-dark-700 shadow-sm hover:shadow-2xl hover:shadow-primary-900/10 transition-all duration-500 hover:-translate-y-2 hover:border-accent-gold/30"
+                                        className="group relative flex flex-col bg-white rounded-[3rem] overflow-hidden border border-slate-100 shadow-xl hover:shadow-[0_40px_80px_rgba(6,78,59,0.12)] transition-all duration-700 hover:-translate-y-4 hover:border-accent-gold/40"
                                     >
-                                        <div className={`relative h-48 overflow-hidden bg-gradient-to-br ${getCategoryColor(item.category)} flex items-center justify-center`}>
-                                            {/* Subtle Islamic Motif Overlay */}
-                                            <div className="absolute inset-0 opacity-10 mix-blend-overlay" style={{ backgroundImage: "radial-gradient(circle at center, #ffffff 1px, transparent 1px)", backgroundSize: "16px 16px" }} />
-                                            <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)", backgroundSize: "40px 40px", backgroundPosition: "0 0, 20px 20px" }} />
-
-                                            <span className="material-symbols-outlined text-white/5 text-[140px] absolute -right-6 -bottom-6 rotate-12 select-none">
-                                                {getCategoryIcon(item.category)}
-                                            </span>
-                                            <div className="relative z-10 text-center scale-100">
-                                                <div className="size-16 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center mb-3 mx-auto border border-white/20 shadow-lg group-hover:bg-white/20 transition-colors duration-500">
-                                                    <span className="material-symbols-outlined text-white text-3xl block scale-90 group-hover:scale-110 transition-transform duration-700">
+                                        <div className={`relative h-64 overflow-hidden bg-gradient-to-br ${getCategoryColor(item.category)}`}>
+                                            <div className="absolute inset-0 zellige-pattern opacity-10" />
+                                            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="size-24 bg-white/10 backdrop-blur-2xl rounded-full flex items-center justify-center border border-white/20 shadow-2xl group-hover:scale-110 group-hover:bg-accent-gold transition-all duration-700">
+                                                    <span className="material-symbols-outlined text-white text-5xl group-hover:text-primary-950 transition-colors">
                                                         {getCategoryIcon(item.category)}
                                                     </span>
                                                 </div>
-                                                <span className="bg-accent-gold text-primary-950 px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.15em] shadow-lg">
+                                            </div>
+                                            {/* Category Ribbon */}
+                                            <div className="absolute top-8 left-8">
+                                                <span className="bg-primary-950/90 backdrop-blur-md text-accent-gold px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl border border-white/10">
                                                     {item.category}
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="p-8 space-y-4 flex flex-1 flex-col relative">
-                                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-accent-gold/20 to-transparent group-hover:via-accent-gold transition-all duration-700" />
 
-                                            <p className="text-accent-gold text-[9px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
-                                                <span className="w-6 h-[1px] bg-accent-gold/40" />
-                                                {new Date(item.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                            </p>
-                                            <h3 className="text-xl md:text-2xl font-serif font-black text-primary-950 dark:text-white leading-[1.1] flex-1 group-hover:text-primary-800 dark:group-hover:text-primary-400 transition-colors">
+                                        <div className="p-10 space-y-6 flex flex-1 flex-col">
+                                            <div className="flex items-center justify-between">
+                                                <div className="h-px flex-1 bg-slate-100" />
+                                                <span className="px-4 text-slate-300 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+                                                    {new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'short' }).format(new Date(item.createdAt))}
+                                                </span>
+                                                <div className="h-px flex-1 bg-slate-100" />
+                                            </div>
+
+                                            <h3 className="text-3xl font-serif font-black text-primary-950 leading-[0.95] cinzel-title uppercase group-hover:text-primary-800 transition-colors">
                                                 {item.title}
                                             </h3>
+
                                             {item.excerpt && (
-                                                <p className="text-sm text-slate-600 dark:text-dark-400 leading-relaxed line-clamp-3 font-medium">{item.excerpt}</p>
+                                                <p className="text-base text-slate-500 font-medium leading-relaxed line-clamp-3 opacity-80">{item.excerpt}</p>
                                             )}
-                                            <div className="pt-6 border-t border-slate-100 dark:border-dark-700 mt-auto flex items-center justify-between">
-                                                <span className="text-primary-900 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/link">
-                                                    Découvrir
-                                                    <FiArrowRight className="group-hover/link:translate-x-2 transition-transform duration-500" />
+
+                                            <div className="pt-8 mt-auto flex items-center justify-between group/action">
+                                                <span className="text-primary-950 text-[11px] font-black uppercase tracking-[0.2em] flex items-center gap-3">
+                                                    Consulter
+                                                    <FiArrowRight className="text-accent-gold group-hover/action:translate-x-3 transition-transform duration-500" />
                                                 </span>
-                                                <div className="size-7 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-accent-gold/50 group-hover:bg-accent-gold/5 transition-all">
-                                                    <FiArrowRight className="text-slate-300 text-xs group-hover:text-accent-gold transition-colors" />
+                                                <div className="size-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary-950 transition-all duration-500">
+                                                    <span className="material-symbols-outlined text-slate-300 group-hover:text-accent-gold">arrow_forward_ios</span>
                                                 </div>
                                             </div>
                                         </div>

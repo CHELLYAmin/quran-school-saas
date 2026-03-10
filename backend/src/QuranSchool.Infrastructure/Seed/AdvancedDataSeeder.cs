@@ -43,23 +43,25 @@ public class AdvancedDataSeeder
                 {
                     Id = Guid.NewGuid(),
                     SchoolId = schoolId,
-                    Title = "Campagne Ramadan : Paniers Alimentaires",
-                    Description = "Soutenez les familles nécessiteuses de notre communauté pendant ce mois béni. Chaque panier contient des denrées de base pour un mois.",
-                    TargetAmount = 15000,
-                    CurrentAmount = 4500,
-                    EndDate = DateTime.UtcNow.AddDays(20).ToUniversalTime(),
-                    IsPublished = true
+                    Title = "Fonds d'Urgence : Soutien aux Familles",
+                    Description = "Ce fonds permet d'apporter une aide immédiate aux familles de notre communauté faisant face à des difficultés financières imprévues (loyer, épicerie, frais médicaux).",
+                    TargetAmount = 25000,
+                    CurrentAmount = 8450,
+                    EndDate = DateTime.UtcNow.AddMonths(3).ToUniversalTime(),
+                    IsPublished = true,
+                    CreatedAt = DateTime.UtcNow.AddDays(-10)
                 },
                 new DonationCampaign
                 {
                     Id = Guid.NewGuid(),
                     SchoolId = schoolId,
-                    Title = "Extension de la Bibliothèque Islamique",
-                    Description = "Nous souhaitons acquérir de nouveaux ouvrages de Tafsir, Hadith et Fiqh pour enrichir notre bibliothèque scolaire.",
-                    TargetAmount = 5000,
-                    CurrentAmount = 1200,
-                    EndDate = DateTime.UtcNow.AddMonths(2).ToUniversalTime(),
-                    IsPublished = true
+                    Title = "Rénovation de la Salle de Classe 3",
+                    Description = "Nous souhaitons moderniser nos équipements pédagogiques : nouveaux bureaux ergonomiques, tableaux interactifs et peinture fraîche pour le confort de nos élèves.",
+                    TargetAmount = 12000,
+                    CurrentAmount = 3200,
+                    EndDate = DateTime.UtcNow.AddMonths(1).ToUniversalTime(),
+                    IsPublished = true,
+                    CreatedAt = DateTime.UtcNow.AddDays(-5)
                 }
             };
             _context.DonationCampaigns.AddRange(donationCampaigns);
@@ -70,25 +72,27 @@ public class AdvancedDataSeeder
                 {
                     Id = Guid.NewGuid(),
                     SchoolId = schoolId,
-                    Title = "Bénévolat : Accueil des nouveaux élèves",
-                    Description = "Nous cherchons des volontaires pour guider les parents et les élèves lors de la journée d'accueil.",
-                    RequiredVolunteers = 10,
-                    CurrentVolunteers = 3,
-                    Date = DateTime.UtcNow.AddDays(7).ToUniversalTime(),
+                    Title = "Accompagnateur Sortie Printemps",
+                    Description = "Nous cherchons 5 parents bénévoles pour accompagner les élèves de niveau 1 et 2 lors de notre sortie au Jardin Botanique.",
+                    RequiredVolunteers = 5,
+                    CurrentVolunteers = 2,
+                    Date = DateTime.UtcNow.AddDays(14).ToUniversalTime(),
                     IsPublished = true,
-                    Location = "Hall principal de l'école"
+                    Location = "Départ du CCIQ",
+                    CreatedAt = DateTime.UtcNow.AddDays(-2)
                 },
                 new VolunteerMission
                 {
                     Id = Guid.NewGuid(),
                     SchoolId = schoolId,
-                    Title = "Organisation de la Fête du Coran",
-                    Description = "Participez à la logistique et à l'organisation de notre événement annuel de remise des prix.",
-                    RequiredVolunteers = 15,
-                    CurrentVolunteers = 5,
-                    Date = DateTime.UtcNow.AddMonths(1).ToUniversalTime(),
+                    Title = "Maintenance des Espaces Verts",
+                    Description = "Participez à l'embellissement des abords de la mosquée pour l'arrivée du beau temps. Plantation de fleurs et nettoyage des plates-bandes.",
+                    RequiredVolunteers = 10,
+                    CurrentVolunteers = 4,
+                    Date = DateTime.UtcNow.AddDays(7).ToUniversalTime(),
                     IsPublished = true,
-                    Location = "Grande Salle Polyvalente"
+                    Location = "Extérieurs du CCIQ",
+                    CreatedAt = DateTime.UtcNow.AddDays(-1)
                 }
             };
             _context.VolunteerMissions.AddRange(volunteerMissions);

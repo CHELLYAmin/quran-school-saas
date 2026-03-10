@@ -79,43 +79,80 @@ export default function SiteSlugPage() {
     );
 
     return (
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 py-16 md:py-24">
-            {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-xs font-bold text-dark-400 uppercase tracking-widest mb-8">
-                <Link href="/site" className="hover:text-primary-600 transition-colors">Accueil</Link>
-                <span>/</span>
-                <span className="text-primary-600">{page.title}</span>
-            </div>
+        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans relative">
+            {/* Soft Background Contrast */}
+            <div className="absolute top-0 inset-x-0 h-[50vh] bg-primary-950 -z-10" />
+            <div className="absolute top-0 inset-x-0 h-[50vh] islamic-pattern opacity-5 -z-10" />
 
-            {/* Category Badge */}
-            <span className="text-[10px] font-bold text-accent-gold uppercase tracking-[0.3em] bg-accent-gold/10 px-4 py-1.5 rounded-full border border-accent-gold/20">
-                {page.category}
-            </span>
-
-            {/* Title */}
-            <h1 className="text-3xl md:text-5xl font-serif font-black text-dark-900 dark:text-white mt-6 leading-tight tracking-tight">
-                {page.title}
-            </h1>
-
-            {/* Date */}
-            <p className="text-sm text-dark-400 font-medium mt-4">
-                Publié le {new Date(page.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-            </p>
-
-            {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-accent-gold/40 via-accent-gold/10 to-transparent my-8"></div>
-
-            {/* Content */}
-            <article className="prose prose-lg dark:prose-invert max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: renderContent(page.content) }} />
-            </article>
-
-            {/* Back Link */}
-            <div className="mt-16 pt-8 border-t border-dark-100 dark:border-dark-800">
-                <Link href="/site" className="text-sm font-bold text-primary-600 uppercase tracking-widest hover:text-primary-700 transition-colors flex items-center gap-2">
-                    <span className="material-symbols-outlined text-lg">arrow_back</span>
-                    Retour à l&apos;accueil
+            <div className="max-w-4xl mx-auto px-6 lg:px-8 py-20 md:py-32 relative">
+                {/* Back Button - Fixed Floating Style */}
+                <Link href="/site" className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 hover:text-accent-gold uppercase tracking-[0.3em] transition-all mb-12 group">
+                    <span className="size-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
+                        <span className="material-symbols-outlined text-sm">arrow_back</span>
+                    </span>
+                    Retour au Hub
                 </Link>
+
+                {/* Content Card */}
+                <div className="bg-white dark:bg-dark-900 rounded-[3.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-slate-100 dark:border-dark-800 overflow-hidden">
+                    {/* Header Section */}
+                    <div className="p-8 md:p-16 border-b border-slate-50 dark:border-dark-800 bg-slate-50/50">
+                        <div className="flex flex-col items-center text-center space-y-6">
+                            <span className="bg-primary-950 text-accent-gold px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] shadow-xl border border-white/5">
+                                {page.category}
+                            </span>
+                            
+                            <h1 className="text-4xl md:text-6xl font-serif font-black text-primary-950 dark:text-white leading-[0.95] tracking-tighter cinzel-title uppercase">
+                                {page.title}
+                            </h1>
+                            
+                            <div className="flex items-center gap-4 pt-4">
+                                <div className="h-px w-8 bg-slate-200" />
+                                <p className="text-xs text-slate-400 font-black uppercase tracking-widest">
+                                    Mis à jour le {new Date(page.updatedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                </p>
+                                <div className="h-px w-8 bg-slate-200" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Article Content */}
+                    <div className="p-8 md:p-20">
+                        {page.excerpt && (
+                            <div className="mb-12 p-8 bg-primary-50 dark:bg-primary-900/10 rounded-[2rem] border-l-8 border-accent-gold">
+                                <p className="text-xl text-primary-900 dark:text-primary-100 font-medium italic leading-relaxed">
+                                    &ldquo;{page.excerpt}&rdquo;
+                                </p>
+                            </div>
+                        )}
+
+                        <article className="prose prose-xl prose-slate dark:prose-invert max-w-none 
+                            prose-headings:font-serif prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tighter prose-headings:cinzel-title 
+                            prose-h2:text-4xl prose-h2:text-primary-950 prose-h2:mt-16 prose-h2:mb-6
+                            prose-p:text-slate-600 prose-p:leading-[1.8] prose-p:mb-8
+                            prose-strong:text-primary-950 prose-strong:font-black
+                            prose-li:text-slate-600 prose-li:font-medium
+                            prose-img:rounded-[2rem] prose-img:shadow-2xl">
+                            <div dangerouslySetInnerHTML={{ __html: renderContent(page.content) }} />
+                        </article>
+
+                        {/* Social Share / Interaction Mockup */}
+                        <div className="mt-20 pt-12 border-t border-slate-100 flex flex-col items-center gap-8">
+                            <div className="size-16 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold animate-bounce">
+                                <span className="material-symbols-outlined">menu_book</span>
+                            </div>
+                            <p className="text-sm text-slate-400 font-black uppercase tracking-[0.4em]">Fin de la lecture</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer Navigation */}
+                <div className="mt-16 flex justify-center">
+                    <Link href="/site" className="inline-flex items-center gap-4 px-10 py-5 bg-primary-950 text-white rounded-full font-black uppercase tracking-widest text-xs shadow-2xl hover:bg-black transition-all hover:-translate-y-1">
+                        <span className="material-symbols-outlined text-sm">home</span>
+                        Accueil du Centre
+                    </Link>
+                </div>
             </div>
         </div>
     );

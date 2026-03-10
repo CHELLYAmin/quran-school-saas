@@ -114,8 +114,8 @@ using (var scope = app.Services.CreateScope())
         
         if (seedReset)
         {
-            Console.WriteLine(">>> Resetting database (Dropping & Recreating)...");
-            db.Database.EnsureDeleted();
+            Console.WriteLine(">>> Resetting database (Bypassing ensure deleted for RDS)...");
+            // db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             Console.WriteLine(">>> Database reset finished.");
         }
@@ -141,6 +141,30 @@ using (var scope = app.Services.CreateScope())
         if (seed)
         {
             Console.WriteLine(">>> Starting seeding...");
+            
+            // Direct Hub de Vie Seeding for RDS (to be safe)
+            if (!await db.CmsPages.AnyAsync(p => p.Title.Contains("9e Commémoration")))
+            {
+                Console.WriteLine(">>> Seeding Hub de Vie directly...");
+                var schoolId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+                var hubPages = new List<CmsPage>
+                {
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "9e Commémoration — 29 Janvier 2026", Slug = "commemoration-2026", Category = "announcement", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Annonce du début de Ramadan 1447 / 2026", Slug = "annonce-ramadan-2026", Category = "announcement", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Le Centre — MISSION ET OBJECTIFS", Slug = "centre", Category = "about", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Services Funéraires", Slug = "services-funeraires", Category = "service", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Cimetière Islamique de Québec", Slug = "cimetiere", Category = "service", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Ensemble pour notre Mosquée", Slug = "ensemble-mosquee", Category = "donation", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Programme Jeunesse", Slug = "programme-jeunesse", Category = "service", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Inscriptions École Coranique 2026", Slug = "ecole-coranique-inscriptions", Category = "announcement", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Conférence Mensuelle : La Famille en Islam", Slug = "conference-mensuelle", Category = "islam", IsPublished = true },
+                    new CmsPage { Id = Guid.NewGuid(), SchoolId = schoolId, Title = "Aide aux Devoirs et Soutien Scolaire", Slug = "soutien-scolaire", Category = "volunteer", IsPublished = true }
+                };
+                db.CmsPages.AddRange(hubPages);
+                await db.SaveChangesAsync();
+                Console.WriteLine($">>> Inlined {hubPages.Count} CMS pages.");
+            }
+
             var seeder = new AdvancedDataSeeder(db);
             await seeder.SeedLargeDatasetAsync();
             Console.WriteLine(">>> Seeding completed.");

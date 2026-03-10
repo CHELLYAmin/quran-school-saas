@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { FiChevronLeft } from 'react-icons/fi';
 
 interface PrayerTime {
     name: string;
@@ -84,55 +85,99 @@ export default function SiteHorairesPage() {
     );
 
     return (
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 py-16 md:py-24">
-            {/* Header */}
-            <div className="text-center mb-12">
-                <p className="text-accent-gold text-xs font-bold uppercase tracking-[0.3em] mb-4">مواقيت الصلاة</p>
-                <h1 className="text-3xl md:text-5xl font-serif font-black text-dark-900 dark:text-white tracking-tight">Horaires de Prière</h1>
-                <p className="text-dark-500 mt-4 text-lg capitalize">{dateStr}</p>
-                {hijriDate && <p className="text-accent-gold text-sm font-bold mt-1">{hijriDate}</p>}
-            </div>
+        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans relative overflow-hidden">
+            {/* Background Decorative Elements */}
+            <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-primary-900/5 to-transparent -z-10" />
+            <div className="absolute -top-24 -right-24 size-[500px] border border-primary-900/5 rounded-full -z-10" />
+            
+            <div className="max-w-4xl mx-auto px-6 lg:px-8 py-20 md:py-32 relative">
+                {/* Header */}
+                <div className="text-center mb-20 space-y-4">
+                    <span className="text-accent-gold text-[10px] font-black uppercase tracking-[0.5em] mb-4 block">Rythme Spirituel</span>
+                    <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 dark:text-white tracking-tighter cinzel-title uppercase">
+                        Horaires <br className="md:hidden" /> de <span className="text-accent-gold italic">Prière</span>
+                    </h1>
+                    
+                    <div className="flex flex-col items-center gap-2 pt-8">
+                        <div className="h-px w-24 bg-accent-gold/30 mb-2" />
+                        <p className="text-slate-500 text-xl font-medium capitalize tracking-tight">{dateStr}</p>
+                        {hijriDate && (
+                            <p className="text-accent-gold text-sm font-black tracking-widest uppercase opacity-80">{hijriDate}</p>
+                        )}
+                    </div>
+                </div>
 
-            {/* Prayer Cards */}
-            {prayers.length === 0 ? (
-                <p className="text-dark-400 text-center py-12">Les horaires ne sont pas encore configurés. Veuillez configurer les paramètres de la mosquée dans le tableau de bord.</p>
-            ) : (
-                <div className="grid gap-4">
-                    {prayers.map(p => (
-                        <div key={p.name}
-                            className={`flex items-center justify-between p-6 rounded-3xl border transition-all ${p.isNext
-                                    ? 'bg-primary-900 text-white border-primary-800 shadow-xl shadow-primary-900/20 scale-[1.02]'
-                                    : p.isPast
-                                        ? 'bg-dark-50 dark:bg-dark-800 text-dark-400 border-dark-100 dark:border-dark-700'
-                                        : 'bg-white dark:bg-dark-900 text-dark-900 dark:text-white border-dark-100 dark:border-dark-800'
-                                }`}
-                        >
-                            <div className="flex items-center gap-4">
-                                {p.isNext && (
-                                    <div className="size-3 bg-accent-gold rounded-full animate-pulse"></div>
-                                )}
-                                <div>
-                                    <p className={`text-lg font-bold ${p.isNext ? 'text-white' : ''}`}>{p.name}</p>
-                                    <p className={`text-sm ${p.isNext ? 'text-pearl/70' : 'text-dark-400'}`}>{p.nameAr}</p>
+                {/* Prayer Cards Container */}
+                {prayers.length === 0 ? (
+                    <div className="text-center py-20 bg-white rounded-[3rem] border-4 border-dashed border-slate-100 flex flex-col items-center gap-6 shadow-xl">
+                        <span className="material-symbols-outlined text-6xl text-slate-200">schedule</span>
+                        <p className="text-slate-400 font-black uppercase tracking-widest text-xs max-w-xs mx-auto">Les horaires ne sont pas encore configurés pour cette période.</p>
+                    </div>
+                ) : (
+                    <div className="grid gap-6">
+                        {prayers.map(p => (
+                            <div key={p.name}
+                                className={`group flex items-center justify-between px-8 py-7 rounded-[2.5rem] border-2 transition-all duration-500 relative overflow-hidden ${p.isNext
+                                        ? 'bg-primary-950 text-white border-primary-900 shadow-2xl scale-[1.05] z-10'
+                                        : p.isPast
+                                            ? 'bg-white/40 grayscale opacity-60 border-slate-100'
+                                            : 'bg-white text-primary-950 border-slate-50 shadow-xl hover:border-accent-gold/30 hover:-translate-y-1'
+                                    }`}
+                            >
+                                {p.isNext && <div className="absolute inset-0 zellige-pattern opacity-5" />}
+                                
+                                <div className="flex items-center gap-6 relative z-10">
+                                    <div className={`size-14 rounded-2xl flex items-center justify-center transition-colors duration-500 ${p.isNext ? 'bg-accent-gold text-primary-950' : 'bg-slate-50 text-slate-400 group-hover:bg-accent-gold/10 group-hover:text-accent-gold'}`}>
+                                        <span className="material-symbols-outlined text-3xl">
+                                            {p.name === 'Sunrise' ? 'wb_sunny' : 'mosque'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h3 className={`text-2xl font-serif font-black cinzel-title uppercase tracking-tighter ${p.isNext ? 'text-white' : 'text-primary-950'}`}>
+                                            {p.name}
+                                        </h3>
+                                        <p className={`text-[11px] font-black tracking-[0.2em] uppercase ${p.isNext ? 'text-accent-gold' : 'text-slate-400'}`}>
+                                            {p.nameAr}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="text-right relative z-10">
+                                    <p className={`text-4xl font-mono font-black tracking-tighter ${p.isNext ? 'text-accent-gold' : 'text-primary-900'}`}>
+                                        {p.time}
+                                    </p>
+                                    {p.isNext && (
+                                        <span className="text-[9px] font-black uppercase tracking-widest bg-white/10 px-3 py-1 rounded-full border border-white/10 animate-pulse">
+                                            Prochaine Prière
+                                        </span>
+                                    )}
                                 </div>
                             </div>
-                            <p className={`text-2xl font-extrabold font-mono ${p.isNext ? 'text-accent-gold' : ''}`}>{p.time}</p>
+                        ))}
+                    </div>
+                )}
+
+                {/* Footer Note */}
+                <div className="mt-16 p-10 bg-white rounded-[3rem] border border-slate-100 shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-2 h-full bg-accent-gold opacity-30 group-hover:opacity-100 transition-opacity" />
+                    <div className="flex flex-col md:flex-row items-center gap-8">
+                        <div className="size-16 rounded-full bg-slate-50 flex items-center justify-center text-accent-gold shrink-0">
+                            <span className="material-symbols-outlined text-3xl">info</span>
                         </div>
-                    ))}
+                        <p className="text-lg text-slate-500 font-medium leading-relaxed text-center md:text-left">
+                            Ces horaires sont extraits directement des données géographiques du centre pour garantir une précision absolue. Les horaires d&apos;Iqama peuvent varier de quelques minutes.
+                        </p>
+                    </div>
                 </div>
-            )}
 
-            {/* Note */}
-            <div className="mt-10 p-6 bg-accent-gold/5 border border-accent-gold/20 rounded-3xl text-center">
-                <p className="text-sm text-dark-600 dark:text-dark-300">
-                    Les horaires sont calculés automatiquement selon les coordonnées de la mosquée.
-                </p>
-            </div>
-
-            <div className="mt-8 text-center">
-                <Link href="/site" className="text-sm font-bold text-primary-600 uppercase tracking-widest hover:text-primary-700 transition-colors">
-                    ← Retour à l&apos;accueil
-                </Link>
+                <div className="mt-16 text-center">
+                    <Link href="/site" className="group inline-flex items-center gap-3 text-[11px] font-black text-primary-900 uppercase tracking-[0.3em] hover:text-accent-gold transition-all">
+                        <span className="size-10 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
+                             <FiChevronLeft className="group-hover:-translate-x-1 transition-transform" />
+                        </span>
+                        Retour au Hub de Vie
+                    </Link>
+                </div>
             </div>
         </div>
     );
