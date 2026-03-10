@@ -60,9 +60,19 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
     - name: Deploy to Amazon App Runner
-      uses: awslabs/amazon-app-runner-deploy@main
-      with:
-        service: ${{ secrets.APP_RUNNER_SERVICE_NAME }}
-        image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
-        region: ${{ secrets.AWS_REGION }}
-        access-role-arn: ${{ secrets.AWS_ROLE_ARN }}
+      run: |
+        echo "Fetching Service ARN for: ${{ secrets.APP_RUNNER_SERVICE_NAME }}"
+        SERVICE_ARN=$(aws apprunner list-services --region ${{ secrets.AWS_REGION }} --query "ServiceSummaryList[?ServiceName=='${{ secrets.APP_RUNNER_SERVICE_NAME }}'].ServiceArn" --output text)
+        
+        if [ -z "$SERVICE_ARN" ] || [ "$SERVICE_ARN" == "None" ]; then
+          echo "Error: App Runner service '${{ secrets.APP_RUNNER_SERVICE_NAME }}' not found in region ${{ secrets.AWS_REGION }}."
+          exit 1
+        fi
+        
+        echo "Service ARN: $SERVICE_ARN"
+        echo "Updating service with image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}"
+        
+        aws apprunner update-service \
+          --region ${{ secrets.AWS_REGION }} \
+          --service-arn $SERVICE_ARN \
+          --source-configuration "ImageRepository={ImageIdentifier=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }},ImageRepositoryType=ECR}"
