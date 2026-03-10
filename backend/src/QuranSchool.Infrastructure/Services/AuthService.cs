@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using QuranSchool.Application.DTOs.Auth;
 using QuranSchool.Application.Interfaces;
 using QuranSchool.Domain.Entities;
