@@ -36,9 +36,10 @@ export default function RegisterPage() {
                 password: formData.password,
                 firstName,
                 lastName,
-                phone: formData.phone,
-                role: 'Student' as any, // Default role for public registration
-                schoolId: '1' // Default school ID
+                role: 'Student',
+                profileType: 1, // Student
+                profileId: '00000000-0000-0000-0000-000000000000',
+                schoolId: '00000000-0000-0000-0000-000000000000' // Default / SaaS School
             });
             router.push('/login?registered=true');
         } catch (err: any) {

@@ -59,7 +59,16 @@ export enum ProgressStatus {
 
 // === Auth & Users ===
 export interface LoginRequest { email: string; password: string; }
-export interface RegisterRequest { email: string; password: string; firstName: string; lastName: string; role: UserRole; isExaminer?: boolean; schoolId: string; phone?: string; }
+export interface RegisterRequest {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    role: string;
+    profileType: number;
+    profileId: string;
+    schoolId: string;
+}
 export interface AuthResponse {
     token: string;
     refreshToken: string;
