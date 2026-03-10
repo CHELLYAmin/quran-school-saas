@@ -60,7 +60,7 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
     - name: Deploy to Amazon App Runner
-      uses: awslabs/amazon-apprunner-deploy@v1
+      uses: awslabs/amazon-app-runner-deploy@v1
       with:
         service: ${{ secrets.APP_RUNNER_SERVICE_NAME }}
         image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
