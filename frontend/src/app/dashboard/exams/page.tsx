@@ -1,6 +1,6 @@
 'use client';
-import PageSkeleton from '@/components/ui/PageSkeleton';
 
+import PageSkeleton from '@/components/ui/PageSkeleton';
 import { useEffect, useState, useMemo } from 'react';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
@@ -18,8 +18,6 @@ import toast from 'react-hot-toast';
 // ═══════════════════════════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════════════════════════
-type TypeFilter = 'all' | ExamType;
-type StatusFilter = 'all' | ExamStatus;
 
 const TYPE_CFG: Record<ExamType, { label: string; bg: string; text: string }> = {
     [ExamType.Hifdh]: { label: 'Hifdh', bg: 'bg-indigo-100 dark:bg-indigo-900/30', text: 'text-indigo-700 dark:text-indigo-300' },
@@ -62,8 +60,8 @@ export default function ExamsPage() {
 
     // Filters
     const [searchQuery, setSearchQuery] = useState('');
-    const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
-    const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+    const [typeFilter, setTypeFilter] = useState<'all' | 'Hifdh' | 'Tajwid' | 'Revision' | 'Reading'>('all');
+    const [statusFilter, setStatusFilter] = useState<'all' | 'InProgress' | 'Completed' | 'Cancelled' | 'Planned'>('all');
 
     // Create modal
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -218,12 +216,12 @@ export default function ExamsPage() {
                         placeholder="Rechercher par titre, élève, sourate…"
                         className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-dark-200 dark:border-dark-700 bg-white dark:bg-dark-900 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-dark-900 dark:text-white placeholder:text-dark-300" />
                 </div>
-                <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as TypeFilter)}
+                <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as any)}
                     className="px-3 py-2.5 rounded-xl border border-dark-200 dark:border-dark-700 bg-white dark:bg-dark-900 text-sm text-dark-700 dark:text-dark-200 min-w-[140px]">
                     <option value="all">Tous les types</option>
                     {Object.entries(TYPE_CFG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                 </select>
-                <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as StatusFilter)}
+                <select value={statusFilter} onChange={e => setStatusFilter(e.target.value as any)}
                     className="px-3 py-2.5 rounded-xl border border-dark-200 dark:border-dark-700 bg-white dark:bg-dark-900 text-sm text-dark-700 dark:text-dark-200 min-w-[140px]">
                     <option value="all">Tous les statuts</option>
                     {Object.entries(STATUS_CFG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}

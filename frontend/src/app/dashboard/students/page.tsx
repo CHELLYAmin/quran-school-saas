@@ -5,7 +5,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
 import { studentApi, groupApi, parentApi } from '@/lib/api/client';
-import { StudentListResponse, GroupResponse, UserResponse } from '@/types';
+import { StudentListResponse, GroupResponse } from '@/types';
+import { ParentResponse } from '@/types/parent';
 import {
     FiPlus, FiSearch, FiEdit2, FiTrash2, FiEye, FiFilter, FiBookOpen,
     FiUsers, FiX, FiCheck, FiChevronRight, FiDownload,
@@ -68,7 +69,7 @@ export default function StudentsPage() {
 
     const [students, setStudents] = useState<EnrichedStudent[]>([]);
     const [groups, setGroups] = useState<GroupResponse[]>([]);
-    const [parents, setParents] = useState<UserResponse[]>([]);
+    const [parents, setParents] = useState<ParentResponse[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Filters
@@ -542,7 +543,7 @@ export default function StudentsPage() {
                                     <label className="text-xs font-bold uppercase tracking-widest text-dark-500 mb-2 block pl-2">Parent</label>
                                     <select value={form.parentId} onChange={e => setForm({ ...form, parentId: e.target.value })} className="w-full bg-dark-50 dark:bg-dark-950 border-2 border-transparent focus:border-primary-500 rounded-2xl px-6 py-4 outline-none font-medium transition-all text-dark-900 dark:text-white appearance-none cursor-pointer">
                                         <option value="">Sélectionner un parent</option>
-                                        {parents.map((p: UserResponse) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
+                                        {parents.map((p: ParentResponse) => <option key={p.id} value={p.id}>{p.fullName}</option>)}
                                     </select>
                                 </div>
                             </div>

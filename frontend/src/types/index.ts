@@ -117,7 +117,21 @@ export interface StudentResponse {
     notes?: string;
     createdAt: string;
 }
-export interface StudentListResponse { id: string; fullName: string; groupId?: string; groupName?: string; isActive: boolean; enrollmentDate: string; levelName?: string; levelOrder?: number; currentLevel?: string; }
+export interface StudentListResponse { 
+    id: string; 
+    fullName: string; 
+    email?: string;
+    groupId?: string; 
+    groupName?: string; 
+    isActive: boolean; 
+    enrollmentDate: string; 
+    levelName?: string; 
+    levelOrder?: number; 
+    currentLevel?: string;
+    avgScore?: number;
+    attendanceRate?: number;
+    lastSessionNote?: string;
+}
 
 // === Group ===
 export interface GroupResponse { id: string; name: string; level?: string; levelId?: string; levelName?: string; levelOrder?: number; levelStartSurah?: number; levelEndSurah?: number; maxCapacity: number; description?: string; isActive: boolean; teacherId?: string; teacherName?: string; studentCount: number; createdAt: string; }
@@ -191,7 +205,7 @@ export interface WordAnnotationDetail {
 export interface AttendanceResponse { id: string; studentId: string; studentName: string; date: string; status: AttendanceStatus; notes?: string; checkInTime?: string; }
 
 // === Payment ===
-export interface PaymentResponse { id: string; studentId: string; studentName: string; amount: number; dueDate: string; paidDate?: string; status: PaymentStatus; description?: string; transactionReference?: string; discount?: number; discountReason?: string; createdAt: string; }
+export interface PaymentApiResponse { id: string; studentId: string; studentName: string; amount: number; dueDate: string; paidDate?: string; status: PaymentStatus; description?: string; transactionReference?: string; discount?: number; discountReason?: string; createdAt: string; }
 export interface RevenueStatsResponse { totalRevenue: number; monthlyRevenue: number; totalPayments: number; paidCount: number; overdueCount: number; pendingCount: number; }
 
 // === Progress ===

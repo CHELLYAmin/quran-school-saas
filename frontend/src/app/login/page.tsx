@@ -19,7 +19,7 @@ export default function LoginPage() {
         setError('');
         setLoading(true);
         try {
-            const { data } = await authApi.login(email, password);
+            const { data } = await authApi.login({ email, password });
             login(data);
             router.push('/dashboard');
         } catch (err: any) {

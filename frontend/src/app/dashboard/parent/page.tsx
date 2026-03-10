@@ -8,16 +8,7 @@ import { format } from 'date-fns';
 import { FaUser, FaCheckCircle, FaBook, FaCalendarAlt, FaClipboardList, FaFileAlt, FaChartLine, FaFileInvoiceDollar } from 'react-icons/fa';
 import Link from 'next/link';
 import { QualityTrendChart, MissionProgressChart } from '@/components/analytics/AnalyticsCharts';
-
-// Move to types
-interface PaymentItem {
-    id: string;
-    studentName: string;
-    amount: number;
-    description: string;
-    dueDate: string;
-    status: 'Pending' | 'Paid';
-}
+import { PaymentApiResponse, PaymentStatus } from '@/types';
 
 // Move to types
 interface ChildDashboardItem {
@@ -51,7 +42,7 @@ export default function ParentDashboard() {
     const [children, setChildren] = useState<ChildDashboardItem[]>([]);
     const [selectedChild, setSelectedChild] = useState<ChildDashboardItem | null>(null);
     const [analytics, setAnalytics] = useState<ChildAnalytics | null>(null);
-    const [payments, setPayments] = useState<PaymentItem[]>([]);
+    const [payments, setPayments] = useState<PaymentApiResponse[]>([]);
     const [loading, setLoading] = useState(true);
     const [analyticsLoading, setAnalyticsLoading] = useState(false);
 
@@ -356,7 +347,7 @@ export default function ParentDashboard() {
                                     <p className="text-dark-500 font-bold">Aucune facture en attente.</p>
                                 </div>
                             ) : (
-                                payments.slice(0, 3).map((p: PaymentItem) => (
+                                payments.slice(0, 3).map((p: PaymentApiResponse) => (
                                     <div key={p.id} className="flex justify-between items-center bg-dark-50 dark:bg-dark-800/50 p-4 rounded-3xl border border-transparent hover:border-dark-200 dark:hover:border-dark-700 transition-colors">
                                         <div>
                                             <p className="font-bold text-dark-900 dark:text-white text-sm">{p.studentName}</p>
@@ -366,9 +357,9 @@ export default function ParentDashboard() {
                                             <p className="font-extrabold text-primary-600 dark:text-primary-400">{p.amount} €</p>
                                             <Link
                                                 href={`/dashboard/parent/payments/${p.id}`}
-                                                className={`text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block ${p.status === 'Paid' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700 animate-pulse'}`}
+                                                className={`text-[10px] font-bold px-2 py-1 rounded-lg mt-1 inline-block ${p.status === PaymentStatus.Paid ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700 animate-pulse'}`}
                                             >
-                                                {p.status === 'Paid' ? 'Réglé' : 'À Payer'}
+                                                {p.status === PaymentStatus.Paid ? 'Réglé' : 'À Payer'}
                                             </Link>
                                         </div>
                                     </div>

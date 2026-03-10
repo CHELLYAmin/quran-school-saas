@@ -1,11 +1,15 @@
+'use client';
 import axios from 'axios';
 import { 
     LoginRequest, RegisterRequest, UserResponse, SchoolResponse, 
     StudentResponse, StudentListResponse, GroupResponse, LevelResponse,
-    MessageResponse, NotificationResponse, ExamResponse, PaymentResponse,
+    MessageResponse, NotificationResponse, ExamResponse, PaymentApiResponse,
     ProgressResponse, ScheduleResponse, StudentMissionResponse,
+    SurahResponse, SessionResponse, HomeworkResponse, HomeworkAssignmentResponse,
     CreateManualMissionRequest, ProvideMissionFeedbackRequest
 } from '@/types';
+import { RoleResponse } from '@/types/role';
+import { ParentResponse, CreateParentRequest, UpdateParentRequest } from '@/types/parent';
 
 const ROOT_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
@@ -16,84 +20,57 @@ const api = axios.create({
     },
 });
 
-export default api;
-
-api.interceptors.request.use(async (config) => {
-    if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 });
 
-api.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-        const originalRequest = error.config;
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-            try {
-                const token = localStorage.getItem('token');
-                const refreshToken = localStorage.getItem('refreshToken');
-                const { data } = await axios.post(`${ROOT_URL}/api/auth/refresh`, { token, refreshToken });
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('refreshToken', data.refreshToken);
-                originalRequest.headers.Authorization = `Bearer ${data.token}`;
-                return api(originalRequest);
-            } catch (refreshError) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('refreshToken');
-                return Promise.reject(refreshError);
-            }
-        }
-        return Promise.reject(error);
-    }
-);
-
 export const authApi = {
-    login: (email: string, password: string) => api.post('/api/auth/login', { email, password }),
+    login: (data: LoginRequest) => api.post('/api/auth/login', data),
     register: (data: RegisterRequest) => api.post('/api/auth/register', data),
-    logout: () => api.post('/api/auth/logout'),
-};
-
-export const dashboardApi = {
-    getStudent: (id: string) => api.get(`/api/dashboard/student/${id}`),
-    getParent: (id: string) => api.get(`/api/dashboard/parent/${id}`),
-    getAdmin: () => api.get('/api/dashboard/admin'),
-    getTeacher: (id: string) => api.get(`/api/dashboard/teacher/${id}`),
-};
-
-export const teacherApi = {
-    getAll: () => api.get<UserResponse[]>('/api/teacher'),
-    getById: (id: string) => api.get<UserResponse>(`/api/teacher/${id}`),
-    create: (data: any) => api.post('/api/teacher', data),
-    update: (id: string, data: any) => api.put(`/api/teacher/${id}`, data),
-    delete: (id: string) => api.delete(`/api/teacher/${id}`),
-};
-
-export const adminApi = {
-    getStats: () => api.get('/api/admin/stats'),
+    me: () => api.get<UserResponse>('/api/auth/me'),
 };
 
 export const userApi = {
     getAll: () => api.get<UserResponse[]>('/api/user'),
+    getTeachers: () => api.get<UserResponse[]>('/api/user/teachers'),
+    getByRoles: (roles: string[]) => api.post<UserResponse[]>('/api/user/by-roles', { roles }),
     getById: (id: string) => api.get<UserResponse>(`/api/user/${id}`),
-    getByRoles: (roles: string[]) => api.get<UserResponse[]>(`/api/user/roles?roles=${roles.join(',')}`),
-    create: (data: any) => api.post('/api/user', data),
+    create: (data: any) => api.post<UserResponse>('/api/user', data),
     update: (id: string, data: any) => api.put(`/api/user/${id}`, data),
-    updateRoles: (id: string, roles: string[]) => api.put(`/api/user/${id}/role`, roles),
+    updateRoles: (id: string, roleNames: string[]) => api.put(`/api/user/${id}/roles`, { roleNames }),
     delete: (id: string) => api.delete(`/api/user/${id}`),
 };
 
+export const schoolApi = {
+    get: () => api.get<SchoolResponse>('/api/school'),
+    update: (data: any) => api.put('/api/school', data),
+};
+
 export const roleApi = {
-    getAll: () => api.get('/api/role'),
+    getAll: () => api.get<RoleResponse[]>('/api/role'),
+    getById: (id: string) => api.get<RoleResponse>(`/api/role/${id}`),
     getAllPermissions: () => api.get('/api/role/permissions'),
     create: (data: any) => api.post('/api/role', data),
     update: (id: string, data: any) => api.put(`/api/role/${id}`, data),
+    assignPermissions: (id: string, data: any) => api.put(`/api/role/${id}/permissions`, data),
     delete: (id: string) => api.delete(`/api/role/${id}`),
-    assignPermissions: (id: string, data: any) => api.post(`/api/role/${id}/permissions`, data),
+};
+
+export const mosqueApi = {
+    getSettings: () => api.get('/api/MosqueSettings'),
+    updateSettings: (data: any) => api.put('/api/MosqueSettings', data),
+};
+
+export const parentApi = {
+    getAll: () => api.get<ParentResponse[]>('/api/parent'),
+    getById: (id: string) => api.get<ParentResponse>(`/api/parent/${id}`),
+    create: (data: CreateParentRequest) => api.post('/api/parent', data),
+    update: (id: string, data: UpdateParentRequest) => api.put(`/api/parent/${id}`, data),
+    delete: (id: string) => api.delete(`/api/parent/${id}`),
 };
 
 export const studentApi = {
@@ -105,47 +82,12 @@ export const studentApi = {
     delete: (id: string) => api.delete(`/api/student/${id}`),
 };
 
-export const parentApi = {
-    getAll: () => api.get<UserResponse[]>('/api/parent'),
-    getById: (id: string) => api.get<UserResponse>(`/api/parent/${id}`),
-    create: (data: any) => api.post('/api/parent', data),
-    update: (id: string, data: any) => api.put(`/api/parent/${id}`, data),
-    delete: (id: string) => api.delete(`/api/parent/${id}`),
-};
-
 export const groupApi = {
     getAll: () => api.get<GroupResponse[]>('/api/group'),
     getById: (id: string) => api.get<GroupResponse>(`/api/group/${id}`),
     create: (data: any) => api.post('/api/group', data),
     update: (id: string, data: any) => api.put(`/api/group/${id}`, data),
     delete: (id: string) => api.delete(`/api/group/${id}`),
-};
-
-export const scheduleApi = {
-    getAll: () => api.get<ScheduleResponse[]>('/api/schedule'),
-    create: (data: any) => api.post('/api/schedule', data),
-};
-
-export const attendanceApi = {
-    getBySession: (sessionId: string) => api.get<any[]>(`/api/attendance/session/${sessionId}`),
-    getByDate: (date: string) => api.get<any[]>(`/api/attendance/date/${date}`),
-    submit: (data: any) => api.post('/api/attendance', data),
-    bulkMark: (data: any) => api.post('/api/attendance/bulk', data),
-};
-
-export const progressApi = {
-    getAll: () => api.get<ProgressResponse[]>('/api/progress'),
-    getStudentProgress: (studentId: string) => api.get<ProgressResponse[]>(`/api/progress/student/${studentId}`),
-    getGroupProgress: (groupId: string) => api.get<ProgressResponse[]>(`/api/progress/group/${groupId}`),
-    create: (data: any) => api.post('/api/progress', data),
-    update: (id: string, data: any) => api.put(`/api/progress/${id}`, data),
-    delete: (id: string) => api.delete(`/api/progress/${id}`),
-};
-
-export const mushafApi = {
-    getSurahs: () => api.get('/api/mushaf/surahs'),
-    getAyahsBySurah: (surahNumber: number) => api.get(`/api/mushaf/surah/${surahNumber}`),
-    getVerses: (surahId: string, start: number, end: number) => api.get(`/api/mushaf/surah/${surahId}/verses?start=${start}&end=${end}`),
 };
 
 export const levelApi = {
@@ -156,25 +98,29 @@ export const levelApi = {
     delete: (id: string) => api.delete(`/api/level/${id}`),
 };
 
-export const messageApi = {
-    getThreads: () => api.get('/api/messages/threads'),
-    getMessages: (threadId: string) => api.get<MessageResponse[]>(`/api/messages/thread/${threadId}`),
-    send: (data: any) => api.post('/api/messages', data),
+export const messagingApi = {
+    getConversations: () => api.get('/api/messaging/conversations'),
+    getMessages: (userId: string) => api.get<MessageResponse[]>(`/api/messaging/messages/${userId}`),
+    sendMessage: (data: any) => api.post('/api/messaging/send', data),
 };
 
-export const homeworkApi = {
-    getAll: () => api.get('/api/homework'),
-    getById: (id: string) => api.get(`/api/homework/${id}`),
-    create: (data: any) => api.post('/api/homework', data),
-    update: (id: string, data: any) => api.put(`/api/homework/${id}`, data),
-    delete: (id: string) => api.delete(`/api/homework/${id}`),
-    getByTeacher: () => api.get('/api/homework/teacher'),
-    getMyAssignments: () => api.get('/api/homework/student/my-assignments'),
-    getAssignments: (id: string) => api.get(`/api/homework/${id}/assignments`),
-    getAssignmentsByStudent: (studentId: string) => api.get(`/api/homework/student/${studentId}`),
-    getAssignmentById: (id: string) => api.get(`/api/homework/assignment/${id}`),
-    submitAssignment: (id: string, data: any) => api.post(`/api/homework/${id}/submit`, data),
-    gradeAssignment: (id: string, data: any) => api.post(`/api/homework/assignment/${id}/grade`, data),
+export const notificationApi = {
+    getAll: () => api.get<NotificationResponse[]>('/api/notification'),
+    markAsRead: (id: string) => api.put(`/api/notification/${id}/read`),
+};
+
+export const dashboardApi = {
+    getAdmin: () => api.get('/api/dashboard/admin'),
+    getTeacher: (teacherId: string) => api.get(`/api/dashboard/teacher/${teacherId}`),
+    getParent: (parentId: string) => api.get(`/api/dashboard/parent/${parentId}`),
+    getStudent: (studentId: string) => api.get(`/api/dashboard/student/${studentId}`),
+};
+
+export const mushafApi = {
+    getSurahs: () => api.get<SurahResponse[]>('/api/mushaf/surahs'),
+    getSurah: (id: string) => api.get<SurahResponse>(`/api/mushaf/surahs/${id}`),
+    getVerses: (surahId: string, from?: number, to?: number) => api.get<any[]>(`/api/mushaf/surahs/${surahId}/verses`, { params: { from, to } }),
+    getSettings: () => api.get('/api/mushaf/settings'),
 };
 
 export const onlineSessionApi = {
@@ -186,6 +132,7 @@ export const onlineSessionApi = {
 export const examApi = {
     getAll: () => api.get<ExamResponse[]>('/api/exam'),
     getById: (id: string) => api.get<ExamResponse>(`/api/exam/${id}`),
+    getByStudent: (studentId: string) => api.get<ExamResponse[]>(`/api/exam/student/${studentId}`),
     create: (data: any) => api.post('/api/exam', data),
     start: (data: any) => api.post('/api/exam/start', data),
     markInProgress: (id: string) => api.post(`/api/exam/${id}/in-progress`),
@@ -208,13 +155,40 @@ export const teacherAttendanceApi = {
     bulkMark: (data: any) => api.post('/api/teacherattendance/bulk', data),
 };
 
+export const attendanceApi = {
+    getAll: () => api.get('/api/attendance'),
+    getById: (id: string) => api.get(`/api/attendance/${id}`),
+    getByDate: (date: string) => api.get<any>(`/api/attendance/date/${date}`),
+    bulkMark: (data: any) => api.post('/api/attendance/bulk', data),
+};
+
 export const teacherPaymentApi = {
     getAll: () => api.get('/api/teacher-payment'),
     getById: (id: string) => api.get(`/api/teacher-payment/${id}`),
 };
 
 export const analyticsApi = {
-    getParent: (id: string) => api.get(`/api/analytics/parent/${id}`),
+    getAdmin: () => api.get('/api/analytics/admin'),
+    getTeacher: (teacherId: string) => api.get(`/api/analytics/teacher/${teacherId}`),
+    getStudent: (studentId: string) => api.get(`/api/analytics/student/${studentId}`),
+    getParent: (parentId: string) => api.get(`/api/analytics/parent/${parentId}`),
+};
+
+export const progressApi = {
+    getAll: () => api.get('/api/progress'),
+    getById: (id: string) => api.get(`/api/progress/${id}`),
+    getByStudent: (studentId: string) => api.get(`/api/progress/student/${studentId}`),
+    create: (data: any) => api.post('/api/progress', data),
+    update: (id: string, data: any) => api.put(`/api/progress/${id}`, data),
+    delete: (id: string) => api.delete(`/api/progress/${id}`),
+};
+
+export const scheduleApi = {
+    getAll: () => api.get<ScheduleResponse[]>('/api/schedule'),
+    getById: (id: string) => api.get<ScheduleResponse>(`/api/schedule/${id}`),
+    create: (data: any) => api.post('/api/schedule', data),
+    update: (id: string, data: any) => api.put(`/api/schedule/${id}`, data),
+    delete: (id: string) => api.delete(`/api/schedule/${id}`),
 };
 
 export const sessionApi = {
@@ -246,11 +220,40 @@ export const missionApi = {
 };
 
 
+export const homeworkApi = {
+    getAll: () => api.get('/api/homework'),
+    getById: (id: string) => api.get(`/api/homework/${id}`),
+    getByTeacher: () => api.get('/api/homework/teacher'),
+    getMyAssignments: () => api.get('/api/homework/my-assignments'),
+    getAssignmentById: (id: string) => api.get<HomeworkAssignmentResponse>(`/api/homework/assignment/${id}`),
+    getAssignments: (homeworkId: string) => api.get<HomeworkAssignmentResponse[]>(`/api/homework/${homeworkId}/assignments`),
+    submitAssignment: (assignmentId: string, data: any) => api.post(`/api/homework/assignment/${assignmentId}/submit`, data),
+    gradeAssignment: (assignmentId: string, data: any) => api.post(`/api/homework/assignment/${assignmentId}/grade`, data),
+    create: (data: any) => api.post('/api/homework', data),
+    update: (id: string, data: any) => api.put(`/api/homework/${id}`, data),
+    delete: (id: string) => api.delete(`/api/homework/${id}`),
+};
+
+export const volunteerApi = {
+    getMissions: () => api.get('/api/volunteer/missions'),
+    getMissionById: (id: string) => api.get(`/api/volunteer/missions/${id}`),
+    getSignups: () => api.get('/api/volunteer/signups'),
+    createSignup: (data: any) => api.post('/api/volunteer/signup', data),
+};
+
+export const donationApi = {
+    getCampaigns: () => api.get('/api/donation/campaigns'),
+    getCampaignById: (id: string) => api.get(`/api/donation/campaign/${id}`),
+    getRecords: () => api.get<any[]>('/api/donation/records'),
+    createCheckoutSession: (campaignId: string, amount: number, isAnonymous: boolean) => 
+        api.post(`/api/donation/checkout`, { campaignId, amount, isAnonymous }),
+};
+
 export const paymentApi = {
-    getAll: () => api.get<PaymentResponse[]>(`/api/payment`),
-    getById: (id: string) => api.get<PaymentResponse>(`/api/payment/${id}`),
-    getPayments: () => api.get<PaymentResponse[]>('/api/payment'),
-    getParentPayments: (parentId: string) => api.get<PaymentResponse[]>(`/api/payment/parent/${parentId}`),
+    getAll: () => api.get<PaymentApiResponse[]>(`/api/payment`),
+    getById: (id: string) => api.get<PaymentApiResponse>(`/api/payment/${id}`),
+    getPayments: () => api.get<PaymentApiResponse[]>('/api/payment'),
+    getParentPayments: (parentId: string) => api.get<PaymentApiResponse[]>(`/api/payment/parent/${parentId}`),
     createCheckoutSession: (paymentId: string, successUrl: string, cancelUrl: string) =>
         api.post(`/api/payment/${paymentId}/checkout`, { successUrl, cancelUrl }),
     markAsPaid: (id: string) => api.post(`/api/payment/${id}/mark-paid`),
@@ -260,17 +263,4 @@ export const reportApi = {
     downloadStudentPdf: (studentId: string) => api.get(`/api/report/student/${studentId}/progress-pdf`, { responseType: 'blob' }),
 };
 
-export const donationApi = {
-    getCampaigns: (published?: boolean) => api.get(`/api/donation/campaigns${published !== undefined ? `?published=${published}` : ''}`),
-    createCampaign: (data: any) => api.post('/api/donation/campaigns', data),
-    getRecords: () => api.get('/api/donation/records'),
-    createRecord: (data: any) => api.post('/api/donation/records', data),
-    validateDonation: (id: string) => api.patch(`/api/donation/records/${id}/validate`),
-};
-
-export const volunteerApi = {
-    getMissions: (published?: boolean) => api.get(`/api/volunteer/missions${published !== undefined ? `?published=${published}` : ''}`),
-    createMission: (data: any) => api.post('/api/volunteer/missions', data),
-    getSignups: () => api.get('/api/volunteer/signups'),
-    signup: (data: any) => api.post('/api/volunteer/signups', data),
-};
+export default api;

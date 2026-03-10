@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
 import { groupApi, studentApi, sessionApi } from '@/lib/api/client';
-import { GroupResponse, StudentResponse, SessionResponse } from '@/types';
+import { GroupResponse, StudentResponse, StudentListResponse, SessionResponse } from '@/types';
 import {
     FiArrowLeft, FiEdit2, FiTrash2, FiUsers, FiClock, FiTarget,
     FiBookOpen, FiPlus, FiChevronRight, FiSearch, FiMoreVertical,
@@ -50,7 +50,7 @@ export default function GroupDetailsClient() {
     const { t } = useTranslation(locale);
 
     const [group, setGroup] = useState<GroupResponse | null>(null);
-    const [students, setStudents] = useState<StudentResponse[]>([]);
+    const [students, setStudents] = useState<StudentListResponse[]>([]);
     const [sessions, setSessions] = useState<SessionResponse[]>([]);
     const [loading, setLoading] = useState(true);
 
