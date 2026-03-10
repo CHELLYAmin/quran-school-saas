@@ -6,14 +6,8 @@ using QuranSchool.Infrastructure.Seed;
 using QuranSchool.API.Middleware;
 using QuranSchool.Infrastructure.Hubs;
 using Serilog;
-using QuestPDF.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using QuranSchool.Domain.Entities;
-using QuranSchool.Domain.Enums;
-using QuranSchool.Infrastructure.Data;
-
-// QuestPDF License
-// QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseKind.Community;
 
 // Npgsql legacy timestamp behavior
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -53,7 +47,6 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 
-    // Production Policy (to be configured via env var)
     options.AddPolicy("ProductionPolicy", policy =>
     {
         policy.WithOrigins("http://localhost:3000", "http://192.168.2.185:3000")
@@ -114,8 +107,7 @@ using (var scope = app.Services.CreateScope())
         
         if (seedReset)
         {
-            Console.WriteLine(">>> Resetting database (Bypassing ensure deleted for RDS)...");
-            // db.Database.EnsureDeleted();
+            Console.WriteLine(">>> Resetting database...");
             db.Database.EnsureCreated();
             Console.WriteLine(">>> Database reset finished.");
         }
@@ -127,18 +119,16 @@ using (var scope = app.Services.CreateScope())
         }
         else 
         {
-            // Auto-migrate in Production
             Console.WriteLine(">>> Running migrations...");
             try {
                 db.Database.Migrate();
                 Console.WriteLine(">>> Migrations applied.");
             } catch (Exception ex) {
                 Console.WriteLine($">>> WARNING: Migrations failed: {ex.Message}");
-                // We continue so the diagnostic API can at least answer
             }
         }
 
-        // Always synchronize Hub de Vie content (Upsert logic)
+        // Always synchronize Hub de Vie content
         try 
         {
             Console.WriteLine(">>> Synchronizing Hub de Vie content...");
@@ -159,7 +149,7 @@ using (var scope = app.Services.CreateScope())
                     Slug = "centre", 
                     Category = "about", 
                     IsPublished = true,
-                    Content = "Le Centre Culturel Islamique de Québec (CCIQ) est une institution pilier de la communauté musulmane à Québec depuis 1985. Notre mission est de fournir un espace de culte, d'éducation et de soutien social, favorisant l'épanouissement spirituel et l'intégration harmonieuse dans la société québécoise. Nos objectifs incluent la préservation des valeurs islamiques, l'éducation des jeunes et le dialogue interculturel."
+                    Content = "Le Centre Culturel Islamique de Québec (CCIQ) est une institution pilier de la communauté musulmane à Québec depuis 1985. Notre mission est de fournir un espace de culte, d'éducation et de soutien social, favorisant l'épanouissement spirituel et l'intégration harmonieuse dans la société québécoise."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
@@ -167,7 +157,7 @@ using (var scope = app.Services.CreateScope())
                     Slug = "services", 
                     Category = "service", 
                     IsPublished = true,
-                    Content = "Le CCIQ accompagne les familles dans les moments difficiles en offrant des services funéraires complets conformes aux rites islamiques. Nous assurons le transport, le lavage mortuaire (Ghusl), la prière funéraire (Janaza) et la coordination avec le cimetière. Notre équipe dévouée est disponible 24h/24 pour vous soutenir."
+                    Content = "Le CCIQ accompagne les familles dans les moments difficiles en offrant des services funéraires complets conformes aux rites islamiques."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
@@ -175,7 +165,7 @@ using (var scope = app.Services.CreateScope())
                     Slug = "islam", 
                     Category = "islam", 
                     IsPublished = true,
-                    Content = "L'Islam est une religion de paix, de miséricorde et de justice. Ce portail est dédié à l'explication des piliers de la foi et de la pratique, ainsi qu'à la réponse aux questions fréquentes. Nous organisons régulièrement des conférences et des cercles d'apprentissage pour approfondir la connaissance de la parole divine et de la Sunna du Prophète (PSL)."
+                    Content = "L'Islam est une religion de paix, de miséricorde et de justice. Ce portail est dédié à l'explication des piliers de la foi et de la pratique."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
@@ -183,7 +173,7 @@ using (var scope = app.Services.CreateScope())
                     Slug = "cimetiere", 
                     Category = "service", 
                     IsPublished = true,
-                    Content = "Inauguré pour offrir un lieu de repos éternel digne à notre communauté, le Cimetière Islamique de Québec est un havre de paix géré par le CCIQ. Nous veillons à l'entretien du site et au respect strict des traditions funéraires musulmanes. Des concessions sont disponibles pour les membres et non-membres de la communauté."
+                    Content = "Inauguré pour offrir un lieu de repos éternel digne à notre communauté, le Cimetière Islamique de Québec est un havre de paix géré par le CCIQ."
                 },
                 new CmsPage { 
                     SchoolId = schoolId, 
@@ -191,7 +181,7 @@ using (var scope = app.Services.CreateScope())
                     Slug = "ensemble-mosquee", 
                     Category = "donation", 
                     IsPublished = true,
-                    Content = "Votre mosquée a besoin de vous. Les dons permettent de couvrir les frais de fonctionnement, d'entretien et le développement de nouveaux projets pour nos enfants. Chaque contribution, petite ou grande, est une Sadaka Jariya qui portera ses fruits dans l'au-delà."
+                    Content = "Votre mosquée a besoin de vous. Les dons permettent de couvrir les frais de fonctionnement et l'entretien."
                 }
             };
 
@@ -212,7 +202,7 @@ using (var scope = app.Services.CreateScope())
                 }
             }
             await db.SaveChangesAsync();
-            Console.WriteLine($">>> Synchronized {requiredPages.Count} CMS pages.");
+            Console.WriteLine($">>> Synchronized CMS pages.");
         }
         catch (Exception ex)
         {
@@ -233,12 +223,10 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($">>> Error during database initialization: {ex.Message}");
     }
 }
-Console.WriteLine(">>> Startup logic finished. Starting web host...");
 
 // Middleware pipeline
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-// Standard Forwarded Headers for AWS/Proxy environments
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
@@ -256,15 +244,12 @@ if (app.Environment.IsDevelopment())
 }
 else 
 {
-    // app.UseHsts();
-    // app.UseHttpsRedirection();app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-app.MapHealthChecks("/health");
-app.MapHub<NotificationHub>("/notificationHub");
+    app.UseCors("ProductionPolicy");
+}
 
-app.Run();
-UseAuthorization();
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 app.MapHub<NotificationHub>("/notificationHub");
