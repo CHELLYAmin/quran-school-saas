@@ -63,7 +63,12 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                 const now = new Date();
                 const dateStr = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
                 const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${settings.latitude}&longitude=${settings.longitude}&method=${settings.calculationMethod || 2}`;
-                const prayerRes = await fetch(url);
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                
+                const prayerRes = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                
                 if (!prayerRes.ok) return;
                 const prayerJson: PrayerApiResponse = await prayerRes.json();
 
