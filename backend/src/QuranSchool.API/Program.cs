@@ -15,6 +15,9 @@ using QuranSchool.Infrastructure.Data;
 // QuestPDF License
 // QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseKind.Community;
 
+// Npgsql legacy timestamp behavior
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog
