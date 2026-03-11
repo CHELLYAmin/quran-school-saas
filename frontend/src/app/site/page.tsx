@@ -490,12 +490,12 @@ export default function SiteHomePage() {
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap bg-white p-2 rounded-[2.5rem] border-2 border-slate-50 shadow-2xl shadow-primary-900/5">
+                        <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap lg:flex-wrap bg-white p-2 rounded-[2.5rem] border-2 border-slate-50 shadow-2xl shadow-primary-900/5 items-center gap-1.5 md:gap-0">
                             {(['all', 'announcement', 'event', 'service', 'donation', 'volunteer'] as const).map((t) => (
                                 <button
                                     key={t}
                                     onClick={() => setFilter(t)}
-                                    className={`px-8 py-4 rounded-[2rem] text-[11px] font-black uppercase tracking-widest transition-all duration-500 ${filter === t ? 'bg-primary-950 text-white shadow-2xl scale-105 z-10' : 'text-slate-400 hover:text-primary-950 hover:bg-slate-50'}`}
+                                    className={`px-8 py-4 rounded-[2rem] text-[11px] font-black uppercase tracking-widest transition-all duration-500 shrink-0 ${filter === t ? 'bg-primary-950 text-white shadow-2xl scale-105 z-10' : 'text-slate-400 hover:text-primary-950 hover:bg-slate-50'}`}
                                 >
                                     {t === 'all' ? 'Explorer' : t === 'announcement' ? 'Actualités' : t === 'event' ? 'Événements' : t === 'service' ? 'Services' : t === 'donation' ? 'Soutien' : 'Action'}
                                 </button>

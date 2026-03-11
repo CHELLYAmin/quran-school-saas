@@ -72,10 +72,10 @@ export default function FuneralPage() {
                     <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" size={16} />
                     <input type="text" placeholder="Rechercher..." value={search} onChange={(e) => setSearch(e.target.value)} className="input pl-11 w-full" />
                 </div>
-                <div className="flex bg-dark-50 dark:bg-dark-800 p-1 rounded-2xl border border-dark-100 dark:border-dark-700">
+                <div className="flex overflow-x-auto no-scrollbar whitespace-nowrap bg-dark-50 dark:bg-dark-800 p-1 rounded-2xl border border-dark-100 dark:border-dark-700">
                     {[{ id: 'all', label: 'Tous' }, ...Object.entries(STATUS_CFG).map(([id, v]) => ({ id, label: v.label }))].map(f => (
                         <button key={f.id} onClick={() => setStatusFilter(f.id)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${statusFilter === f.id ? 'bg-white dark:bg-dark-900 text-primary-600 shadow-sm' : 'text-dark-400 hover:text-dark-600'}`}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 ${statusFilter === f.id ? 'bg-white dark:bg-dark-900 text-primary-600 shadow-sm' : 'text-dark-400 hover:text-dark-600'}`}
                         >{f.label}</button>
                     ))}
                 </div>

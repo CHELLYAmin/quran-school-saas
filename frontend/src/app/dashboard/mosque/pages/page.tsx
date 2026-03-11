@@ -135,25 +135,6 @@ export default function CmsPagesPage() {
                 </button>
             </div>
 
-            {/* Filters */}
-            <div className="flex flex-wrap items-center gap-3">
-                <div className="relative flex-1 max-w-xs">
-                    <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400" size={16} />
-                    <input type="text" placeholder="Rechercher..." value={search} onChange={(e) => setSearch(e.target.value)} className="input pl-11 w-full" />
-                </div>
-                <div className="flex bg-dark-50 dark:bg-dark-800 p-1 rounded-2xl border border-dark-100 dark:border-dark-700">
-                    {CATEGORIES.map(c => (
-                        <button key={c.id} onClick={() => setFilter(c.id)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${filter === c.id ? 'bg-white dark:bg-dark-900 text-primary-600 shadow-sm' : 'text-dark-400 hover:text-dark-600'}`}
-                        >{c.label}</button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Pages List */}
-            <div className="grid gap-4">
-                {filtered.length === 0 ? (
-                    <div className="bg-white dark:bg-dark-900 rounded-4xl border border-dark-100 dark:border-dark-800 p-16 text-center">
                         <FiFileText size={48} className="mx-auto text-dark-200 dark:text-dark-700 mb-4" />
                         <p className="text-dark-400 font-bold">Aucune page trouvée</p>
                         <p className="text-dark-300 text-sm mt-1">Créez votre première page pour alimenter le site vitrine.</p>
