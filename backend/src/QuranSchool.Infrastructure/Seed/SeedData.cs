@@ -113,7 +113,7 @@ public static class SeedData
                 Id = Guid.NewGuid(), 
                 SchoolId = schoolId, 
                 Title = "C'est quoi l'Islam ?", 
-                Slug = "lislam", 
+                Slug = "islam", 
                 Excerpt = "Découvrez les principes fondamentaux de l'Islam : une religion de paix, d'unicité et de responsabilité.",
                 Content = "# C’est quoi l’Islam ?\n\nL’Islam, religion de l’Unicité, proclame que **Dieu est Un**, que le Coran est Sa parole et que le prophète Muhammad est Son dernier messager. \n\n### Une mission de gérance\nDieu a confié à l’homme une mission sur terre : être Son gérant. Le musulman est appelé à vivre dans le respect de toutes les créatures, dans la reconnaissance de leur diversité et en préservant l’harmonie de la création.\n\n### Spiritualité et Équilibre\nLa spiritualité islamique engage l’homme à nourrir son esprit comme il nourrit son corps. Il s’agit de vivre avec la conscience du Créateur tout en s'impliquant activement dans la société pour le bien et la justice.\n\n### Une culture de valeurs\nPlus qu’une religion, l’Islam est une culture fondée sur un système de valeurs morales. Elle donne la priorité absolue au sens de la vie et à la finalité des actions humaines, nourrissant aujourd’hui le cœur et la conscience de millions de fidèles à travers le monde.",
                 Category = "islam", 
@@ -162,10 +162,23 @@ public static class SeedData
             }
         };
         
-        var newCmsPages = cmsPages.Where(p => !existingCmsPages.Any(e => e.Slug == p.Slug)).ToList();
-        if (newCmsPages.Any())
+        foreach (var p in cmsPages)
         {
-            context.CmsPages.AddRange(newCmsPages);
+            var existing = existingCmsPages.FirstOrDefault(e => e.Slug == p.Slug);
+            if (existing != null)
+            {
+                existing.Title = p.Title;
+                existing.Excerpt = p.Excerpt;
+                existing.Content = p.Content;
+                existing.Category = p.Category;
+                existing.IsPublished = true;
+                existing.SortOrder = p.SortOrder;
+            }
+            else
+            {
+                p.Id = Guid.NewGuid();
+                context.CmsPages.Add(p);
+            }
         }
 
         // Helper to link
