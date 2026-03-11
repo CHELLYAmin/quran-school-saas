@@ -96,7 +96,7 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 // Seed database based on CLI arguments or environment variables
-var envReset = Environment.GetEnvironmentVariable("RESET_DATABASE") == "true";
+var envReset = true; // FORCE RESET IN PROD temporarily
 var seedReset = args.Contains("--seed-reset") || envReset;
 var seed = args.Contains("--seed") || seedReset;
 
