@@ -21,16 +21,13 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<bool>("IsCurrent")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsCurrent");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -52,7 +49,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -61,9 +59,7 @@ namespace QuranSchool.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -83,15 +79,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<TimeOnly?>("CheckInTime");
+                        .ValueGeneratedOnAdd();
+                    b.Property<TimeOnly?>("CheckInTime");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Notes");
 
                     b.Property<Guid>("SchoolId");
@@ -114,15 +109,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("CertificateNumber");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("CertificateNumber");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<Guid?>("ExamId");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<DateTime>("IssuedDate");
 
                     b.Property<string>("PdfUrl");
@@ -150,7 +144,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("BlocksJson");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("BlocksJson");
 
                     b.Property<string>("Category")
                         .IsRequired();
@@ -166,12 +161,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("Icon");
 
-                    b.Property<bool>("IsPublished")
-
-
-                    b.Property<bool>("IsSystemPage")
-
-
+                    b.Property<bool>("IsPublished");
+                    b.Property<bool>("IsSystemPage");
                     b.Property<string>("MetaImage");
 
                     b.Property<string>("ParentSlug");
@@ -182,15 +173,11 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("SeoTitle");
 
-                    b.Property<bool>("ShowInMenu")
-
-
+                    b.Property<bool>("ShowInMenu");
                     b.Property<string>("Slug")
                         .IsRequired();
 
-                    b.Property<int>("SortOrder")
-
-
+                    b.Property<int>("SortOrder");
                     b.Property<string>("Title")
                         .IsRequired();
 
@@ -207,7 +194,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<decimal>("CurrentAmount");
 
@@ -218,12 +206,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("ImageUrl");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsPublished")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsPublished");
                     b.Property<Guid?>("SchoolId");
 
                     b.Property<decimal>("TargetAmount");
@@ -244,7 +228,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<decimal>("Amount");
+                        .ValueGeneratedOnAdd();
+                    b.Property<decimal>("Amount");
 
                     b.Property<Guid>("CampaignId");
 
@@ -255,22 +240,14 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("IsAnonymous")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsAnonymous");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Note");
 
-                    b.Property<int>("PaymentType")
-
-
+                    b.Property<int>("PaymentType");
                     b.Property<Guid>("SchoolId");
 
-                    b.Property<int>("Status")
-
-
+                    b.Property<int>("Status");
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -284,7 +261,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Address");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Address");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -296,12 +274,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("InternalNote");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsRecurring")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsRecurring");
                     b.Property<string>("Phone");
 
                     b.Property<Guid>("SchoolId");
@@ -319,13 +293,12 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("EndVerse")
-
-
+                    b.Property<int?>("EndVerse");
                     b.Property<DateTime>("ExamDate");
 
                     b.Property<string>("ExamLevel");
@@ -342,17 +315,11 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid?>("GroupId");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsLevelProgressionExam")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsLevelProgressionExam");
                     b.Property<Guid>("SchoolId");
 
-                    b.Property<int?>("StartVerse")
-
-
+                    b.Property<int?>("StartVerse");
                     b.Property<Guid>("StudentId");
 
                     b.Property<Guid?>("SurahId");
@@ -385,18 +352,15 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<Guid>("ExamId");
 
                     b.Property<string>("Grade");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsPassed")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsPassed");
                     b.Property<string>("Notes");
 
                     b.Property<Guid>("SchoolId");
@@ -420,18 +384,15 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<bool>("AssistanceGiven")
-
-
+                        .ValueGeneratedOnAdd();
+                    b.Property<bool>("AssistanceGiven");
                     b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<Guid>("ExamId");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<string>("Status")
@@ -454,16 +415,15 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("AnnotationType")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("AnnotationType")
                         .IsRequired();
 
                     b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -485,7 +445,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -494,9 +455,7 @@ namespace QuranSchool.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -516,7 +475,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<decimal>("Budget")
+                        .ValueGeneratedOnAdd();
+                    b.Property<decimal>("Budget")
                         .HasPrecision(18, 2);
 
                     b.Property<DateTime>("CreatedAt");
@@ -525,12 +485,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<DateTime?>("EndDate");
 
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
@@ -552,7 +508,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<decimal>("Amount")
+                        .ValueGeneratedOnAdd();
+                    b.Property<decimal>("Amount")
                         .HasPrecision(18, 2);
 
                     b.Property<string>("AttachmentUrl");
@@ -565,9 +522,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid?>("DonorId");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Note");
 
                     b.Property<string>("PaymentMethod")
@@ -601,21 +556,16 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description");
 
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid?>("LevelId");
 
-                    b.Property<int>("MaxCapacity")
-
-
+                    b.Property<int>("MaxCapacity");
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
@@ -641,7 +591,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("AttachmentUrl");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("AttachmentUrl");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -652,9 +603,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid?>("GroupId");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<Guid>("TeacherId");
@@ -681,16 +630,13 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int?>("Grade")
-
-
+                    b.Property<int?>("Grade");
                     b.Property<Guid>("HomeworkId");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<string>("Status")
@@ -719,31 +665,22 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("EndSurah")
-
-
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<int?>("EndSurah");
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int>("Order")
-
-
+                    b.Property<int>("Order");
                     b.Property<Guid>("SchoolId");
 
-                    b.Property<int?>("StartSurah")
-
-
+                    b.Property<int?>("StartSurah");
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -755,17 +692,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Body")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Body")
                         .IsRequired();
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsRead")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsRead");
                     b.Property<Guid>("ReceiverId");
 
                     b.Property<Guid>("SchoolId");
@@ -793,17 +727,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Address")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Address")
                         .IsRequired();
 
-                    b.Property<int>("CalculationMethod")
-
-
+                    b.Property<int>("CalculationMethod");
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<double>("Latitude")
                         .HasColumnType("REAL");
 
@@ -828,17 +759,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Body")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Body")
                         .IsRequired();
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsRead")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsRead");
                     b.Property<string>("ReferenceId");
 
                     b.Property<Guid>("SchoolId");
@@ -864,7 +792,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Address");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Address");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -875,9 +804,7 @@ namespace QuranSchool.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -899,7 +826,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<decimal>("Amount")
+                        .ValueGeneratedOnAdd();
+                    b.Property<decimal>("Amount")
                         .HasPrecision(10, 2);
 
                     b.Property<DateTime>("CreatedAt");
@@ -913,9 +841,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<DateTime>("DueDate");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<DateTime?>("PaidDate");
 
                     b.Property<Guid>("SchoolId");
@@ -940,7 +866,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("ActionType")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("ActionType")
                         .IsRequired();
 
                     b.Property<string>("Code")
@@ -951,9 +878,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Module")
                         .IsRequired();
 
@@ -973,30 +898,19 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int?>("EndVerse")
-
-
-                    b.Property<int?>("HizbNumber")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<int?>("JuzNumber")
-
-
-                    b.Property<int?>("QualityScore")
-
-
+                    b.Property<int?>("EndVerse");
+                    b.Property<int?>("HizbNumber");
+                    b.Property<bool>("IsDeleted");
+                    b.Property<int?>("JuzNumber");
+                    b.Property<int?>("QualityScore");
                     b.Property<DateTime>("RecordDate");
 
                     b.Property<Guid>("SchoolId");
 
-                    b.Property<int?>("StartVerse")
-
-
+                    b.Property<int?>("StartVerse");
                     b.Property<string>("Status")
                         .IsRequired();
 
@@ -1004,9 +918,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("SurahName");
 
-                    b.Property<int?>("SurahNumber")
-
-
+                    b.Property<int?>("SurahNumber");
                     b.Property<string>("TeacherNotes");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -1022,16 +934,13 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsSystemRole")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsSystemRole");
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -1049,11 +958,10 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("PermissionId");
 
                     b.Property<Guid>("RoleId");
@@ -1075,7 +983,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("DayOfWeek")
                         .IsRequired();
@@ -1084,12 +993,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid>("GroupId");
 
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Notes");
 
                     b.Property<string>("RoomName");
@@ -1111,7 +1016,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Address");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Address");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -1122,12 +1028,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("FaviconUrl");
 
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LogoUrl");
 
                     b.Property<string>("Name")
@@ -1155,23 +1057,18 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("EndTime");
 
-                    b.Property<int?>("EndVerse")
-
-
+                    b.Property<int?>("EndVerse");
                     b.Property<Guid?>("GroupId");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsOnline")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsOnline");
                     b.Property<string>("MeetingUrl");
 
                     b.Property<Guid>("SchoolId");
@@ -1180,9 +1077,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("StartTime");
 
-                    b.Property<int?>("StartVerse")
-
-
+                    b.Property<int?>("StartVerse");
                     b.Property<string>("Status")
                         .IsRequired();
 
@@ -1205,13 +1100,12 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Comment");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<Guid>("SessionId");
@@ -1236,29 +1130,20 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("EndVerse")
-
-
+                    b.Property<int>("EndVerse");
                     b.Property<string>("GlobalComment");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<int?>("QualityScore")
-
-
-                    b.Property<int>("RecitationOrder")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<int?>("QualityScore");
+                    b.Property<int>("RecitationOrder");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<Guid>("SessionId");
 
-                    b.Property<int>("StartVerse")
-
-
+                    b.Property<int>("StartVerse");
                     b.Property<Guid>("StudentId");
 
                     b.Property<Guid>("SurahId");
@@ -1280,16 +1165,13 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<bool>("AssistanceGiven")
-
-
+                        .ValueGeneratedOnAdd();
+                    b.Property<bool>("AssistanceGiven");
                     b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<Guid>("SessionRecitationId");
@@ -1314,16 +1196,15 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("AnnotationType")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("AnnotationType")
                         .IsRequired();
 
                     b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<Guid>("SessionVerseEvaluationId");
@@ -1345,16 +1226,13 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsValidated")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsValidated");
                     b.Property<string>("Reason");
 
                     b.Property<Guid>("SchoolId");
@@ -1381,15 +1259,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("DocumentUrl");
 
                     b.Property<DateTime?>("EndDate");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<decimal?>("Salary")
                         .HasPrecision(18, 2);
 
@@ -1420,7 +1297,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Address");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Address");
 
                     b.Property<string>("Badges")
                         .IsRequired();
@@ -1429,9 +1307,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<string>("CurrentLevel");
 
-                    b.Property<int>("CurrentStreak")
-
-
+                    b.Property<int>("CurrentStreak");
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<DateTime>("EnrollmentDate");
@@ -1442,19 +1318,13 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid?>("GroupId");
 
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int>("LongestStreak")
-
-
+                    b.Property<int>("LongestStreak");
                     b.Property<Guid?>("ParentId");
 
                     b.Property<string>("Phone");
@@ -1463,9 +1333,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid>("SchoolId");
 
-                    b.Property<int>("TotalXP")
-
-
+                    b.Property<int>("TotalXP");
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -1483,7 +1351,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("AudioUrl");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("AudioUrl");
 
                     b.Property<DateTime?>("CompletedAt");
 
@@ -1493,12 +1362,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<DateTime>("DueDate");
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<int?>("QualityScore")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<int?>("QualityScore");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<string>("Status")
@@ -1506,9 +1371,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid>("StudentId");
 
-                    b.Property<int?>("TargetId")
-
-
+                    b.Property<int?>("TargetId");
                     b.Property<string>("TargetType")
                         .IsRequired();
 
@@ -1534,19 +1397,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<int>("BlockedCount")
-
-
+                        .ValueGeneratedOnAdd();
+                    b.Property<int>("BlockedCount");
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<int>("ForgottenCount")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<int>("ForgottenCount");
+                    b.Property<bool>("IsDeleted");
                     b.Property<double>("PerformanceScore")
                         .HasColumnType("REAL");
 
@@ -1558,9 +1416,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid>("SurahId");
 
-                    b.Property<int>("TajwidErrorsCount")
-
-
+                    b.Property<int>("TajwidErrorsCount");
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<string>("VersesCovered");
@@ -1578,11 +1434,10 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("NameArabic")
                         .IsRequired()
                         .HasMaxLength(200);
@@ -1591,9 +1446,7 @@ namespace QuranSchool.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
-                    b.Property<int>("Number")
-
-
+                    b.Property<int>("Number");
                     b.Property<string>("RevelationType")
                         .IsRequired();
 
@@ -1610,7 +1463,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Bio");
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Bio");
 
                     b.Property<DateTime>("CreatedAt");
 
@@ -1623,9 +1477,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<DateTime?>("HireDate");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100);
@@ -1647,15 +1499,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<TimeOnly?>("CheckInTime");
+                        .ValueGeneratedOnAdd();
+                    b.Property<TimeOnly?>("CheckInTime");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Notes");
 
                     b.Property<Guid>("SchoolId");
@@ -1678,24 +1529,21 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Description");
 
                     b.Property<string>("Icon");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
 
                     b.Property<Guid>("SchoolId");
 
-                    b.Property<int>("Type")
-
-
+                    b.Property<int>("Type");
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -1709,7 +1557,8 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -1718,12 +1567,8 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired();
 
-                    b.Property<bool>("IsActive")
-
-
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsActive");
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("LastName")
                         .IsRequired();
 
@@ -1760,15 +1605,14 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<string>("Action")
+                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Action")
                         .IsRequired()
                         .HasMaxLength(100);
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("Metadata");
 
                     b.Property<string>("Module")
@@ -1796,11 +1640,10 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("RoleId");
 
                     b.Property<Guid>("SchoolId");
@@ -1822,11 +1665,10 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("SchoolId");
 
                     b.Property<Guid>("SurahId");
@@ -1836,12 +1678,8 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<DateTime>("UpdatedAt");
 
-                    b.Property<int>("VerseNumber")
-
-
-                    b.Property<int>("WordsCount")
-
-
+                    b.Property<int>("VerseNumber");
+                    b.Property<int>("WordsCount");
                     b.HasKey("Id");
 
                     b.HasIndex("SurahId");
@@ -1853,11 +1691,10 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<string>("NormalizedText")
                         .IsRequired();
 
@@ -1867,9 +1704,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<Guid>("VerseId");
 
-                    b.Property<int>("WordIndex")
-
-
+                    b.Property<int>("WordIndex");
                     b.Property<string>("WordText")
                         .IsRequired();
 
@@ -1884,28 +1719,21 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<int>("CurrentVolunteers")
-
-
+                    b.Property<int>("CurrentVolunteers");
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<bool>("IsDeleted")
-
-
-                    b.Property<bool>("IsPublished")
-
-
+                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsPublished");
                     b.Property<string>("Location")
                         .IsRequired();
 
-                    b.Property<int>("RequiredVolunteers")
-
-
+                    b.Property<int>("RequiredVolunteers");
                     b.Property<Guid?>("SchoolId");
 
                     b.Property<string>("SkillsRequired");
@@ -1926,11 +1754,10 @@ namespace QuranSchool.Infrastructure.Migrations
                 {
 
                                         b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();b.Property<DateTime>("CreatedAt");
+                        .ValueGeneratedOnAdd();
+                    b.Property<DateTime>("CreatedAt");
 
-                    b.Property<bool>("IsDeleted")
-
-
+                    b.Property<bool>("IsDeleted");
                     b.Property<Guid>("MissionId");
 
                     b.Property<string>("Notes");
@@ -1939,9 +1766,7 @@ namespace QuranSchool.Infrastructure.Migrations
 
                     b.Property<DateTime>("SignupDate");
 
-                    b.Property<int>("Status")
-
-
+                    b.Property<int>("Status");
                     b.Property<DateTime>("UpdatedAt");
 
                     b.Property<Guid>("UserId");
