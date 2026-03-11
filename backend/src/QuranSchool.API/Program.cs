@@ -125,7 +125,7 @@ using (var scope = app.Services.CreateScope())
             try {
                 db.Database.Migrate();
                 Console.WriteLine(">>> Migrations applied.");
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Console.WriteLine($">>> CRITICAL: Migrations failed: {ex.Message}");
                 Console.WriteLine($">>> StackTrace: {ex.StackTrace}");
                 if (ex.InnerException != null) {
