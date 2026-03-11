@@ -132,9 +132,11 @@ using (var scope = app.Services.CreateScope())
                 db.Database.Migrate();
 
                 Console.WriteLine(">>> Database dynamicaly wiped, recreated, and migrated.");
+                QuranSchool.API.StartupDiagnostics.LastError = "Success - Wiped, recreated, migrated";
             } catch (Exception ex) {
                 Console.WriteLine($">>> CRITICAL: Reset failed: {ex.Message}");
                 if (ex.InnerException != null) Console.WriteLine($">>> InnerException: {ex.InnerException.Message}");
+                QuranSchool.API.StartupDiagnostics.LastError = $"Error {ex.GetType().Name}: {ex.Message} | Inner: {ex.InnerException?.Message}";
                 // Ne pas throw: laisse l'app s'allumer pour debug au lieu qu'AWS fasse un rollback.
             }
         }
@@ -280,6 +282,14 @@ app.UseAuthentication();
 app.MapControllers();
 app.MapHealthChecks("/health");
 app.MapHub<NotificationHub>("/notificationHub");
+app.MapGet("/api/debug/reset-log", () => Results.Ok(new { log = QuranSchool.API.StartupDiagnostics.LastError }));
 
 app.Run();
 // CI Trigger: Force 3 Greens v1.2
+
+namespace QuranSchool.API
+{
+    public static class StartupDiagnostics {
+        public static string LastError { get; set; } = "No errors detected.";
+    }
+}
