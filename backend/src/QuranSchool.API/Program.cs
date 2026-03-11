@@ -110,7 +110,9 @@ using (var scope = app.Services.CreateScope())
         {
             Console.WriteLine(">>> Resetting database (DELETING ALL DATA)...");
             try {
-                db.Database.EnsureDeleted();
+                // Au lieu de EnsureDeleted (qui requiert souvent le droit DROP DATABASE),
+                // on vide simplement le schéma public.
+                db.Database.ExecuteSqlRaw("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
                 db.Database.Migrate();
                 Console.WriteLine(">>> Database reset and migrations finished.");
             } catch (Exception ex) {
