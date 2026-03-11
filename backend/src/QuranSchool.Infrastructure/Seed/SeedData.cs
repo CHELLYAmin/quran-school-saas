@@ -17,32 +17,36 @@ public static class SeedData
 
         // 2. Define IDs used in seeding
         var schoolId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-        
-        // Force seeding for restoration
-        if (false) 
-        {
-            Console.WriteLine(">>> Schools already exist. Skipping rest of seed.");
-            return;
-        }
 
         var existingSchool = await context.Schools.FirstOrDefaultAsync(s => s.Id == schoolId);
         if (existingSchool == null)
         {
-            var school = new School
+            // PROD FIX: If default school doesn't exist, try to find ANY existing school
+            var anySchool = await context.Schools.FirstOrDefaultAsync();
+            if (anySchool != null)
             {
-                Id = schoolId,
-                SchoolId = schoolId,
-                Name = "École Al-Noor du Coran",
-                Address = "123 Rue de la Paix, Paris",
-                Phone = "+33 1 23 45 67 89",
-                Email = "contact@alnoor-quran.fr",
-                Description = "École de Coran spécialisée en Hifdh et Tajwid"
-            };
-            context.Schools.Add(school);
+                schoolId = anySchool.Id;
+                Console.WriteLine($">>> Using existing production school: {anySchool.Name} ({schoolId})");
+            }
+            else
+            {
+                var school = new School
+                {
+                    Id = schoolId,
+                    SchoolId = schoolId,
+                    Name = "École Al-Noor du Coran",
+                    Address = "123 Rue de la Paix, Paris",
+                    Phone = "+33 1 23 45 67 89",
+                    Email = "contact@alnoor-quran.fr",
+                    Description = "École de Coran spécialisée en Hifdh et Tajwid"
+                };
+                context.Schools.Add(school);
+                Console.WriteLine(">>> Created default school.");
+            }
         }
         else
         {
-            Console.WriteLine(">>> School already exists, skipping addition.");
+            Console.WriteLine(">>> Using existing Al-Noor school.");
         }
 
         // Seed Permissions

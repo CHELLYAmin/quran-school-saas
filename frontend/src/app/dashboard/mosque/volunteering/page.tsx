@@ -138,9 +138,9 @@ export default function VolunteeringPage() {
                         placeholder="Rechercher par nom, email, compétence…"
                         className="input pl-10 w-full text-sm py-2.5" />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
                     <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
-                        className="input text-sm py-2.5 w-44">
+                        className="input text-sm py-2.5 w-44 shrink-0">
                         <option value="all">Tous les statuts</option>
                         <option value="active">Actifs</option>
                         <option value="inactive">Inactifs</option>
