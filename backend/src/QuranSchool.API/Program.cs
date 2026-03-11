@@ -110,14 +110,32 @@ using (var scope = app.Services.CreateScope())
         {
             Console.WriteLine(">>> Resetting database (DELETING ALL DATA)...");
             try {
-                // Au lieu de EnsureDeleted (qui requiert souvent le droit DROP DATABASE),
-                // on vide simplement le schéma public.
-                db.Database.ExecuteSqlRaw("DROP SCHEMA public CASCADE; CREATE SCHEMA public;");
+                // Sur AWS RDS, détruire/recréer le schéma supprime les permissions.
+                // Au lieu de ça, on supprime dynamiquement tout ce qu'il contient.
+                var wipeScript = @"
+                    DO $$ DECLARE
+                        r RECORD;
+                    BEGIN
+                        FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+                            EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
+                        END LOOP;
+                        FOR r IN (SELECT relname FROM pg_class WHERE relkind = 'S' AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')) LOOP
+                            EXECUTE 'DROP SEQUENCE IF EXISTS public.' || quote_ident(r.relname) || ' CASCADE';
+                        END LOOP;
+                        FOR r IN (SELECT typname FROM pg_type WHERE typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public') AND typtype = 'e') LOOP
+                            EXECUTE 'DROP TYPE IF EXISTS public.' || quote_ident(r.typname) || ' CASCADE';
+                        END LOOP;
+                    END $$;";
+                db.Database.ExecuteSqlRaw(wipeScript);
+
+                Console.WriteLine(">>> Applying new clean migrations...");
                 db.Database.Migrate();
-                Console.WriteLine(">>> Database reset and migrations finished.");
+
+                Console.WriteLine(">>> Database dynamicaly wiped, recreated, and migrated.");
             } catch (Exception ex) {
                 Console.WriteLine($">>> CRITICAL: Reset failed: {ex.Message}");
                 if (ex.InnerException != null) Console.WriteLine($">>> InnerException: {ex.InnerException.Message}");
+                // Ne pas throw: laisse l'app s'allumer pour debug au lieu qu'AWS fasse un rollback.
             }
         }
         else if (seed)
