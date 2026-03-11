@@ -99,157 +99,66 @@ public static class SeedData
             { 
                 Id = Guid.NewGuid(), 
                 SchoolId = schoolId, 
-                Title = "9e Commémoration — 29 Janvier 2026", 
-                Slug = "commemoration-2026", 
-                Excerpt = "Trois journées de mémoire et de recueillement pour honorer les victimes du 29 janvier 2017.",
-                Content = "# 9e Commémoration du 29 Janvier\n\nNous vous invitons à participer aux événements de commémoration prévus pour le 9e anniversaire de la tragédie de la Grande Mosquée de Québec. \n\n### Programme :\n- **Veillée de prière** : 28 janvier à 19h00\n- **Cérémonie officielle** : 29 janvier à 18h00\n- **Journée portes ouvertes** : 30 janvier de 10h à 16h\n\n*Ensemble, cultivons la paix et le vivre-ensemble.*",
-                Category = "announcement", 
-                IsPublished = true, 
-                SortOrder = 1,
-                CreatedAt = DateTime.UtcNow.AddDays(-1)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Annonce du début de Ramadan 1447 / 2026", 
-                Slug = "annonce-ramadan-2026", 
-                Excerpt = "La TCOM annonce le premier jour du mois béni de Ramadan 1447.",
-                Content = "# Ramadan Mubarak\n\nLe Centre Culturel Islamique de Québec a le plaisir de vous annoncer que le premier jour du mois de Ramadan 1447 sera le **1er Mars 2026** (sous réserve de l'observation lunaire).\n\n### Horaires :\nLes horaires de l'Imsakiya sont disponibles dans l'onglet 'Horaires' de notre site.\n\n### Tarawih :\nLes prières de Tarawih débuteront la veille au soir et seront dirigées par nos imams habituels.",
-                Category = "announcement", 
-                IsPublished = true, 
-                SortOrder = 2,
-                CreatedAt = DateTime.UtcNow.AddHours(-12)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Le Centre — MISSION ET OBJECTIFS", 
-                Slug = "centre", 
-                Excerpt = "Mission et objectifs du Centre Culturel Islamique de Québec — au service de la communauté depuis 1985.",
-                Content = "# Notre Mission\n\nLe CCIQ est une organisation à but non lucratif dont la mission principale est de répondre aux besoins spirituels, sociaux et éducatifs de la communauté musulmane de la grande région de Québec.\n\n## Nos objectifs :\n1. Fournir un lieu de culte et de recueillement.\n2. Promouvoir une meilleure compréhension de l'Islam.\n3. Favoriser l'intégration et la participation citoyenne.\n4. Offrir des services éducatifs de qualité via notre école coranique.",
+                Title = "Historique de la communauté", 
+                Slug = "historique", 
+                Excerpt = "Historique des musulmans de la Grande Région de Québec depuis 1971 — de quatre étudiants à une communauté dynamique.",
+                Content = "# Historique de la communauté\n\n### Des débuts modestes à l'Université Laval (1971)\nÀ l’hiver 1971, quatre musulmans se sont rencontrés au Pavillon Maurice Parent de l’Université Laval pour faire connaissance et parler de l’Islam. Ce groupe, composé d'étudiants et chercheurs de l'Inde, du Pakistan, du Bangladesh et de l'Algérie, a formé le premier noyau de regroupement des musulmans de Québec. \n\nEn 1972, l’Association des Étudiants Musulmans de l’Université Laval (AEMUL) voit le jour, marquant la première prière de vendredi (salat el djoumouâ) avec seulement 6 personnes.\n\n### L'expansion et la création du CCIQ (1985)\nGrâce aux excellentes relations avec la Faculté de théologie, la communauté obtient sa première « Mosquée » au sous-sol du Pavillon Biermans-Moraud en 1978. Avec l’arrivée croissante d’étudiants et d’immigrants, le **Centre culturel islamique de Québec (CCIQ)** voit officiellement le jour en 1985.\n\n### Une communauté intégrée et dynamique\nAujourd'hui, la communauté compte entre 5000 et 6000 personnes provenant d'une quinzaine de pays. Ses membres sont des citoyens actifs : professeurs, ingénieurs, médecins, fonctionnaires et entrepreneurs, tous participant à la richesse collective de la Ville de Québec.\n\nLe CCIQ œuvre patiements pour faire connaître l’Islam, religion de Paix et de Justice, tout en contribuant activement au tissu social québécois par le bénévolat et l'engagement communautaire.",
                 Category = "about", 
                 IsPublished = true, 
-                SortOrder = 3,
+                SortOrder = 1,
                 CreatedAt = DateTime.UtcNow.AddDays(-30)
             },
             new CmsPage 
             { 
                 Id = Guid.NewGuid(), 
                 SchoolId = schoolId, 
-                Title = "Services Funéraires", 
-                Slug = "services-funeraires", 
-                Excerpt = "Accompagnement des familles dans les moments difficiles selon les rites islamiques.",
-                Content = "# Services Funéraires (Janaza)\n\nLe CCIQ accompagne les familles endeuillées pour l'organisation des funérailles. \n\n### Services inclus :\n- Lavage mortuaire (Ghusl)\n- Mise en linceul (Kaffan)\n- Prière funéraire (Salat al-Janaza)\n- Transport au cimetière\n\n**Contact d'urgence (24h/24) : 418-xxx-xxxx**",
+                Title = "C'est quoi l'Islam ?", 
+                Slug = "lislam", 
+                Excerpt = "Découvrez les principes fondamentaux de l'Islam : une religion de paix, d'unicité et de responsabilité.",
+                Content = "# C’est quoi l’Islam ?\n\nL’Islam, religion de l’Unicité, proclame que **Dieu est Un**, que le Coran est Sa parole et que le prophète Muhammad est Son dernier messager. \n\n### Une mission de gérance\nDieu a confié à l’homme une mission sur terre : être Son gérant. Le musulman est appelé à vivre dans le respect de toutes les créatures, dans la reconnaissance de leur diversité et en préservant l’harmonie de la création.\n\n### Spiritualité et Équilibre\nLa spiritualité islamique engage l’homme à nourrir son esprit comme il nourrit son corps. Il s’agit de vivre avec la conscience du Créateur tout en s'impliquant activement dans la société pour le bien et la justice.\n\n### Une culture de valeurs\nPlus qu’une religion, l’Islam est une culture fondée sur un système de valeurs morales. Elle donne la priorité absolue au sens de la vie et à la finalité des actions humaines, nourrissant aujourd’hui le cœur et la conscience de millions de fidèles à travers le monde.",
+                Category = "islam", 
+                IsPublished = true, 
+                SortOrder = 2,
+                CreatedAt = DateTime.UtcNow.AddDays(-31)
+            },
+            new CmsPage 
+            { 
+                Id = Guid.NewGuid(), 
+                SchoolId = schoolId, 
+                Title = "Nos Services Communautaires", 
+                Slug = "services", 
+                Excerpt = "Découvrez la gamme de services offerts par le CCIQ pour accompagner la communauté au quotidien.",
+                Content = "# Nos Services\n\nLe CCIQ offre une structure complète pour répondre aux besoins spirituels et sociaux :\n\n- **Culte** : Prières quotidiennes et grande prière du Vendredi (Joumouâ).\n- **Éducation** : École coranique (Hifdh et Tajwid) et cours de langue arabe pour enfants et adultes.\n- **Savoir** : Bibliothèque islamique riche et conférences thématiques régulières.\n- **Social** : Aide à l'intégration, conseil et accompagnement, collecte et distribution de Zakat.\n- **Événements** : Soupers communautaires, journées de la famille et activités jeunesse.\n- **Rites** : Services de mariage et accompagnement funéraire complet.",
+                Category = "service", 
+                IsPublished = true, 
+                SortOrder = 3,
+                CreatedAt = DateTime.UtcNow.AddDays(-32)
+            },
+            new CmsPage 
+            { 
+                Id = Guid.NewGuid(), 
+                SchoolId = schoolId, 
+                Title = "Service Funéraire et Cimetière", 
+                Slug = "cimetiere", 
+                Excerpt = "Accompagnement des familles dans le deuil et gestion du Cimetière musulman de Québec.",
+                Content = "# Services Funéraires et Cimetière\n\nLe CCIQ accompagne les familles dans les moments difficiles avec dignité et respect des rites islamiques.\n\n### Accompagnement complet\nNos bénévoles assistent les proches pour :\n- La préparation des documents administratifs (hôpital, État civil, Certificat de décès).\n- L'organisation du lavage mortuaire (Ghusl) et de la mise en linceul (Kaffan).\n- La prière funéraire (Salat al-Janaza).\n\n### Le Cimetière Musulman de Québec\nSitué à Saint-Augustin-de-Desmaures, il offre un lieu de repos éternel conforme à la Sunnah. \n\n> **Assistance 24h/24** : L’ayant droit ou la famille peut compter sur le soutien indéfectible de nos équipes pour soulager les démarches logistiques durant ces moments de deuil.",
                 Category = "service", 
                 IsPublished = true, 
                 SortOrder = 4,
-                CreatedAt = DateTime.UtcNow.AddDays(-40)
+                CreatedAt = DateTime.UtcNow.AddDays(-33)
             },
             new CmsPage 
             { 
                 Id = Guid.NewGuid(), 
                 SchoolId = schoolId, 
-                Title = "Cimetière Islamique de Québec", 
-                Slug = "cimetiere", 
-                Excerpt = "Informations sur le premier cimetière musulman géré par la communauté à Québec.",
-                Content = "# Cimetière Islamique\n\nSitué à Saint-Augustin-de-Desmaures, notre cimetière offre un lieu de repos éternel respectant les traditions islamiques.\n\n### Acquisition de lots :\nLes membres de la communauté peuvent faire une demande d'acquisition de lot de sépulture auprès de l'administration du Centre.",
-                Category = "service", 
-                IsPublished = true, 
-                SortOrder = 5,
-                CreatedAt = DateTime.UtcNow.AddDays(-45)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Ensemble pour notre Mosquée", 
-                Slug = "ensemble-mosquee", 
-                Excerpt = "Campagne de financement pour l'entretien et l'amélioration de nos installations.",
-                Content = "# Soutenez votre Mosquée\n\nLa gestion et l'entretien de notre centre reposent entièrement sur vos dons généreux. \n\n### Comment aider ?\n- Dons ponctuels en ligne\n- Prélèvements automatiques mensuels\n- Devenir membre bâtisseur\n\n*Chaque contribution, aussi petite soit-elle, fait une différence.*",
-                Category = "donation", 
-                IsPublished = true, 
-                SortOrder = 6,
-                CreatedAt = DateTime.UtcNow.AddDays(-5)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Programme Jeunesse", 
-                Slug = "programme-jeunesse", 
-                Excerpt = "Activités sportives, culturelles et spirituelles pour les 12-18 ans.",
-                Content = "# Jeunesse CCIQ\n\nNous offrons un cadre sain et dynamique pour nos jeunes. \n\n### Activités régulières :\n- Cercle de discussion (Halaqa)\n- Tournois de soccer\n- Sorties plein air\n- Ateliers de leadership",
-                Category = "service", 
-                IsPublished = true, 
-                SortOrder = 7,
-                CreatedAt = DateTime.UtcNow.AddDays(-15)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Inscriptions École Coranique 2026", 
-                Slug = "ecole-coranique-inscriptions", 
-                Excerpt = "Les inscriptions pour la session de printemps sont maintenant ouvertes.",
-                Content = "# École Al-Noor\n\nRejoignez nos programmes d'apprentissage du Coran et d'éducation islamique.\n\n### Niveaux :\n- Débutants (Lettres et lecture)\n- Mémorisation (Hifdh)\n- Tajwid théorique et pratique\n\n*Places limitées.*",
+                Title = "Ramadan 1447 / 2026", 
+                Slug = "ramadan-2026", 
+                Excerpt = "Le mois béni de Ramadan débutera inch'Allah autour du 1er Mars 2026.",
+                Content = "# Annonce Ramadan 2026\n\nLe Centre Culturel Islamique de Québec a le plaisir de vous informer que le premier jour du mois de Ramadan 1447 sera approximativement le **dimanche 1er Mars 2026**.\n\n### Préparatifs :\n- **Tarawih** : Les prières débuteront la veille au soir.\n- **Iftar** : Des repas communautaires seront organisés pour les étudiants et les personnes seules.\n- **Zakat al-Fitr** : Les modalités de collecte seront annoncées durant la deuxième quinzaine du mois.\n\n*Que ce mois apporte paix, miséricorde et bénédiction à toute la communauté.*",
                 Category = "announcement", 
                 IsPublished = true, 
-                SortOrder = 8,
-                CreatedAt = DateTime.UtcNow.AddDays(-2)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Conférence Mensuelle : La Famille en Islam", 
-                Slug = "conference-mensuelle", 
-                Excerpt = "Rejoignez-nous pour notre conférence thématique avec Dr. Cheikh X.",
-                Content = "# Conférence Publique\n\nLe CCIQ organise une conférence sur le thème de la famille.\n\n- **Date** : Samedi 15 Mars\n- **Heure** : Après Salat al-Maghrib\n- **Lieu** : Grande salle de prière\n\n*Entrée libre, ouvert à tous.*",
-                Category = "event", 
-                IsPublished = true, 
-                SortOrder = 9,
-                CreatedAt = DateTime.UtcNow.AddDays(-10)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Aide aux Devoirs et Soutien Scolaire", 
-                Slug = "soutien-scolaire", 
-                Excerpt = "Service gratuit de tutorat pour les élèves du primaire et secondaire.",
-                Content = "# Soutien Scolaire\n\nNos bénévoles diplômés accompagnent vos enfants dans leur réussite académique.\n\n- **Matières** : Maths, Français, Sciences\n- **Horaire** : Dimanche de 10h à 12h",
-                Category = "volunteer", 
-                IsPublished = true, 
-                SortOrder = 10,
-                CreatedAt = DateTime.UtcNow.AddDays(-20)
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Nos Services", 
-                Slug = "services", 
-                Excerpt = "Découvrez l'ensemble des services offerts par le Centre Culturel Islamique de Québec.", 
-                Content = "# Nos Services\n\nLe Centre Culturel Islamique de Québec (CCIQ) est fier d'offrir une vaste gamme de services à sa communauté.\n\n### Liste de nos services :\n- **École Al-Noor** : Enseignement du Coran et de la langue arabe.\n- **Services Funéraires** : Accompagnement complet selon les rites islamiques.\n- **Cimetière** : Gestion du cimetière musulman de Québec.\n- **Programme Jeunesse** : Activités sportives et spirituelles pour les jeunes.\n- **Messagerie Interne** : Restez connectés aux membres du centre.", 
-                Category = "service", 
-                IsPublished = true, 
-                SortOrder = 11, 
-                CreatedAt = DateTime.UtcNow.AddDays(-1) 
-            },
-            new CmsPage 
-            { 
-                Id = Guid.NewGuid(), 
-                SchoolId = schoolId, 
-                Title = "Comprendre l'Islam", 
-                Slug = "islam", 
-                Excerpt = "Ressources et informations pour découvrir et approfondir la connaissance de l'Islam.", 
-                Content = "# L'Islam au CCIQ\n\nNous croyons en un Islam de paix, de savoir et de partage. Cette section est dédiée à l'apprentissage des principes fondamentaux de notre foi.\n\n### Ce que nous offrons :\n- **Conférences Mensuelles** : Avec des savants et professeurs renommés.\n- **Cours de Fiqh** : Compréhension de la pratique quotidienne.\n- **Bibliothèque** : Accès à une collection d'ouvrages authentiques.\n- **Portes Ouvertes** : Pour nos concitoyens souhaitant découvrir notre centre.", 
-                Category = "islam", 
-                IsPublished = true, 
-                SortOrder = 12, 
-                CreatedAt = DateTime.UtcNow.AddDays(-2) 
+                SortOrder = 5,
+                CreatedAt = DateTime.UtcNow.AddDays(-5)
             }
         };
         
@@ -333,7 +242,8 @@ public static class SeedData
         // 6. Accountant Permissions
         var accountantPerms = new List<string> { 
             QuranSchool.Domain.Constants.Permissions.DashboardView,
-            QuranSchool.Domain.Constants.Permissions.PaymentsView, QuranSchool.Domain.Constants.Permissions.PaymentsManage
+            QuranSchool.Domain.Constants.Permissions.PaymentsView, QuranSchool.Domain.Constants.Permissions.PaymentsManage,
+            QuranSchool.Domain.Constants.Permissions.FinanceView, QuranSchool.Domain.Constants.Permissions.FinanceManage
         };
         await LinkRolePerms(accountantRole, accountantPerms);
 

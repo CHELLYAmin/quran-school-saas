@@ -356,6 +356,51 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.ToTable("DonationRecords");
                 });
 
+            modelBuilder.Entity("QuranSchool.Domain.Entities.DonorProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InternalNote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("DonorProfiles");
+                });
+
             modelBuilder.Entity("QuranSchool.Domain.Entities.Exam", b =>
                 {
                     b.Property<Guid>("Id")
@@ -606,6 +651,116 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Examiners");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.FinancialProject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Budget")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("FinancialProjects");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.FinancialTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DonorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("DonorId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("FinancialTransactions");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.Group", b =>
@@ -1272,6 +1427,9 @@ namespace QuranSchool.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("FaviconUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
@@ -1289,7 +1447,16 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PrimaryColor")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SecondaryColor")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Tagline")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -1538,6 +1705,103 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.HasIndex("WordId");
 
                     b.ToTable("SessionWordAnnotations");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.StaffAbsence", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsValidated")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Reason")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StaffAbsences");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.StaffContract", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DocumentUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal?>("Salary")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StaffContracts");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.Student", b =>
@@ -1869,6 +2133,45 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.ToTable("TeacherAttendances");
                 });
 
+            modelBuilder.Entity("QuranSchool.Domain.Entities.TransactionCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("TransactionCategories");
+                });
+
             modelBuilder.Entity("QuranSchool.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1972,6 +2275,8 @@ namespace QuranSchool.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
 
                     b.HasIndex("UserId");
 
@@ -2251,6 +2556,17 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Navigation("Campaign");
                 });
 
+            modelBuilder.Entity("QuranSchool.Domain.Entities.DonorProfile", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+                });
+
             modelBuilder.Entity("QuranSchool.Domain.Entities.Exam", b =>
                 {
                     b.HasOne("QuranSchool.Domain.Entities.User", "Examiner")
@@ -2339,6 +2655,50 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Navigation("VerseEvaluation");
 
                     b.Navigation("Word");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.FinancialProject", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.FinancialTransaction", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.TransactionCategory", "Category")
+                        .WithMany("Transactions")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuranSchool.Domain.Entities.DonorProfile", "Donor")
+                        .WithMany("Donations")
+                        .HasForeignKey("DonorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("QuranSchool.Domain.Entities.FinancialProject", "Project")
+                        .WithMany("Transactions")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Donor");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("School");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.Group", b =>
@@ -2597,6 +2957,44 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Navigation("Word");
                 });
 
+            modelBuilder.Entity("QuranSchool.Domain.Entities.StaffAbsence", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuranSchool.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.StaffContract", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuranSchool.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("QuranSchool.Domain.Entities.Student", b =>
                 {
                     b.HasOne("QuranSchool.Domain.Entities.Group", "Group")
@@ -2668,6 +3066,17 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("QuranSchool.Domain.Entities.TransactionCategory", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
+                });
+
             modelBuilder.Entity("QuranSchool.Domain.Entities.User", b =>
                 {
                     b.HasOne("QuranSchool.Domain.Entities.School", "School")
@@ -2681,11 +3090,19 @@ namespace QuranSchool.Infrastructure.Migrations
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.UserActionLog", b =>
                 {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("QuranSchool.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("School");
 
                     b.Navigation("User");
                 });
@@ -2764,6 +3181,11 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Navigation("Donations");
                 });
 
+            modelBuilder.Entity("QuranSchool.Domain.Entities.DonorProfile", b =>
+                {
+                    b.Navigation("Donations");
+                });
+
             modelBuilder.Entity("QuranSchool.Domain.Entities.Exam", b =>
                 {
                     b.Navigation("VerseEvaluations");
@@ -2772,6 +3194,11 @@ namespace QuranSchool.Infrastructure.Migrations
             modelBuilder.Entity("QuranSchool.Domain.Entities.ExamVerseEvaluation", b =>
                 {
                     b.Navigation("WordAnnotations");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.FinancialProject", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.Group", b =>
@@ -2861,6 +3288,11 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.Navigation("Attendances");
 
                     b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.TransactionCategory", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.User", b =>

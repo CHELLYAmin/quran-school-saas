@@ -108,3 +108,42 @@ public enum VolunteerSignupStatus
     Rejected = 2,
     Completed = 3
 }
+
+public enum FinancialTransactionType
+{
+    Income = 0,
+    Expense = 1
+}
+
+public enum TransactionPaymentMethod
+{
+    Cash = 0,
+    Card = 1,
+    Transfer = 2,
+    Cheque = 3,
+    Interac = 4
+}
+
+public enum StaffContractType
+{
+    CDI = 0,
+    CDD = 1,
+    Volunteer = 2,
+    Contractor = 3
+}
+
+public enum StaffContractStatus
+{
+    Active = 0,
+    Terminated = 1,
+    OnLeave = 2
+}
+
+public enum StaffAbsenceType
+{
+    Sick = 0,
+    Vacation = 1,
+    Emergency = 2,
+    Maternity = 3,
+    Other = 4
+}

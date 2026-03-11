@@ -55,6 +55,12 @@ public static class Permissions
     public const string SettingsView = "SETTINGS_VIEW";
     public const string SettingsManage = "SETTINGS_MANAGE";
 
+    // Finance & RH (SaaS V3)
+    public const string FinanceView = "FINANCE_VIEW";
+    public const string FinanceManage = "FINANCE_MANAGE";
+    public const string StaffView = "STAFF_VIEW";
+    public const string StaffManage = "STAFF_MANAGE";
+
     public static readonly IReadOnlyList<string> All = new[]
     {
         DashboardView, AdminDashboardView,
@@ -67,6 +73,7 @@ public static class Permissions
         ExamsView, ExamsManage, ProgressView, ProgressManage,
         PaymentsView, PaymentsManage,
         MessagesView, MessagesSend, HomeworkView, HomeworkManage,
-        MushafView, SettingsView, SettingsManage
+        MushafView, SettingsView, SettingsManage,
+        FinanceView, FinanceManage, StaffView, StaffManage
     };
 }

@@ -19,5 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\QuranSchool.Application\QuranSchool.Application.csproj" />
     <ProjectReference Include="..\QuranSchool.Infrastructure\QuranSchool.Infrastructure.csproj" />
+    <ProjectReference Include="..\QuranSchool.Domain\QuranSchool.Domain.csproj" />
   </ItemGroup>
 </Project>

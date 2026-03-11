@@ -260,6 +260,21 @@ export const donationApi = {
         api.post(`/api/donation/checkout`, { campaignId, amount, isAnonymous }),
 };
 
+export const financeApi = {
+    getSummary: () => api.get('/api/finance/summary'),
+    getTransactions: (params?: any) => api.get('/api/finance/transactions', { params }),
+    getProjects: () => api.get('/api/finance/projects'),
+    getDonors: () => api.get('/api/finance/donors'),
+    createTransaction: (data: any) => api.post('/api/finance/transactions', data),
+};
+
+export const staffApi = {
+    getAll: () => api.get('/api/staff'),
+    getContracts: () => api.get('/api/staff/contracts'),
+    getAbsences: () => api.get('/api/staff/absences'),
+    createAbsence: (data: any) => api.post('/api/staff/absences', data),
+};
+
 export const paymentApi = {
     getAll: () => api.get<PaymentApiResponse[]>(`/api/payment`),
     getById: (id: string) => api.get<PaymentApiResponse>(`/api/payment/${id}`),

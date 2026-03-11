@@ -10,7 +10,7 @@ import {
     FiMessageCircle, FiDollarSign, FiTrendingUp, FiMail, FiBell, FiSettings,
     FiLogOut, FiSun, FiMoon, FiMenu, FiGlobe, FiBookOpen, FiLayers, FiShield,
     FiChevronDown, FiChevronRight, FiX, FiTarget, FiAward, FiPieChart, FiMusic,
-    FiMapPin
+    FiMapPin, FiBriefcase, FiCreditCard
 } from 'react-icons/fi';
 import { usePermission, Permissions } from '@/hooks/usePermission';
 import { UserRole } from '@/types';
@@ -160,13 +160,31 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ]
         },
         {
+            title: 'Ressources Humaines',
+            module: 'admin',
+            items: [
+                { icon: <FiBriefcase size={18} />, label: 'Gestion du Personnel', href: '/dashboard/staff', permissions: [Permissions.StaffView] },
+                { icon: <FiCalendar size={18} />, label: 'Congés & Absences', href: '/dashboard/staff/absences', permissions: [Permissions.StaffView] },
+            ]
+        },
+        {
+            title: 'Gestion Financière',
+            module: 'admin',
+            items: [
+                { icon: <FiTrendingUp size={18} />, label: 'Tableau de Bord', href: '/dashboard/finance', permissions: [Permissions.FinanceView] },
+                { icon: <FiDollarSign size={18} />, label: 'Transactions (Grand Livre)', href: '/dashboard/finance/transactions', permissions: [Permissions.FinanceView] },
+                { icon: <FiCreditCard size={18} />, label: 'Dons & Donateurs', href: '/dashboard/finance/donors', permissions: [Permissions.FinanceView] },
+                { icon: <FiPieChart size={18} />, label: 'Projets & Budgets', href: '/dashboard/finance/projects', permissions: [Permissions.FinanceView] },
+            ]
+        },
+        {
             title: 'Administration',
             module: 'admin',
             items: [
-                { icon: <FiPieChart size={18} />, label: 'Pilotage & Stats', href: '/dashboard/analytics', permissions: [Permissions.AdminDashboardView] },
-                { icon: <FiDollarSign size={18} />, label: t.common.payments, href: '/dashboard/payments', permissions: [Permissions.PaymentsView] },
                 { icon: <FiShield size={18} />, label: 'Rôles & Accès', href: '/dashboard/roles', permissions: [Permissions.RolesManage] },
-                { icon: <FiShield size={18} />, label: 'Utilisateurs', href: '/dashboard/users', permissions: [Permissions.UsersManage] },
+                { icon: <FiUsers size={18} />, label: 'Utilisateurs', href: '/dashboard/users', permissions: [Permissions.UsersManage] },
+                { icon: <FiPieChart size={18} />, label: 'Statistiques Globales', href: '/dashboard/analytics', permissions: [Permissions.AdminDashboardView] },
+                { icon: <FiDollarSign size={18} />, label: 'Paiements Scolaires', href: '/dashboard/payments', permissions: [Permissions.PaymentsView] },
             ]
         }
     ];

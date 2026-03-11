@@ -1,0 +1,84 @@
+﻿
+C:\Users\aminc\.gemin
+i\antigravity\scratch
+\quran-school-saas\ba
+ckend\src\QuranSchool
+.Api\Controllers\Staf
+fController.cs(18,22)
+: error CS0246: The 
+type or namespace 
+name 'ICurrentUserSer
+vice' could not be 
+found (are you 
+missing a using 
+directive or an 
+assembly reference?) 
+[C:\Users\aminc\.gemi
+ni\antigravity\scratc
+h\quran-school-saas\b
+ackend\src\QuranSchoo
+l.Api\QuranSchool.Api
+.csproj]
+C:\Users\aminc\.gemin
+i\antigravity\scratch
+\quran-school-saas\ba
+ckend\src\QuranSchool
+.Api\Controllers\Staf
+fController.cs(20,56)
+: error CS0246: The 
+type or namespace 
+name 'ICurrentUserSer
+vice' could not be 
+found (are you 
+missing a using 
+directive or an 
+assembly reference?) 
+[C:\Users\aminc\.gemi
+ni\antigravity\scratc
+h\quran-school-saas\b
+ackend\src\QuranSchoo
+l.Api\QuranSchool.Api
+.csproj]
+C:\Users\aminc\.gemin
+i\antigravity\scratch
+\quran-school-saas\ba
+ckend\src\QuranSchool
+.Api\Controllers\Staf
+fController.cs(18,22)
+: error CS0246: The 
+type or namespace 
+name 'ICurrentUserSer
+vice' could not be 
+found (are you 
+missing a using 
+directive or an 
+assembly reference?) 
+[C:\Users\aminc\.gemi
+ni\antigravity\scratc
+h\quran-school-saas\b
+ackend\src\QuranSchoo
+l.Api\QuranSchool.Api
+.csproj]
+C:\Users\aminc\.gemin
+i\antigravity\scratch
+\quran-school-saas\ba
+ckend\src\QuranSchool
+.Api\Controllers\Staf
+fController.cs(20,56)
+: error CS0246: The 
+type or namespace 
+name 'ICurrentUserSer
+vice' could not be 
+found (are you 
+missing a using 
+directive or an 
+assembly reference?) 
+[C:\Users\aminc\.gemi
+ni\antigravity\scratc
+h\quran-school-saas\b
+ackend\src\QuranSchoo
+l.Api\QuranSchool.Api
+.csproj]
+    2 Error(s)
+
+

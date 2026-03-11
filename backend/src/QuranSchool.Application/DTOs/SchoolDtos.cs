@@ -14,7 +14,11 @@ public record UpdateSchoolRequest(
     string? Phone,
     string? Email,
     string? Description,
-    string? LogoUrl
+    string? LogoUrl,
+    string? PrimaryColor,
+    string? SecondaryColor,
+    string? FaviconUrl,
+    string? Tagline
 );
 
 public record SchoolResponse(
@@ -26,5 +30,9 @@ public record SchoolResponse(
     string? LogoUrl,
     string? Description,
     bool IsActive,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    string? PrimaryColor,
+    string? SecondaryColor,
+    string? FaviconUrl,
+    string? Tagline
 );

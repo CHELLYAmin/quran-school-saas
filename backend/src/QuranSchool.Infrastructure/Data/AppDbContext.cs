@@ -60,6 +60,16 @@ public class AppDbContext : DbContext
     public DbSet<DonationRecord> DonationRecords => Set<DonationRecord>();
     public DbSet<VolunteerMission> VolunteerMissions => Set<VolunteerMission>();
     public DbSet<VolunteerSignup> VolunteerSignups => Set<VolunteerSignup>();
+    
+    // Finance Module
+    public DbSet<FinancialTransaction> FinancialTransactions => Set<FinancialTransaction>();
+    public DbSet<TransactionCategory> TransactionCategories => Set<TransactionCategory>();
+    public DbSet<DonorProfile> DonorProfiles => Set<DonorProfile>();
+    public DbSet<FinancialProject> FinancialProjects => Set<FinancialProject>();
+
+    // RH Module
+    public DbSet<StaffContract> StaffContracts => Set<StaffContract>();
+    public DbSet<StaffAbsence> StaffAbsences => Set<StaffAbsence>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -148,6 +158,7 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Module).HasMaxLength(100);
             entity.Property(e => e.Action).HasMaxLength(100);
             entity.HasOne(e => e.User).WithMany().HasForeignKey(e => e.UserId);
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
             entity.HasQueryFilter(e => !e.IsDeleted);
         });
 
@@ -445,6 +456,66 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Status).HasConversion<string>();
             entity.HasOne(e => e.Student).WithMany().HasForeignKey(e => e.StudentId).OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(e => e.Teacher).WithMany().HasForeignKey(e => e.TeacherId).OnDelete(DeleteBehavior.SetNull);
+        });
+
+        // === Finance Module Configuration ===
+        modelBuilder.Entity<TransactionCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<FinancialProject>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
+            entity.Property(e => e.Budget).HasPrecision(18, 2);
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<DonorProfile>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.FullName).IsRequired().HasMaxLength(200);
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<FinancialTransaction>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Amount).HasPrecision(18, 2);
+            entity.Property(e => e.Type).HasConversion<string>();
+            entity.Property(e => e.PaymentMethod).HasConversion<string>();
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
+            entity.HasOne(e => e.Category).WithMany(c => c.Transactions).HasForeignKey(e => e.CategoryId);
+            entity.HasOne(e => e.Project).WithMany(p => p.Transactions).HasForeignKey(e => e.ProjectId).OnDelete(DeleteBehavior.SetNull);
+            entity.HasOne(e => e.Donor).WithMany(d => d.Donations).HasForeignKey(e => e.DonorId).OnDelete(DeleteBehavior.SetNull);
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        // === RH Module Configuration ===
+        modelBuilder.Entity<StaffContract>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Salary).HasPrecision(18, 2);
+            entity.Property(e => e.Type).HasConversion<string>();
+            entity.Property(e => e.Status).HasConversion<string>();
+            entity.HasOne(e => e.User).WithMany().HasForeignKey(e => e.UserId);
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
+            entity.HasQueryFilter(e => !e.IsDeleted);
+        });
+
+        modelBuilder.Entity<StaffAbsence>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Type).HasConversion<string>();
+            entity.HasOne(e => e.User).WithMany().HasForeignKey(e => e.UserId);
+            entity.HasOne(e => e.School).WithMany().HasForeignKey(e => e.SchoolId);
+            entity.HasQueryFilter(e => !e.IsDeleted);
         });
     }
 

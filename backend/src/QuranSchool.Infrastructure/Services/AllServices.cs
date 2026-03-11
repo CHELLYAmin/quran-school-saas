@@ -30,11 +30,11 @@ public class SchoolService : ISchoolService
     public async Task<SchoolResponse> GetByIdAsync(Guid id)
     {
         var s = await _context.Schools.FindAsync(id) ?? throw new KeyNotFoundException("School not found.");
-        return new SchoolResponse(s.Id, s.Name, s.Address, s.Phone, s.Email, s.LogoUrl, s.Description, s.IsActive, s.CreatedAt);
+        return new SchoolResponse(s.Id, s.Name, s.Address, s.Phone, s.Email, s.LogoUrl, s.Description, s.IsActive, s.CreatedAt, s.PrimaryColor, s.SecondaryColor, s.FaviconUrl, s.Tagline);
     }
 
     public async Task<IReadOnlyList<SchoolResponse>> GetAllAsync()
-        => await _context.Schools.Select(s => new SchoolResponse(s.Id, s.Name, s.Address, s.Phone, s.Email, s.LogoUrl, s.Description, s.IsActive, s.CreatedAt)).ToListAsync();
+        => await _context.Schools.Select(s => new SchoolResponse(s.Id, s.Name, s.Address, s.Phone, s.Email, s.LogoUrl, s.Description, s.IsActive, s.CreatedAt, s.PrimaryColor, s.SecondaryColor, s.FaviconUrl, s.Tagline)).ToListAsync();
 
     public async Task<SchoolResponse> CreateAsync(CreateSchoolRequest request)
     {
@@ -50,6 +50,8 @@ public class SchoolService : ISchoolService
         var school = await _context.Schools.FindAsync(id) ?? throw new KeyNotFoundException("School not found.");
         school.Name = request.Name; school.Address = request.Address; school.Phone = request.Phone;
         school.Email = request.Email; school.Description = request.Description; school.LogoUrl = request.LogoUrl;
+        school.PrimaryColor = request.PrimaryColor; school.SecondaryColor = request.SecondaryColor;
+        school.FaviconUrl = request.FaviconUrl; school.Tagline = request.Tagline;
         await _context.SaveChangesAsync();
         return await GetByIdAsync(school.Id);
     }

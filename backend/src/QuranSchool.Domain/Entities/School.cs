@@ -12,6 +12,12 @@ public class School : BaseEntity
     public string? Description { get; set; }
     public bool IsActive { get; set; } = true;
 
+    // Branding (SaaS V3)
+    public string? PrimaryColor { get; set; } = "#4f46e5"; // Default Indigo
+    public string? SecondaryColor { get; set; } = "#ca8a04"; // Default Gold
+    public string? FaviconUrl { get; set; }
+    public string? Tagline { get; set; }
+
     // Navigation
     public ICollection<User> Users { get; set; } = new List<User>();
     public ICollection<Student> Students { get; set; } = new List<Student>();

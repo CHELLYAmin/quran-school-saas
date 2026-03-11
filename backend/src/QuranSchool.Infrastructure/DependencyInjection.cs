@@ -56,6 +56,9 @@ public static class DependencyInjection
         services.AddScoped<IMushafService, MushafService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<ILevelService, LevelService>();
+        services.AddScoped<IFinancialService, FinancialService>();
+        services.AddScoped<IStaffService, StaffService>();
+        services.AddScoped<IAuditService, AuditService>();
 
         // System
         services.AddScoped<ICurrentUserService, CurrentUserService>();

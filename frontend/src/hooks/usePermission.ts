@@ -55,7 +55,13 @@ export const Permissions = {
 
     // Settings
     SettingsManage: 'SETTINGS_MANAGE',
-    SettingsView: 'SETTINGS_VIEW', // Added for consistency with layout.tsx
+    SettingsView: 'SETTINGS_VIEW',
+
+    // Finance & RH (SaaS V3)
+    FinanceView: 'FINANCE_VIEW',
+    FinanceManage: 'FINANCE_MANAGE',
+    StaffView: 'STAFF_VIEW',
+    StaffManage: 'STAFF_MANAGE',
 };
 
 export function usePermission() {
