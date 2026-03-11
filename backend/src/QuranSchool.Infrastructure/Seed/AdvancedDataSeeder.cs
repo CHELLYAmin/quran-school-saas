@@ -371,7 +371,7 @@ public class AdvancedDataSeeder
                 Id = Guid.NewGuid(),
                 SchoolId = schoolId,
                 UserId = teacherUser.Id,
-                Type = QuranSchool.Domain.Enums.StaffContractType.Permanent,
+                Type = QuranSchool.Domain.Enums.StaffContractType.CDI,
                 Salary = faker.Random.Decimal(2500, 4500),
                 StartDate = DateTime.UtcNow.AddYears(-1).ToUniversalTime(),
                 Status = QuranSchool.Domain.Enums.StaffContractStatus.Active
@@ -381,11 +381,11 @@ public class AdvancedDataSeeder
         // Transaction Categories
         var categories = new List<TransactionCategory>
         {
-            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Salaires", Type = QuranSchool.Domain.Enums.TransactionType.Expense, Description = "Paiement du personnel" },
-            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Frais de scolarité", Type = QuranSchool.Domain.Enums.TransactionType.Income, Description = "Entrées des élèves" },
-            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Maintenance", Type = QuranSchool.Domain.Enums.TransactionType.Expense, Description = "Entretien des locaux" },
-            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Dons Généraux", Type = QuranSchool.Domain.Enums.TransactionType.Income, Description = "Dons de la communauté" },
-            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Utilités", Type = QuranSchool.Domain.Enums.TransactionType.Expense, Description = "Électricité, eau, chauffage" }
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Salaires", Type = QuranSchool.Domain.Enums.FinancialTransactionType.Expense, Description = "Paiement du personnel" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Frais de scolarité", Type = QuranSchool.Domain.Enums.FinancialTransactionType.Income, Description = "Entrées des élèves" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Maintenance", Type = QuranSchool.Domain.Enums.FinancialTransactionType.Expense, Description = "Entretien des locaux" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Dons Généraux", Type = QuranSchool.Domain.Enums.FinancialTransactionType.Income, Description = "Dons de la communauté" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Utilités", Type = QuranSchool.Domain.Enums.FinancialTransactionType.Expense, Description = "Électricité, eau, chauffage" }
         };
         _context.TransactionCategories.AddRange(categories);
 
@@ -407,11 +407,10 @@ public class AdvancedDataSeeder
                 SchoolId = schoolId,
                 Amount = faker.Random.Decimal(50, 1500),
                 Date = faker.Date.Past(1).ToUniversalTime(),
-                Description = $"Transaction {i} - {cat.Name}",
+                Note = $"Transaction {i} - {cat.Name}",
                 Type = cat.Type,
                 CategoryId = cat.Id,
-                ProjectId = faker.Random.Bool() ? faker.PickRandom(projects).Id : null,
-                IsVerified = true
+                ProjectId = faker.Random.Bool() ? faker.PickRandom(projects).Id : null
             });
         }
 
