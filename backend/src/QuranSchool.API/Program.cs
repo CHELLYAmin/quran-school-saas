@@ -281,6 +281,7 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.MapControllers();
 app.MapHealthChecks("/health");
+app.MapGet("/", () => Results.Ok("CCIQ API is healthy."));
 app.MapHub<NotificationHub>("/notificationHub");
 app.MapGet("/api/debug/reset-log", () => Results.Ok(new { log = QuranSchool.API.StartupDiagnostics.LastError }));
 
