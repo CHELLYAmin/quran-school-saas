@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,44 +13,37 @@ namespace QuranSchool.Infrastructure.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "BlocksJson",
                 table: "CmsPages",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "Icon",
                 table: "CmsPages",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsSystemPage",
                 table: "CmsPages",
-                type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
                 name: "MetaImage",
                 table: "CmsPages",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "SeoDescription",
                 table: "CmsPages",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "SeoTitle",
                 table: "CmsPages",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
                 name: "ShowInMenu",
                 table: "CmsPages",
-                type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
         }

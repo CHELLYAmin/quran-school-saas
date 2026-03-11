@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,25 +13,21 @@ namespace QuranSchool.Infrastructure.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "FaviconUrl",
                 table: "Schools",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "PrimaryColor",
                 table: "Schools",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "SecondaryColor",
                 table: "Schools",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "Tagline",
                 table: "Schools",
-                type: "TEXT",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
