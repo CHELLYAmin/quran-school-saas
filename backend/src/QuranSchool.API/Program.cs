@@ -96,7 +96,7 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 // Seed database based on CLI arguments or environment variables
-var envReset = true; // FORCE RESET IN PROD temporarily
+var envReset = Environment.GetEnvironmentVariable("RESET_DATABASE") == "true";
 var seedReset = args.Contains("--seed-reset") || envReset;
 var seed = args.Contains("--seed") || seedReset;
 
@@ -293,3 +293,4 @@ namespace QuranSchool.API
         public static string LastError { get; set; } = "No errors detected.";
     }
 }
+
