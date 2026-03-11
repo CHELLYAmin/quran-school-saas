@@ -53,7 +53,7 @@ export async function fetchPrayerTimesByAddress(params: AladhanParams): Promise<
     }
 
     try {
-        const url = new URL("http://api.aladhan.com/v1/timingsByAddress");
+        const url = new URL("https://api.aladhan.com/v1/timingsByAddress");
         url.searchParams.append("address", address);
         url.searchParams.append("method", method.toString());
 
@@ -95,7 +95,7 @@ export async function fetchPrayerTimesByCoordinates(params: AladhanCoordParams):
 
     try {
         const datePath = date || '';
-        const url = new URL(`http://api.aladhan.com/v1/timings/${datePath}`);
+        const url = new URL(`https://api.aladhan.com/v1/timings/${datePath}`);
         url.searchParams.append("latitude", latitude.toString());
         url.searchParams.append("longitude", longitude.toString());
         url.searchParams.append("method", method.toString());
