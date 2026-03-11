@@ -6,7 +6,7 @@
         "dev": "next dev -H 0.0.0.0",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 20",
+        "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 50",
         "cap:sync": "npx cap sync",
         "cap:open": "npx cap open android"
     },

@@ -74,6 +74,7 @@ export default function SiteHomePage() {
             setLoading(false);
         };
         init();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

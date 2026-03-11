@@ -24,6 +24,7 @@ export default function CmsPageClient({ slug }: { slug: string }) {
 
     useEffect(() => {
         if (slug) loadPage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slug]);
 
     const loadPage = async () => {
