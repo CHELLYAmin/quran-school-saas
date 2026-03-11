@@ -45,10 +45,15 @@ export default function PublicHeader() {
                             <span className="material-symbols-outlined text-[14px] text-accent-gold">schedule</span>
                             <span>Prochaine Prière : <span className="text-white">Maghrib (19:40)</span></span>
                         </div>
-                        <div className="hidden sm:flex items-center gap-2 border-l border-white/10 pl-6">
+                        <a 
+                            href="https://www.google.com/maps/search/?api=1&query=Montréal,QC" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="hidden sm:flex items-center gap-2 border-l border-white/10 pl-6 hover:text-white transition-colors cursor-pointer"
+                        >
                             <span className="material-symbols-outlined text-[14px] text-accent-gold">location_on</span>
                             <span>Montréal, QC</span>
-                        </div>
+                        </a>
                     </div>
                     <div className="flex items-center gap-4">
                         <button className="hover:text-white transition-colors">FR</button>

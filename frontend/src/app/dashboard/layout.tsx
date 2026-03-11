@@ -230,15 +230,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div className="p-4 flex flex-col gap-4 border-b border-dark-100 dark:border-dark-800/50 bg-white dark:bg-dark-900 z-10 shrink-0">
                     <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-sm">
-                                <span className="text-xl text-white">📖</span>
+                            <div className="flex-shrink-0 w-10 h-10 bg-primary-900 text-accent-gold rounded-xl flex items-center justify-center shadow-lg shadow-primary-900/10">
+                                <span className="material-symbols-outlined text-2xl">mosque</span>
                             </div>
                             {(sidebarOpen || (typeof window !== 'undefined' && window.innerWidth < 1024)) && (
                                 <div className="animate-fade-in overflow-hidden whitespace-nowrap">
                                     <h1 className="font-bold text-lg text-dark-900 dark:text-white leading-tight">Quran School</h1>
-                                    <Link href="/site" className="mt-1 flex items-center gap-1.5 text-primary-600 dark:text-accent-gold text-[9px] font-black uppercase tracking-widest hover:underline decoration-2 underline-offset-4">
+                                    <Link href="/site" className="mt-1 flex items-center gap-1.5 text-primary-600 dark:text-accent-gold text-[9px] font-black uppercase tracking-widest group/site">
                                         <span className="material-symbols-outlined text-[12px]">public</span>
-                                        Voir le site
+                                        <span className="group-hover/site:underline decoration-2 underline-offset-4">Voir le site</span>
                                     </Link>
                                     <p className="text-[10px] text-dark-400 capitalize font-medium tracking-wide mt-1">
                                         {(() => {
