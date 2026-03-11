@@ -7,12 +7,12 @@ import api from '@/lib/api/client';
 
 const NAV_LINKS = [
     { name: 'Accueil', href: '/site' },
-    { name: 'Le Centre', href: '/site/historique' },
+    { name: 'Le Centre', href: '/site/centre' },
     { name: 'Services', href: '/site/services' },
     { name: "L'Islam", href: '/site/islam' },
     { name: 'Horaires', href: '/site/horaires' },
     { name: 'Cimetière', href: '/site/cimetiere' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Contact', href: '/site/contact' },
 ];
 
 interface PrayerInfo {
@@ -49,11 +49,23 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     }, []);
 
     useEffect(() => {
-        // Appels externes désactivés selon la demande de l'utilisateur.
+        loadMosqueInfo();
+        loadMenu();
     }, []);
 
     const loadMenu = async () => {
-        // Menu dynamique venant de la DB désactivé. On conserve le menu clean hardcodé.
+        try {
+            const res = await api.get('/api/cms/menu');
+            if (res.data && res.data.length > 0) {
+                setNavLinks(res.data.map((item: any) => ({
+                    name: item.title,
+                    href: item.slug === 'home' ? '/site' : `/site/${item.slug}`,
+                    icon: item.icon
+                })));
+            }
+        } catch (e) {
+            console.error('Failed to load menu', e);
+        }
     };
 
     const loadMosqueInfo = async () => {
@@ -113,7 +125,33 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans text-dark-900 dark:text-dark-100">
-            {/* InfoBar et appels extérieurs supprimés selon la demande de l'utilisateur */}
+            {/* Info Bar - Premium Glassmorphism */}
+            <div className="bg-primary-950/95 dark:bg-black/80 backdrop-blur-md text-emerald-50/70 py-3 px-6 lg:px-20 text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase border-b border-white/5 z-[60] relative">
+                <div className="max-w-7xl mx-auto flex justify-between items-center">
+                    <div className="flex items-center gap-8">
+                        <div className="flex items-center gap-2.5 group">
+                            <span className="material-symbols-outlined text-[16px] text-accent-gold group-hover:rotate-12 transition-transform">schedule</span>
+                            {nextPrayer ? (
+                                <span>Prochaine prière : <span className="text-white font-extrabold">{nextPrayer.name} • {nextPrayer.time}</span></span>
+                            ) : (
+                                <span className="animate-pulse">Calcul des horaires...</span>
+                            )}
+                        </div>
+                        <div className="hidden md:flex items-center gap-2.5 border-l border-white/10 pl-8 group">
+                            <span className="material-symbols-outlined text-[16px] text-accent-gold group-hover:-translate-y-1 transition-transform">location_on</span>
+                            <span className="truncate max-w-[300px]">{mosqueAddress || '2877 ch. Sainte-Foy, Québec'}</span>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-6">
+                        <Link href="/login" className="hover:text-accent-gold transition-colors flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[14px]">person</span>
+                            Espace Membre
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Nav - Floating & Blurred */}
             <header className={`sticky top-0 z-[100] transition-all duration-500 ${isScrolled || menuOpen ? 'bg-white dark:bg-dark-950 shadow-2xl shadow-primary-900/10 py-3' : 'bg-transparent py-6'}`}>
                 <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10">
                     <Link href="/site" className="flex items-center gap-4 group">

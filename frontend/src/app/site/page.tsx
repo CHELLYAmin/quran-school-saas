@@ -237,32 +237,6 @@ export default function SiteHomePage() {
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 flex flex-col font-sans">
-            {/* Dynamic Announcement Banner */}
-            {announcements.length > 0 && (
-                <div className="bg-primary-950 text-white overflow-hidden py-3 relative border-b border-white/5 z-20">
-                    <div className="absolute inset-0 opacity-10 flex text-[8rem] leading-none whitespace-nowrap overflow-hidden items-center select-none -top-4 -z-0 pointer-events-none cinzel-title font-black">
-                        CENTRE CULTUREL ISLAMIQUE DE QUÉBEC
-                    </div>
-                    <div className="max-w-7xl mx-auto px-6 z-10 relative flex justify-between items-center whitespace-nowrap overflow-x-auto no-scrollbar">
-                        <span className="text-[10px] font-black tracking-[0.3em] text-accent-gold mr-10 bg-white/5 px-5 py-2 rounded-full shrink-0 uppercase border border-white/10 shadow-2xl">
-                            ANNONCE • LIVE
-                        </span>
-                        <div className="animate-marquee flex gap-12 whitespace-nowrap items-center text-[13px] font-bold tracking-wide">
-                            <Link href={`/site/${announcements[0].slug}`} className="hover:text-accent-gold transition-all flex items-center gap-3 decoration-accent-gold/30 underline-offset-8 group">
-                                <span className="size-2 bg-accent-gold rounded-full animate-ping" />
-                                {announcements[0].title}
-                            </Link>
-                            <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                            {publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement').length > 0 && (
-                                <Link href={`/site/${publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement')[0].slug}`} className="hover:text-accent-gold transition-all opacity-70 hover:opacity-100">
-                                    {publicContent.filter(i => i.type === 'cms' && i.category !== 'announcement')[0].title}
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {/* Hero Section - Super Premium */}
             <section className="relative min-h-[95vh] flex items-center bg-white dark:bg-dark-900 overflow-hidden isolate shadow-2xl">
                 {/* Architectural Elements */}

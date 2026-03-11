@@ -27,7 +27,7 @@ export default function PublicHeader() {
 
     const navLinks = [
         { name: 'Accueil', href: '/site' },
-        { name: 'Le Centre', href: '/site/historique' },
+        { name: 'Le Centre', href: '/site/centre' },
         { name: 'Services', href: '/site/services' },
         { name: "L'Islam", href: '/site/islam' },
         { name: 'Horaires', href: '/site/horaires' },
@@ -37,7 +37,31 @@ export default function PublicHeader() {
 
     return (
         <header className="fixed top-0 w-full z-[100]">
-            {/* Top InfoBar supprimée selon demande utilisateur */}
+            {/* Info Bar */}
+            <div className="bg-primary-900 text-pearl/80 py-2 px-6 lg:px-20 text-[10px] md:text-xs font-semibold tracking-widest uppercase border-b border-white/5">
+                <div className="max-w-7xl mx-auto flex justify-between items-center">
+                    <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[14px] text-accent-gold">schedule</span>
+                            <span>Prochaine Prière : <span className="text-white">Maghrib (19:40)</span></span>
+                        </div>
+                        <a 
+                            href="https://www.google.com/maps/search/?api=1&query=Montréal,QC" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="hidden sm:flex items-center gap-2 border-l border-white/10 pl-6 hover:text-white transition-colors cursor-pointer"
+                        >
+                            <span className="material-symbols-outlined text-[14px] text-accent-gold">location_on</span>
+                            <span>Montréal, QC</span>
+                        </a>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <button className="hover:text-white transition-colors">FR</button>
+                        <span className="text-white/20">|</span>
+                        <button className="hover:text-white transition-colors">AR</button>
+                    </div>
+                </div>
+            </div>
 
             {/* Main Header */}
             <div className={`transition-all duration-300 ${isScrolled ? 'bg-pearl/95 backdrop-blur-md py-3 shadow-xl shadow-primary-900/5 border-b border-primary/5' : 'bg-pearl/80 backdrop-blur-sm py-5 px-6 lg:px-20'}`}>
