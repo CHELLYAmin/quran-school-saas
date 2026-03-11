@@ -37,7 +37,7 @@ export default function PublicHeader() {
 
     return (
         <header className="fixed top-0 w-full z-[100]">
-// Top InfoBar supprimée selon demande utilisateur
+            {/* Top InfoBar supprimée selon demande utilisateur */}
 
             {/* Main Header */}
             <div className={`transition-all duration-300 ${isScrolled ? 'bg-pearl/95 backdrop-blur-md py-3 shadow-xl shadow-primary-900/5 border-b border-primary/5' : 'bg-pearl/80 backdrop-blur-sm py-5 px-6 lg:px-20'}`}>

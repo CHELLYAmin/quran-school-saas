@@ -113,9 +113,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans text-dark-900 dark:text-dark-100">
-// InfoBar et appels extérieurs supprimés selon la demande de l'utilisateur
-
-            {/* Main Nav - Floating & Blurred */}
+            {/* InfoBar et appels extérieurs supprimés selon la demande de l'utilisateur */}
             <header className={`sticky top-0 z-[100] transition-all duration-500 ${isScrolled || menuOpen ? 'bg-white dark:bg-dark-950 shadow-2xl shadow-primary-900/10 py-3' : 'bg-transparent py-6'}`}>
                 <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10">
                     <Link href="/site" className="flex items-center gap-4 group">
