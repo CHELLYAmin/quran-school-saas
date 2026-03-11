@@ -1,0 +1,139 @@
+﻿
+> quran-school-frontend@1.0.0 build
+> next build
+
+   Γû▓ Next.js 15.5.12
+   - Environments: .env.local, .env.production
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 9.4s
+   Linting and checking validity of types ...
+
+./src/app/dashboard/groups/[id]/GroupDetailsClient.tsx
+71:8  Warning: React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/homework/page.tsx
+39:8  Warning: React Hook useEffect has a missing dependency: 'fetchHomeworks'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/homework/[id]/HomeworkDetailsClient.tsx
+31:8  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/layout.tsx
+94:8  Warning: React Hook useEffect has missing dependencies: 'sidebarOpen' and 'toggleSidebar'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/leaderboard/page.tsx
+24:8  Warning: React Hook useEffect has a missing dependency: 'loadLeaderboard'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/levels/[id]/LevelDetailsClient.tsx
+83:8  Warning: React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/missions/page.tsx
+59:8  Warning: React Hook useEffect has a missing dependency: 'loadMissions'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/mosque/prayer-times/page.tsx
+77:38  Warning: React Hook useEffect has a missing dependency: 'loadData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/parent/page.tsx
+52:8  Warning: React Hook useEffect has a missing dependency: 'fetchDashboard'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+58:8  Warning: React Hook useEffect has a missing dependency: 'fetchAnalytics'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/sessions/[id]/live/VirtualClassroomClient.tsx
+111:8  Warning: React Hook useEffect has missing dependencies: 'initJitsi' and 'jitsiApi'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/student/page.tsx
+50:8  Warning: React Hook useEffect has missing dependencies: 'fetchDashboard' and 'fetchMissions'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/teacher/page.tsx
+33:8  Warning: React Hook useEffect has a missing dependency: 'fetchDashboard'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/site/donate/[id]/DonationDetailClient.tsx
+14:8  Warning: React Hook useEffect has a missing dependency: 'loadCampaign'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/site/volunteer/[id]/VolunteerDetailClient.tsx
+14:8  Warning: React Hook useEffect has a missing dependency: 'loadMission'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/ui/MapPicker.tsx
+80:8  Warning: React Hook useEffect has missing dependencies: 'initialAddress', 'initialLat', 'initialLng', and 'onLocationSelect'. Either include them or remove the dependency array. If 'onLocationSelect' changes too often, find the parent component that defines it and wrap that definition in useCallback.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+node.exe : Failed to 
+compile.
+Au caractère Ligne:1 
+: 1
++ & "C:\Program Files
+\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Failed    
+ to compile.:Stri    
+ng) [], RemoteEx    
+ception
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+
+.next/types/app/site/
+[slug]/page.ts:34:29
+Type error: Type '{ 
+params: { slug: 
+string; }; }' does 
+not satisfy the 
+constraint 
+'PageProps'.
+  Types of property 
+'params' are 
+incompatible.
+    Type '{ slug: 
+string; }' is 
+missing the 
+following properties 
+from type 
+'Promise<any>': 
+then, catch, 
+finally, 
+[Symbol.toStringTag]
+
+[0m [90m 32 |[39m
+ [90m 33 |[39m 
+[90m// Check the 
+prop type of the 
+entry function[39m
+[31m[1m>[22m[39m
+[90m 34 |[39m checkF
+ields[33m<[39m[33m
+Diff[39m[33m<[39m
+[33mPageProps[39m[3
+3m,[39m [33mFirstAr
+g[39m[33m<[39m[33
+mTEntry[39m[[32m'de
+fault'[39m][33m>[3
+9m[33m,[39m [32m'd
+efault'[39m[33m>>[
+39m()
+ [90m    |[39m     
+                     
+   
+[31m[1m^[22m[39m
+ [90m 35 |[39m
+ [90m 36 |[39m 
+[90m// Check the 
+arguments and return 
+type of the 
+generateMetadata 
+function[39m
+ [90m 37 |[39m 
+[36mif[39m ([32m'g
+enerateMetadata'[39m
+ [36min[39m entry) 
+{[0m
+Next.js build worker 
+exited with code: 1 
+and signal: null

@@ -2,10 +2,11 @@ import { Metadata } from 'next';
 import CmsPageClient from './CmsPageClient';
 import api from '@/lib/api/client';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
     try {
         // Use the internal client for fetching metadata on server side
-        const res = await api.get(`/api/cms/pages/${params.slug}`);
+        const res = await api.get(`/api/cms/pages/${slug}`);
         const page = res.data;
         
         return {
@@ -43,6 +44,7 @@ export function generateStaticParams() {
     ];
 }
 
-export default function SiteSlugPage({ params }: { params: { slug: string } }) {
-    return <CmsPageClient slug={params.slug} />;
+export default async function SiteSlugPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    return <CmsPageClient slug={slug} />;
 }

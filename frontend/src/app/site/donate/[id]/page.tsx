@@ -4,6 +4,7 @@ export function generateStaticParams() {
     return [{ id: '1' }];
 }
 
-export default function DonationDetailPage({ params }: { params: { id: string } }) {
-    return <DonationDetailClient id={params.id} />;
+export default async function DonationDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    return <DonationDetailClient id={id} />;
 }
