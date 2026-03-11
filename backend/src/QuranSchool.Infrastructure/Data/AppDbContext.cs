@@ -169,15 +169,8 @@ public class AppDbContext : DbContext
             entity.Property(e => e.FirstName).IsRequired().HasMaxLength(100);
             entity.Property(e => e.LastName).IsRequired().HasMaxLength(100);
             
-            // SQLite doesn't support arrays, so we store as a JSON string
-            entity.Property(e => e.Badges)
-                .HasConversion(
-                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null!),
-                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null!) ?? new List<string>())
-                .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<string>>(
-                    (c1, c2) => c1!.SequenceEqual(c2!),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList()));
+            // Removed JSON conversion for Badges to use native PostgreSQL text[] array support
+            // This ensures compatibility with the existing text[] column in the production RDS database.
 
             entity.HasOne(e => e.Group).WithMany(g => g.Students).HasForeignKey(e => e.GroupId).OnDelete(DeleteBehavior.SetNull);
             entity.HasOne(e => e.Parent).WithMany(p => p.Children).HasForeignKey(e => e.ParentId).OnDelete(DeleteBehavior.SetNull);
