@@ -51,6 +51,7 @@ public class GlobalExceptionMiddleware
             StatusCode = (int)statusCode,
             Message = message,
             Details = exception.StackTrace,
+            InnerException = exception.InnerException?.Message,
             Timestamp = DateTime.UtcNow
         };
 
