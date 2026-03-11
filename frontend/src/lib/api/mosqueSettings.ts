@@ -7,6 +7,10 @@ export interface MosqueSettings {
     address: string;
     calculationMethod: number;
     prayersJson: string;
+    isLiveAnnouncementActive?: boolean;
+    liveAnnouncementText?: string;
+    liveAnnouncementStartDate?: string;
+    liveAnnouncementEndDate?: string;
 }
 
 export interface UpdateMosqueSettingsDto {
@@ -15,6 +19,10 @@ export interface UpdateMosqueSettingsDto {
     address: string;
     calculationMethod: number;
     prayersJson: string;
+    isLiveAnnouncementActive?: boolean;
+    liveAnnouncementText?: string;
+    liveAnnouncementStartDate?: string;
+    liveAnnouncementEndDate?: string;
 }
 
 export const fetchMosqueSettings = async (): Promise<MosqueSettings> => {

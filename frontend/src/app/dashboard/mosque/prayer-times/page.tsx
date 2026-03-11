@@ -69,6 +69,11 @@ export default function PrayerTimesPage() {
     const [hasChanges, setHasChanges] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
+    const [isLiveAnnouncementActive, setIsLiveAnnouncementActive] = useState(false);
+    const [liveAnnouncementText, setLiveAnnouncementText] = useState('');
+    const [liveAnnouncementStartDate, setLiveAnnouncementStartDate] = useState('');
+    const [liveAnnouncementEndDate, setLiveAnnouncementEndDate] = useState('');
+
     useEffect(() => { loadData(); }, []);
 
     const loadData = async () => {
@@ -87,6 +92,11 @@ export default function PrayerTimesPage() {
                 setAddress(settings.address || 'Québec');
                 loadedMethod = settings.calculationMethod ? settings.calculationMethod.toString() : '2';
                 setCalcMethod(loadedMethod);
+
+                setIsLiveAnnouncementActive(settings.isLiveAnnouncementActive || false);
+                setLiveAnnouncementText(settings.liveAnnouncementText || '');
+                setLiveAnnouncementStartDate(settings.liveAnnouncementStartDate ? settings.liveAnnouncementStartDate.split('T')[0] : '');
+                setLiveAnnouncementEndDate(settings.liveAnnouncementEndDate ? settings.liveAnnouncementEndDate.split('T')[0] : '');
 
                 if (settings.prayersJson && settings.prayersJson.trim() !== '' && settings.prayersJson !== '[]') {
                     try {
@@ -169,7 +179,11 @@ export default function PrayerTimesPage() {
                 longitude: lng || -73.5674,
                 address: address || '',
                 calculationMethod: parseInt(calcMethod),
-                prayersJson: prayers.length > 0 ? JSON.stringify(prayers) : '[]'
+                prayersJson: prayers.length > 0 ? JSON.stringify(prayers) : '[]',
+                isLiveAnnouncementActive,
+                liveAnnouncementText,
+                liveAnnouncementStartDate: liveAnnouncementStartDate ? new Date(liveAnnouncementStartDate).toISOString() : undefined,
+                liveAnnouncementEndDate: liveAnnouncementEndDate ? new Date(liveAnnouncementEndDate).toISOString() : undefined
             };
 
             await saveMosqueSettings(dto);

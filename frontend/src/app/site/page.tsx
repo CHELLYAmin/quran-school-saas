@@ -60,6 +60,10 @@ export default function SiteHomePage() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [calendarBaseDate, setCalendarBaseDate] = useState(new Date());
 
+    // Live Announcement State
+    const [shouldShowLiveAnnouncement, setShouldShowLiveAnnouncement] = useState(false);
+    const [liveAnnouncementText, setLiveAnnouncementText] = useState('');
+
     useEffect(() => {
         const init = async () => {
             await Promise.allSettled([
@@ -179,6 +183,21 @@ export default function SiteHomePage() {
                         active: i === nextIndex
                     })));
                 }
+
+                // Live Announcement Logic
+                if (settings.isLiveAnnouncementActive) {
+                    const now = new Date();
+                    const start = settings.liveAnnouncementStartDate ? new Date(settings.liveAnnouncementStartDate) : null;
+                    const end = settings.liveAnnouncementEndDate ? new Date(settings.liveAnnouncementEndDate) : null;
+                    
+                    // Normalize dates to midnight for date-only comparison if needed, 
+                    // but here we just check if now is between start and end.
+                    const isWithinDates = (!start || now >= start) && (!end || now <= end);
+                    setShouldShowLiveAnnouncement(isWithinDates);
+                    setLiveAnnouncementText(settings.liveAnnouncementText || '');
+                } else {
+                    setShouldShowLiveAnnouncement(false);
+                }
             }
         } catch (e) {
             console.error('Prayer times load error', e);
@@ -237,6 +256,26 @@ export default function SiteHomePage() {
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 flex flex-col font-sans">
+            {/* Dynamic Announcement Banner */}
+            {shouldShowLiveAnnouncement && (
+                <div className="bg-primary-950 text-white overflow-hidden py-3 relative border-b border-white/5 z-20 font-sans">
+                    <div className="absolute inset-0 opacity-10 flex text-[8rem] leading-none whitespace-nowrap overflow-hidden items-center select-none -top-4 -z-0 pointer-events-none cinzel-title font-black">
+                        CENTRE CULTUREL ISLAMIQUE DE QUÉBEC
+                    </div>
+                    <div className="max-w-7xl mx-auto px-6 z-10 relative flex justify-between items-center whitespace-nowrap overflow-x-auto no-scrollbar">
+                        <span className="text-[10px] font-black tracking-[0.3em] text-accent-gold mr-10 bg-white/5 px-5 py-2 rounded-full shrink-0 uppercase border border-white/10 shadow-2xl">
+                            ANNONCE • LIVE
+                        </span>
+                        <div className="animate-marquee flex gap-12 whitespace-nowrap items-center text-[13px] font-bold tracking-wide">
+                            <span className="flex items-center gap-3">
+                                <span className="size-2 bg-accent-gold rounded-full animate-ping" />
+                                {liveAnnouncementText}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Hero Section - Super Premium */}
             <section className="relative min-h-[95vh] flex items-center bg-white dark:bg-dark-900 overflow-hidden isolate shadow-2xl">
                 {/* Architectural Elements */}

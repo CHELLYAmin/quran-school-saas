@@ -46,7 +46,11 @@ public class MosqueSettingsController : ControllerBase
             Longitude = settings.Longitude,
             Address = settings.Address,
             CalculationMethod = settings.CalculationMethod,
-            PrayersJson = settings.PrayersJson
+            PrayersJson = settings.PrayersJson,
+            IsLiveAnnouncementActive = settings.IsLiveAnnouncementActive,
+            LiveAnnouncementText = settings.LiveAnnouncementText,
+            LiveAnnouncementStartDate = settings.LiveAnnouncementStartDate,
+            LiveAnnouncementEndDate = settings.LiveAnnouncementEndDate
         });
     }
 
@@ -64,6 +68,10 @@ public class MosqueSettingsController : ControllerBase
                 Address = dto.Address,
                 CalculationMethod = dto.CalculationMethod,
                 PrayersJson = dto.PrayersJson,
+                IsLiveAnnouncementActive = dto.IsLiveAnnouncementActive,
+                LiveAnnouncementText = dto.LiveAnnouncementText,
+                LiveAnnouncementStartDate = dto.LiveAnnouncementStartDate,
+                LiveAnnouncementEndDate = dto.LiveAnnouncementEndDate
                 // Assign to default SchoolId if required by your context setup, 
                 // but SchoolId is marked nullable in the entity we created.
             };
@@ -76,6 +84,10 @@ public class MosqueSettingsController : ControllerBase
             settings.Address = dto.Address;
             settings.CalculationMethod = dto.CalculationMethod;
             settings.PrayersJson = dto.PrayersJson;
+            settings.IsLiveAnnouncementActive = dto.IsLiveAnnouncementActive;
+            settings.LiveAnnouncementText = dto.LiveAnnouncementText;
+            settings.LiveAnnouncementStartDate = dto.LiveAnnouncementStartDate;
+            settings.LiveAnnouncementEndDate = dto.LiveAnnouncementEndDate;
         }
 
         await _context.SaveChangesAsync();
@@ -87,7 +99,11 @@ public class MosqueSettingsController : ControllerBase
             Longitude = settings.Longitude,
             Address = settings.Address,
             CalculationMethod = settings.CalculationMethod,
-            PrayersJson = settings.PrayersJson
+            PrayersJson = settings.PrayersJson,
+            IsLiveAnnouncementActive = settings.IsLiveAnnouncementActive,
+            LiveAnnouncementText = settings.LiveAnnouncementText,
+            LiveAnnouncementStartDate = settings.LiveAnnouncementStartDate,
+            LiveAnnouncementEndDate = settings.LiveAnnouncementEndDate
         });
     }
 }
