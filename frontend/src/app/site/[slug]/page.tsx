@@ -33,12 +33,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export function generateStaticParams() {
-    // Keep as empty array to allow dynamic generation or add common slugs
     return [
         { slug: 'home' },
-        { slug: 'centre' },
-        { slug: 'hub' },
-        { slug: 'islam' }
+        { slug: 'historique' },
+        { slug: 'islam' },
+        { slug: 'services' },
+        { slug: 'cimetiere' },
+        { slug: 'ramadan-2026' }
     ];
 }
 
