@@ -36,7 +36,7 @@ export default function PublicHeader() {
     ];
 
     return (
-        <header className="fixed top-0 w-full z-50">
+        <header className="fixed top-0 w-full z-[100]">
             {/* Info Bar */}
             <div className="bg-primary-900 text-pearl/80 py-2 px-6 lg:px-20 text-[10px] md:text-xs font-semibold tracking-widest uppercase border-b border-white/5">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">

@@ -152,7 +152,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </div>
 
             {/* Main Nav - Floating & Blurred */}
-            <header className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled || menuOpen ? 'bg-white dark:bg-dark-950 shadow-2xl shadow-primary-900/10 py-3' : 'bg-transparent py-6'}`}>
+            <header className={`sticky top-0 z-[100] transition-all duration-500 ${isScrolled || menuOpen ? 'bg-white dark:bg-dark-950 shadow-2xl shadow-primary-900/10 py-3' : 'bg-transparent py-6'}`}>
                 <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10">
                     <Link href="/site" className="flex items-center gap-4 group">
                         <div className="size-12 bg-primary-900 text-accent-gold rounded-2xl flex items-center justify-center shadow-2xl shadow-primary-900/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-white/10">
