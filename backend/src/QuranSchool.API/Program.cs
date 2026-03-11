@@ -109,9 +109,14 @@ using (var scope = app.Services.CreateScope())
         if (seedReset)
         {
             Console.WriteLine(">>> Resetting database (DELETING ALL DATA)...");
-            db.Database.EnsureDeleted();
-            db.Database.Migrate();
-            Console.WriteLine(">>> Database reset and migrations finished.");
+            try {
+                db.Database.EnsureDeleted();
+                db.Database.Migrate();
+                Console.WriteLine(">>> Database reset and migrations finished.");
+            } catch (Exception ex) {
+                Console.WriteLine($">>> CRITICAL: Reset failed: {ex.Message}");
+                if (ex.InnerException != null) Console.WriteLine($">>> InnerException: {ex.InnerException.Message}");
+            }
         }
         else if (seed)
         {

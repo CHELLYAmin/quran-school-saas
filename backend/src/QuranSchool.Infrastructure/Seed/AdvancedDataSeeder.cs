@@ -359,9 +359,65 @@ public class AdvancedDataSeeder
         }
         _context.StudentMissions.AddRange(missions);
 
-        // Hub content moved to beginning of method
+        // 4. Staff & Finance (New Modules)
+        Console.WriteLine(">>> Generating Staff Contracts and Finance Data...");
+        
+        // Staff Contracts for some teachers
+        var teachers = await _context.Users.Where(u => u.LinkedProfileType == QuranSchool.Domain.Enums.ProfileType.Teacher).Take(5).ToListAsync();
+        foreach (var teacherUser in teachers)
+        {
+            _context.StaffContracts.Add(new StaffContract
+            {
+                Id = Guid.NewGuid(),
+                SchoolId = schoolId,
+                UserId = teacherUser.Id,
+                Type = QuranSchool.Domain.Enums.StaffContractType.Permanent,
+                Salary = faker.Random.Decimal(2500, 4500),
+                StartDate = DateTime.UtcNow.AddYears(-1).ToUniversalTime(),
+                Status = QuranSchool.Domain.Enums.StaffContractStatus.Active
+            });
+        }
+
+        // Transaction Categories
+        var categories = new List<TransactionCategory>
+        {
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Salaires", Type = QuranSchool.Domain.Enums.TransactionType.Expense, Description = "Paiement du personnel" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Frais de scolarité", Type = QuranSchool.Domain.Enums.TransactionType.Income, Description = "Entrées des élèves" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Maintenance", Type = QuranSchool.Domain.Enums.TransactionType.Expense, Description = "Entretien des locaux" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Dons Généraux", Type = QuranSchool.Domain.Enums.TransactionType.Income, Description = "Dons de la communauté" },
+            new TransactionCategory { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Utilités", Type = QuranSchool.Domain.Enums.TransactionType.Expense, Description = "Électricité, eau, chauffage" }
+        };
+        _context.TransactionCategories.AddRange(categories);
+
+        // Financial Projects
+        var projects = new List<FinancialProject>
+        {
+            new FinancialProject { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Agrandissement de la bibliothèque", Budget = 15000, Description = "Aménagement du deuxième étage", IsActive = true },
+            new FinancialProject { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Système de climatisation", Budget = 8000, Description = "Installation split dans les salles de classe", IsActive = true }
+        };
+        _context.FinancialProjects.AddRange(projects);
+
+        // Transactions
+        for (int i = 0; i < 50; i++)
+        {
+            var cat = faker.PickRandom(categories);
+            _context.FinancialTransactions.Add(new FinancialTransaction
+            {
+                Id = Guid.NewGuid(),
+                SchoolId = schoolId,
+                Amount = faker.Random.Decimal(50, 1500),
+                Date = faker.Date.Past(1).ToUniversalTime(),
+                Description = $"Transaction {i} - {cat.Name}",
+                Type = cat.Type,
+                CategoryId = cat.Id,
+                ProjectId = faker.Random.Bool() ? faker.PickRandom(projects).Id : null,
+                IsVerified = true
+            });
+        }
 
         await _context.SaveChangesAsync();
+
+        // Hub content moved to beginning of method 
 
         Console.WriteLine($">>> Bogus Seeding Finished! Created {students.Count} students across {groups.Count} groups.");
     }
