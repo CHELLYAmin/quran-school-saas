@@ -95,8 +95,9 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Seed database based on CLI arguments
-var seedReset = args.Contains("--seed-reset");
+// Seed database based on CLI arguments or environment variables
+var envReset = Environment.GetEnvironmentVariable("RESET_DATABASE") == "true";
+var seedReset = args.Contains("--seed-reset") || envReset;
 var seed = args.Contains("--seed") || seedReset;
 
 using (var scope = app.Services.CreateScope())
@@ -107,9 +108,10 @@ using (var scope = app.Services.CreateScope())
         
         if (seedReset)
         {
-            Console.WriteLine(">>> Resetting database...");
-            db.Database.EnsureCreated();
-            Console.WriteLine(">>> Database reset finished.");
+            Console.WriteLine(">>> Resetting database (DELETING ALL DATA)...");
+            db.Database.EnsureDeleted();
+            db.Database.Migrate();
+            Console.WriteLine(">>> Database reset and migrations finished.");
         }
         else if (seed)
         {
