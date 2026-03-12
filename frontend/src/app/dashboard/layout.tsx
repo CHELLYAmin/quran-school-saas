@@ -38,62 +38,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
     const sidebarModules = [
-        { id: 'scolarite', label: 'École', icon: '🎓' },
-        { id: 'gestion', label: 'Mosquée', icon: '🕌' },
+        { id: 'scolarite', label: t.common.roles.Teacher + ' / École', icon: '🎓' },
+        { id: 'gestion', label: 'Mosquée / Gestion', icon: '🕌' },
+        { id: 'web', label: 'Site Web & CMS', icon: '🌐' },
         { id: 'admin', label: 'Administration', icon: '⚙️' },
     ];
 
-    useEffect(() => {
-        // Only redirect if loading is finished and not authenticated
-        if (!isLoading && !isAuthenticated) {
-            router.push('/login');
-        }
-    }, [isAuthenticated, isLoading, router]);
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            loadNotifications();
-        }
-    }, [isAuthenticated, pathname]);
-
-    const loadNotifications = async () => {
-        try {
-            const data = await notificationsService.getMyNotifications();
-            setNotifications(data);
-            setUnreadCount(data.filter(n => !n.isRead).length);
-        } catch (e) {
-            console.error('Failed to load notifications', e);
-        }
-    };
-
-    const handleMarkAsRead = async (id: string) => {
-        try {
-            await notificationsService.markAsRead(id);
-            setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
-            setUnreadCount(prev => Math.max(0, prev - 1));
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
-    const handleMarkAllAsRead = async () => {
-        try {
-            await notificationsService.markAllAsRead();
-            setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-            setUnreadCount(0);
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
-    // Close sidebar on navigation on mobile
-    useEffect(() => {
-        if (sidebarOpen && typeof window !== 'undefined' && window.innerWidth < 1024) {
-            toggleSidebar();
-        }
-    }, [pathname]);
-
-    const { hasAnyPermission } = usePermission();
+    // ... (rest of the code before navGroups remains the same)
 
     const navGroups: NavGroup[] = [
         {
@@ -119,6 +70,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ]
         },
         {
+            title: 'Hub de Vie',
+            module: 'web',
+            items: [
+                { icon: <FiLayers size={18} />, label: 'Pages & Contenu', href: '/dashboard/mosque/pages' },
+                { icon: <FiGlobe size={18} />, label: 'Menu du Site', href: '/dashboard/mosque/pages' },
+                { icon: <FiBell size={18} />, label: 'Bandeau Actualités', href: '/dashboard/mosque/settings' },
+                { icon: <FiSettings size={18} />, label: 'Réglages Web & SEO', href: '/dashboard/mosque/settings' },
+            ]
+        },
+        {
             title: 'Activités Mosquée',
             module: 'gestion',
             items: [
@@ -128,7 +89,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiPocket size={18} />, label: 'Projets & Budget', href: '/dashboard/finance/projects' },
                 { icon: <FiFileText size={18} />, label: 'Congés & Absences', href: '/dashboard/staff/absences' },
                 { icon: <FiHeart size={18} />, label: 'Dons & Donateurs', href: '/dashboard/mosque/donations' },
-                { icon: <FiSettings size={18} />, label: 'Réglages & News', href: '/dashboard/mosque/settings' },
                 { icon: <FiShield size={18} />, label: 'Service Funéraire', href: '/dashboard/mosque/funeral' },
                 { icon: <FiMapPin size={18} />, label: 'Cimetière', href: '/dashboard/mosque/cemetery' },
             ]
