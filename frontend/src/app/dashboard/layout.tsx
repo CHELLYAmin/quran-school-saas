@@ -10,7 +10,7 @@ import {
     FiMessageCircle, FiDollarSign, FiTrendingUp, FiMail, FiBell, FiSettings,
     FiLogOut, FiSun, FiMoon, FiMenu, FiGlobe, FiBookOpen, FiLayers, FiShield,
     FiChevronDown, FiChevronRight, FiX, FiTarget, FiAward, FiPieChart, FiMusic,
-    FiMapPin, FiBriefcase, FiCreditCard
+    FiMapPin, FiBriefcase, FiCreditCard, FiClock
 } from 'react-icons/fi';
 import { usePermission, Permissions } from '@/hooks/usePermission';
 import { UserRole } from '@/types';
