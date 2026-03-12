@@ -44,7 +44,57 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         { id: 'admin', label: 'Administration', icon: '⚙️' },
     ];
 
-    // ... (rest of the code before navGroups remains the same)
+    useEffect(() => {
+        // Only redirect if loading is finished and not authenticated
+        if (!isLoading && !isAuthenticated) {
+            router.push('/login');
+        }
+    }, [isAuthenticated, isLoading, router]);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            loadNotifications();
+        }
+    }, [isAuthenticated, pathname]);
+
+    const loadNotifications = async () => {
+        try {
+            const data = await notificationsService.getMyNotifications();
+            setNotifications(data);
+            setUnreadCount(data.filter(n => !n.isRead).length);
+        } catch (e) {
+            console.error('Failed to load notifications', e);
+        }
+    };
+
+    const handleMarkAsRead = async (id: string) => {
+        try {
+            await notificationsService.markAsRead(id);
+            setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+            setUnreadCount(prev => Math.max(0, prev - 1));
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const handleMarkAllAsRead = async () => {
+        try {
+            await notificationsService.markAllAsRead();
+            setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+            setUnreadCount(0);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    // Close sidebar on navigation on mobile
+    useEffect(() => {
+        if (sidebarOpen && typeof window !== 'undefined' && window.innerWidth < 1024) {
+            toggleSidebar();
+        }
+    }, [pathname]);
+
+    const { hasAnyPermission } = usePermission();
 
     const navGroups: NavGroup[] = [
         {
