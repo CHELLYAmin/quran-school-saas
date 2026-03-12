@@ -125,8 +125,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiCalendar size={18} />, label: 'Événements', href: '/dashboard/mosque/events' },
                 { icon: <FiUsers size={18} />, label: 'Bénévolat', href: '/dashboard/mosque/volunteering' },
                 { icon: <FiDollarSign size={18} />, label: 'Dons & Collectes', href: '/dashboard/mosque/donations' },
-                { icon: <FiCalendar size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
+                { icon: <FiClock size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
                 { icon: <FiBookOpen size={18} />, label: 'Pages du Site', href: '/dashboard/mosque/pages' },
+                { icon: <FiSettings size={18} />, label: 'Réglages & News', href: '/dashboard/mosque/settings' },
                 { icon: <FiShield size={18} />, label: 'Service Funéraire', href: '/dashboard/mosque/funeral' },
                 { icon: <FiMapPin size={18} />, label: 'Cimetière', href: '/dashboard/mosque/cemetery' },
             ]

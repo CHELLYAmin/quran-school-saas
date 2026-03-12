@@ -7,6 +7,7 @@ export interface CmsPage {
     content: string;
     category: string;
     isPublished: boolean;
+    showInMenu: boolean;
     sortOrder: number;
     parentSlug?: string;
     featuredImageUrl?: string;
@@ -21,6 +22,7 @@ export interface CreateCmsPageDto {
     content: string;
     category: string;
     isPublished?: boolean;
+    showInMenu?: boolean;
     sortOrder?: number;
     parentSlug?: string;
     featuredImageUrl?: string;

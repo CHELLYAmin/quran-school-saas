@@ -36,6 +36,8 @@ export default function CmsPagesPage() {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('page');
     const [excerpt, setExcerpt] = useState('');
+    const [showInMenu, setShowInMenu] = useState(false);
+    const [sortOrder, setSortOrder] = useState(0);
     const [saving, setSaving] = useState(false);
 
     useEffect(() => { loadPages(); }, []);
@@ -75,6 +77,7 @@ export default function CmsPagesPage() {
     const openNewEditor = () => {
         setEditingPage(null);
         setTitle(''); setSlug(''); setContent(''); setCategory('page'); setExcerpt('');
+        setShowInMenu(false); setSortOrder(0);
         setShowEditor(true);
     };
 
@@ -82,6 +85,7 @@ export default function CmsPagesPage() {
         setEditingPage(page);
         setTitle(page.title); setSlug(page.slug); setContent(page.content);
         setCategory(page.category); setExcerpt(page.excerpt || '');
+        setShowInMenu(page.showInMenu || false); setSortOrder(page.sortOrder || 0);
         setShowEditor(true);
     };
 
@@ -89,7 +93,12 @@ export default function CmsPagesPage() {
         if (!title || !slug) return toast.error("Titre et slug requis");
         setSaving(true);
         try {
-            const dto: CreateCmsPageDto = { title, slug, content, category, excerpt, isPublished: editingPage?.isPublished || false };
+            const dto: CreateCmsPageDto = { 
+                title, slug, content, category, excerpt, 
+                isPublished: editingPage?.isPublished || false,
+                showInMenu,
+                sortOrder
+            };
             if (editingPage) {
                 const res = await cmsApi.updatePage(editingPage.id, dto);
                 setPages(prev => prev.map(p => p.id === editingPage.id ? res.data : p));
@@ -174,6 +183,11 @@ export default function CmsPagesPage() {
                                             Brouillon
                                         </span>
                                     )}
+                                    {page.showInMenu && (
+                                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-amber-50 text-amber-600 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50 flex items-center gap-1">
+                                            Menu #{page.sortOrder}
+                                        </span>
+                                    )}
                                 </div>
                                 <p className="text-sm text-dark-400 font-medium">/{page.slug}</p>
                                 {page.excerpt && <p className="text-sm text-dark-500 mt-1 line-clamp-2">{page.excerpt}</p>}
@@ -233,6 +247,24 @@ export default function CmsPagesPage() {
                                     <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Résumé</label>
                                     <input type="text" value={excerpt} onChange={(e) => setExcerpt(e.target.value)}
                                         className="input w-full" placeholder="Court résumé de la page..." />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-dark-50 dark:bg-dark-800/50 p-6 rounded-3xl border border-dark-100 dark:border-dark-800">
+                                <div className="flex items-center justify-between gap-4">
+                                    <div>
+                                        <label className="text-sm font-bold text-dark-900 dark:text-white block">Afficher dans le menu</label>
+                                        <p className="text-xs text-dark-400">Rendre visible dans la navigation principale</p>
+                                    </div>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" checked={showInMenu} onChange={(e) => setShowInMenu(e.target.checked)} className="sr-only peer" />
+                                        <div className="w-11 h-6 bg-dark-200 peer-focus:outline-none dark:bg-dark-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                                    </label>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Ordre d'affichage</label>
+                                    <input type="number" value={sortOrder} onChange={(e) => setSortOrder(parseInt(e.target.value) || 0)}
+                                        className="input w-full font-bold" placeholder="0" />
                                 </div>
                             </div>
                             <div className="space-y-2">

@@ -463,10 +463,11 @@ export default function SiteHomePage() {
                     <div className="lg:col-span-7 space-y-12">
                         <div className="space-y-6">
                             <span className="text-accent-gold font-black uppercase tracking-[0.5em] text-[10px]">Notre Vision</span>
-                            <h2 className="text-5xl lg:text-7xl font-serif font-black leading-[0.9] cinzel-title uppercase tracking-tighter">
+                            {/* Hero Title with Clamp for perfect responsiveness */}
+                            <h1 className="text-[clamp(2.5rem,10vw,7.5rem)] font-serif font-black text-white leading-[0.85] tracking-tighter cinzel-title">
                                 Une éducation <span className="text-accent-gold italic">pure</span>,<br />
                                 centrée sur le <span className="underline decoration-accent-gold/40 underline-offset-[12px]">Coran.</span>
-                            </h2>
+                            </h1>
                             <p className="text-xl text-white/60 font-medium leading-relaxed max-w-2xl">
                                 Au-delà d&apos;un simple lieu de culte, le CCIQ est un pôle d&apos;excellence académique où chaque enfant et adulte peut s&apos;épanouir dans la mémorisation et la compréhension de la parole divine.
                             </p>

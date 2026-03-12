@@ -18,7 +18,7 @@ export default function HeroBlock({ data }: { data: any }) {
                     </span>
                 )}
                 
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-black text-white cinzel-title mb-8 leading-[1.1] tracking-tight">
+                <h1 className="text-[clamp(2.5rem,8vw,4.5rem)] font-serif font-black text-white cinzel-title mb-8 leading-[1.1] tracking-tight">
                     {data.title}
                 </h1>
                 

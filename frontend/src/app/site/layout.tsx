@@ -41,6 +41,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
 
     const [navLinks, setNavLinks] = useState(NAV_LINKS);
+    const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -71,10 +72,11 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     const loadMosqueInfo = async () => {
         try {
             const settingsRes = await api.get('/api/MosqueSettings');
-            const settings: MosqueSettings = settingsRes.data;
+            const settingsData = settingsRes.data;
+            setSettings(settingsData);
 
-            if (settings?.address) {
-                setMosqueAddress(settings.address);
+            if (settingsData?.address) {
+                setMosqueAddress(settingsData.address);
             }
 
             if (settings?.latitude && settings?.longitude) {
@@ -125,6 +127,23 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans text-dark-900 dark:text-dark-100">
+            {/* News Ticker / Live Announcement - TOP PLACEMENT */}
+            {settings?.isLiveAnnouncementActive && settings?.liveAnnouncementText && (
+                <div className="bg-accent-gold py-3 relative z-[100] overflow-hidden border-b border-black/5 shadow-2xl">
+                    <div className="flex whitespace-nowrap animate-marquee">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="flex items-center gap-8 mx-12">
+                                <span className="text-[11px] font-black text-primary-950 uppercase tracking-[0.3em] flex items-center gap-3">
+                                    <span className="w-2 h-2 rounded-full bg-primary-900 animate-pulse" />
+                                    {settings.liveAnnouncementText}
+                                </span>
+                                <span className="material-symbols-outlined text-primary-900/20 text-sm">emergency_share</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             {/* Info Bar - Premium Glassmorphism */}
             <div className="bg-primary-950/95 dark:bg-black/80 backdrop-blur-md text-emerald-50/70 py-3 px-6 lg:px-20 text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase border-b border-white/5 z-[60] relative">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
