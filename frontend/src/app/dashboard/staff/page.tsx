@@ -1,14 +1,37 @@
 'use client';
 
-import { FiBriefcase, FiUsers, FiClock, FiCalendar, FiPlus, FiSearch, FiFilter, FiMoreVertical } from 'react-icons/fi';
+import { FiBriefcase, FiUsers, FiClock, FiCalendar, FiPlus, FiSearch, FiFilter, FiMoreVertical, FiX } from 'react-icons/fi';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function StaffManagementPage() {
-    const staff = [
+    const [members, setMembers] = useState([
         { id: 1, name: 'Ahmed Mansour', role: 'Enseignant Quran', status: 'Actif', type: 'CDI', joined: '12 Jan 2023' },
         { id: 2, name: 'Sara Kamel', role: 'Secrétaire Administrative', status: 'Actif', type: 'CDD', joined: '05 Mar 2024' },
         { id: 3, name: 'Omar Farouk', role: 'Imam / Directeur Pédagogique', status: 'En Congé', type: 'CDI', joined: '15 Sep 2022' },
         { id: 4, name: 'Yusuf Idrisi', role: 'Maintenance & Logistique', status: 'Actif', type: 'Prestataire', joined: '10 Feb 2024' },
-    ];
+    ]);
+
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newMember, setNewMember] = useState({
+        name: '',
+        role: '',
+        type: 'CDI',
+        status: 'Actif'
+    });
+
+    const handleCreateMember = (e: React.FormEvent) => {
+        e.preventDefault();
+        const memberToAdd = {
+            id: members.length + 1,
+            ...newMember,
+            joined: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })
+        };
+        setMembers([memberToAdd, ...members]);
+        setShowCreateModal(false);
+        setNewMember({ name: '', role: '', type: 'CDI', status: 'Actif' });
+        toast.success("Membre ajouté avec succès");
+    };
 
     const stats = [
         { label: 'Total Personnel', value: '14', icon: <FiUsers />, color: 'primary' },
@@ -29,7 +52,7 @@ export default function StaffManagementPage() {
                     <button className="btn btn-secondary flex items-center gap-2">
                         <FiCalendar /> Planning
                     </button>
-                    <button className="btn btn-primary flex items-center gap-2">
+                    <button onClick={() => setShowCreateModal(true)} className="btn btn-primary flex items-center gap-2">
                         <FiPlus /> Ajouter un Membre
                     </button>
                 </div>
@@ -84,7 +107,7 @@ export default function StaffManagementPage() {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-dark-50 dark:divide-dark-800/50">
-                        {staff.map((member) => (
+                        {members.map((member) => (
                             <tr key={member.id} className="hover:bg-dark-50/50 dark:hover:bg-dark-800/30 transition-colors">
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
@@ -120,6 +143,60 @@ export default function StaffManagementPage() {
                     </tbody>
                 </table>
             </div>
+
+            {/* Create Modal */}
+            {showCreateModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark-950/40 backdrop-blur-sm">
+                    <div className="bg-white dark:bg-dark-900 rounded-[2.5rem] w-full max-w-lg p-8 shadow-2xl border border-dark-100 dark:border-dark-800">
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-2xl font-black text-dark-900 dark:text-white tracking-tight">Ajouter un Membre</h2>
+                            <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-dark-100 dark:hover:bg-dark-800 rounded-xl">
+                                <FiX size={24} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleCreateMember} className="space-y-5">
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Nom Complet</label>
+                                <input required type="text" value={newMember.name} onChange={e => setNewMember({...newMember, name: e.target.value})}
+                                    className="input w-full" placeholder="Ex: Jean Dupont" />
+                            </div>
+                            
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Rôle / Poste</label>
+                                <input required type="text" value={newMember.role} onChange={e => setNewMember({...newMember, role: e.target.value})}
+                                    className="input w-full" placeholder="Ex: Enseignant Quran" />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Type de Contrat</label>
+                                    <select value={newMember.type} onChange={e => setNewMember({...newMember, type: e.target.value})}
+                                        className="input w-full">
+                                        <option value="CDI">CDI</option>
+                                        <option value="CDD">CDD</option>
+                                        <option value="Prestataire">Prestataire</option>
+                                        <option value="Bénévole">Bénévole</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Statut Initial</label>
+                                    <select value={newMember.status} onChange={e => setNewMember({...newMember, status: e.target.value})}
+                                        className="input w-full">
+                                        <option value="Actif">Actif</option>
+                                        <option value="En Congé">En Congé</option>
+                                        <option value="Suspendu">Suspendu</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-primary-600/20 transition-all mt-4">
+                                Confirmer l&apos;ajout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

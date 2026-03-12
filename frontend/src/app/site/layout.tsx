@@ -31,8 +31,11 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     const [mosqueAddress, setMosqueAddress] = useState('');
     const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
 
-    const [navLinks, setNavLinks] = useState<any[]>([]);
-    const [isMenuLoading, setIsMenuLoading] = useState(true);
+    const [navLinks, setNavLinks] = useState<any[]>([
+        { name: 'Accueil', href: '/site' },
+        { name: 'Contact', href: '/site/contact' }
+    ]);
+    const [isMenuLoading, setIsMenuLoading] = useState(false);
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
@@ -48,19 +51,23 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     const loadMenu = async () => {
         try {
-            setIsMenuLoading(true);
             const res = await api.get('/api/cms/menu');
             if (res.data && res.data.length > 0) {
-                setNavLinks(res.data.map((item: any) => ({
+                const dynamicLinks = res.data.map((item: any) => ({
                     name: item.title,
                     href: item.slug === 'home' ? '/site' : `/site/${item.slug}`,
                     icon: item.icon
-                })));
+                }));
+                
+                // Keep 'Accueil' first, then CMS links, then 'Contact' last
+                setNavLinks([
+                    { name: 'Accueil', href: '/site' },
+                    ...dynamicLinks.filter((l: any) => l.name !== 'Accueil' && l.name !== 'Contact'),
+                    { name: 'Contact', href: '/site/contact' }
+                ]);
             }
         } catch (e) {
             console.error('Failed to load menu', e);
-        } finally {
-            setIsMenuLoading(false);
         }
     };
 
@@ -179,30 +186,22 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                     </Link>
 
                     <nav className="hidden lg:flex items-center gap-8">
-                        {isMenuLoading ? (
-                            <div className="flex gap-8">
-                                {[1, 2, 3, 4, 5].map(i => (
-                                    <div key={i} className="w-16 h-3 bg-dark-100 dark:bg-dark-800 rounded-full animate-pulse" />
-                                ))}
-                            </div>
-                        ) : (
-                            navLinks.map(link => (
-                                <Link key={link.name} href={link.href}
-                                    className={`text-[11px] font-black tracking-[0.15em] transition-all hover:text-primary-900 dark:hover:text-white relative group uppercase ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href))
-                                        ? 'text-primary-900 dark:text-white'
-                                        : 'text-primary-900/40 dark:text-dark-500'
-                                        }`}
-                                >
-                                    {link.name}
-                                    <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-1 bg-accent-gold rounded-full transition-all duration-500 group-hover:w-full ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href)) ? 'w-2' : ''
-                                        }`}></span>
-                                </Link>
-                            ))
-                        )}
+                        {navLinks.map(link => (
+                            <Link key={link.name} href={link.href}
+                                className={`text-[11px] font-black tracking-[0.15em] transition-all hover:text-primary-900 dark:hover:text-white relative group uppercase ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href))
+                                    ? 'text-primary-900 dark:text-white'
+                                    : 'text-primary-900/40 dark:text-dark-500'
+                                    }`}
+                            >
+                                {link.name}
+                                <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-1 bg-accent-gold rounded-full transition-all duration-500 group-hover:w-full ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href)) ? 'w-2' : ''
+                                    }`}></span>
+                            </Link>
+                        ))}
                     </nav>
 
                     <div className="flex items-center gap-4">
-                        <Link href="/donate" className="bg-primary-900 text-white px-7 py-3 rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary-900/30 hover:bg-primary-950 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-2.5 border border-white/10">
+                        <Link href="/site/donate" className="bg-primary-900 text-white px-7 py-3 rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-primary-900/30 hover:bg-primary-950 hover:-translate-y-1 active:scale-95 transition-all flex items-center gap-2.5 border border-white/10">
                             <span className="material-symbols-outlined text-lg text-accent-gold">volunteer_activism</span>
                             Donner
                         </Link>
@@ -232,7 +231,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                                 ))}
                             </div>
                             <div className="mt-auto pt-10">
-                                <Link href="/donate" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full bg-primary-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl shadow-primary-900/20">
+                                <Link href="/site/donate" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full bg-primary-900 text-white py-5 rounded-3xl font-black uppercase tracking-widest shadow-2xl shadow-primary-900/20">
                                     Soutenir le Centre
                                 </Link>
                             </div>
@@ -299,7 +298,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                         <div>
                             <h4 className="text-xs font-black text-accent-gold uppercase tracking-[0.3em] mb-10 pb-2 border-b border-accent-gold/20 inline-block">Vie du Centre</h4>
                             <div className="space-y-4">
-                                <Link href="/donate" className="block p-5 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 transition-all group">
+                                <Link href="/site/donate" className="block p-5 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 transition-all group">
                                     <p className="text-accent-gold font-black text-[10px] uppercase tracking-widest mb-1">Soutien financier</p>
                                     <p className="text-sm font-serif font-black cinzel-title">Faire un Sadaka Jariya</p>
                                 </Link>

@@ -10,7 +10,7 @@ import {
     FiMessageCircle, FiDollarSign, FiTrendingUp, FiMail, FiBell, FiSettings,
     FiLogOut, FiSun, FiMoon, FiMenu, FiGlobe, FiBookOpen, FiLayers, FiShield,
     FiChevronDown, FiChevronRight, FiX, FiTarget, FiAward, FiPieChart, FiMusic,
-    FiMapPin, FiBriefcase, FiCreditCard, FiClock
+    FiMapPin, FiBriefcase, FiCreditCard, FiClock, FiPocket, FiFileText, FiHeart
 } from 'react-icons/fi';
 import { usePermission, Permissions } from '@/hooks/usePermission';
 import { UserRole } from '@/types';
@@ -100,8 +100,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             title: 'Général',
             items: [
                 { icon: <FiHome size={18} />, label: t.common.dashboard, href: '/dashboard' },
+                { icon: <FiShield size={18} />, label: 'Rôles & Accès', href: '/dashboard/roles', permissions: [Permissions.RolesManage] },
                 { icon: <FiUsers size={18} />, label: 'Espace Famille', href: '/dashboard/parent', permissions: [Permissions.ParentDashboardView] },
-                { icon: <FiMail size={18} />, label: t.common.messages, href: '/dashboard/messages', permissions: [Permissions.MessagesView] },
                 { icon: <FiMail size={18} />, label: t.common.messages, href: '/dashboard/messages', permissions: [Permissions.MessagesView] },
             ]
         },
@@ -125,9 +125,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiMessageCircle size={18} />, label: 'Communication', href: '/dashboard/mosque/communication' },
                 { icon: <FiCalendar size={18} />, label: 'Événements', href: '/dashboard/mosque/events' },
                 { icon: <FiUsers size={18} />, label: 'Bénévolat', href: '/dashboard/mosque/volunteering' },
-                { icon: <FiDollarSign size={18} />, label: 'Dons & Collectes', href: '/dashboard/mosque/donations' },
-                { icon: <FiClock size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
-                { icon: <FiBookOpen size={18} />, label: 'Pages du Site', href: '/dashboard/mosque/pages' },
+                { icon: <FiPocket size={18} />, label: 'Projets & Budget', href: '/dashboard/finance/projects' },
+                { icon: <FiFileText size={18} />, label: 'Congés & Absences', href: '/dashboard/staff/absences' },
+                { icon: <FiHeart size={18} />, label: 'Dons & Donateurs', href: '/dashboard/mosque/donations' },
                 { icon: <FiSettings size={18} />, label: 'Réglages & News', href: '/dashboard/mosque/settings' },
                 { icon: <FiShield size={18} />, label: 'Service Funéraire', href: '/dashboard/mosque/funeral' },
                 { icon: <FiMapPin size={18} />, label: 'Cimetière', href: '/dashboard/mosque/cemetery' },
@@ -183,7 +183,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             title: 'Administration',
             module: 'admin',
             items: [
-                { icon: <FiShield size={18} />, label: 'Rôles & Accès', href: '/dashboard/roles', permissions: [Permissions.RolesManage] },
                 { icon: <FiUsers size={18} />, label: 'Utilisateurs', href: '/dashboard/users', permissions: [Permissions.UsersManage] },
                 { icon: <FiPieChart size={18} />, label: 'Statistiques Globales', href: '/dashboard/analytics', permissions: [Permissions.AdminDashboardView] },
                 { icon: <FiDollarSign size={18} />, label: 'Paiements Scolaires', href: '/dashboard/payments', permissions: [Permissions.PaymentsView] },
@@ -278,7 +277,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             {moduleMenuOpen && (
                                 <>
                                     <div className="fixed inset-0 z-20" onClick={() => setModuleMenuOpen(false)} />
-                                    <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-dark-800 border border-dark-100 dark:border-dark-700/50 rounded-2xl shadow-2xl p-2 z-30 animate-in fade-in slide-in-from-top-2 duration-200">
+                                    <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-dark-800 border border-dark-100 dark:border-700/50 rounded-2xl shadow-2xl p-2 z-30 animate-in fade-in slide-in-from-top-2 duration-200">
                                         {sidebarModules.map(m => (
                                             <button
                                                 key={m.id}
@@ -340,9 +339,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                                 <div className={`${isCollapsed && isSidebarVisible ? 'hidden' : 'block'} space-y-1`}>
                                     {filteredItems.map((item: any) => {
-                                        const isActive = item.href === '/dashboard' || item.href === '/dashboard/finance' || item.href === '/dashboard/staff'
-                                            ? pathname === item.href
-                                            : pathname === item.href || pathname.startsWith(item.href + '/');
+                                        const isActive = item.href === '/dashboard'
+                                            ? pathname === '/dashboard'
+                                            : pathname.startsWith(item.href);
                                         return (
                                             <Link
                                                 key={item.href}

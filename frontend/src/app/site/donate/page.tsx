@@ -1,11 +1,6 @@
-import Link from 'next/link';
-import PublicHeader from '@/components/public/PublicHeader';
-import PublicFooter from '@/components/public/PublicFooter';
-
 export default function DonatePage() {
     return (
-        <div className="min-h-screen bg-dark-50 dark:bg-dark-950 flex flex-col font-sans selection:bg-accent-500/30">
-            <PublicHeader />
+        <>
 
             {/* Premium Hero */}
             <section className="relative overflow-hidden bg-primary-950 text-white pt-24 pb-48 px-6">
@@ -112,7 +107,6 @@ export default function DonatePage() {
                 </div>
             </section>
 
-            <PublicFooter />
-        </div>
+        </>
     );
 }

@@ -52,6 +52,14 @@ export default function DonationsPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [campaignFilter, setCampaignFilter] = useState<string>('all');
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newDonation, setNewDonation] = useState({
+        donorName: '',
+        amount: '',
+        campaign: '',
+        type: 'interac' as const,
+        isAnonymous: false
+    });
 
     useEffect(() => { loadDonations(); }, []);
 
@@ -78,9 +86,25 @@ export default function DonationsPage() {
             setDonations(mappedRecords);
         } catch {
             toast.error("Erreur lors du chargement des dons");
-        } finally {
-            setLoading(false);
         }
+    };
+
+    const handleCreateDonation = (e: React.FormEvent) => {
+        e.preventDefault();
+        const donationToAdd: Donation = {
+            id: Math.random().toString(36).substr(2, 9),
+            donorName: newDonation.isAnonymous ? 'Anonyme' : newDonation.donorName,
+            amount: parseFloat(newDonation.amount),
+            campaign: newDonation.campaign,
+            date: new Date().toISOString().split('T')[0],
+            status: 'pending',
+            type: newDonation.type,
+            isAnonymous: newDonation.isAnonymous
+        };
+        setDonations([donationToAdd, ...donations]);
+        setShowCreateModal(false);
+        setNewDonation({ donorName: '', amount: '', campaign: '', type: 'interac', isAnonymous: false });
+        toast.success("Don enregistré avec succès");
     };
 
     const filteredDonations = useMemo(() => {
@@ -118,7 +142,7 @@ export default function DonationsPage() {
                     <h1 className="text-3xl font-extrabold text-dark-900 dark:text-white tracking-tight">Dons & Collectes</h1>
                     <p className="text-dark-500 mt-2 font-medium text-lg">Suivi des contributions et fonds de la mosquée</p>
                 </div>
-                <button onClick={() => toast.success("Ouverture du formulaire d'enregistrement de don...")} className="btn bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto">
+                <button onClick={() => setShowCreateModal(true)} className="btn bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto">
                     <FiPlus size={20} /> Enregistrer un don
                 </button>
             </div>

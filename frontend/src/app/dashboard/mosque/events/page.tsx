@@ -46,6 +46,15 @@ export default function EventsPage() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState<string>('all');
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newEvent, setNewEvent] = useState({
+        title: '',
+        description: '',
+        date: '',
+        startTime: '',
+        location: '',
+        category: 'Conférence'
+    });
 
     useEffect(() => { loadEvents(); }, []);
 
@@ -61,9 +70,22 @@ export default function EventsPage() {
             ]);
         } catch {
             toast.error("Erreur lors du chargement des événements");
-        } finally {
-            setLoading(false);
         }
+    };
+
+    const handleCreateEvent = (e: React.FormEvent) => {
+        e.preventDefault();
+        const eventToAdd: MosqueEvent = {
+            id: Math.random().toString(36).substr(2, 9),
+            ...newEvent,
+            isPublished: true,
+            status: 'upcoming',
+            attendeesCount: 0
+        };
+        setEvents([eventToAdd, ...events]);
+        setShowCreateModal(false);
+        setNewEvent({ title: '', description: '', date: '', startTime: '', location: '', category: 'Conférence' });
+        toast.success("Événement créé avec succès");
     };
 
     const filteredEvents = useMemo(() => {
@@ -93,7 +115,7 @@ export default function EventsPage() {
                     <p className="text-dark-500 mt-2 font-medium text-lg">Gérez les activités et conférences de la mosquée</p>
                 </div>
                 <button 
-                    onClick={() => toast.success("Ouverture du formulaire de création d'événement...")}
+                    onClick={() => setShowCreateModal(true)}
                     className="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto"
                 >
                     <FiPlus size={20} /> Nouvel événement

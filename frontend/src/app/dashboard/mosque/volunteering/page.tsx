@@ -45,6 +45,13 @@ export default function VolunteeringPage() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('all');
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newVolunteer, setNewVolunteer] = useState({
+        fullName: '',
+        email: '',
+        phone: '',
+        skills: [] as string[]
+    });
 
     useEffect(() => { loadVolunteers(); }, []);
 
@@ -72,9 +79,27 @@ export default function VolunteeringPage() {
             setVolunteers(mappedVolunteers);
         } catch {
             toast.error("Erreur lors du chargement des bénévoles");
-        } finally {
-            setLoading(false);
         }
+    };
+
+    const handleCreateVolunteer = (e: React.FormEvent) => {
+        e.preventDefault();
+        const volunteerToAdd: Volunteer = {
+            id: Math.random().toString(36).substr(2, 9),
+            fullName: newVolunteer.fullName,
+            email: newVolunteer.email,
+            phone: newVolunteer.phone,
+            skills: newVolunteer.skills,
+            status: 'pending',
+            hoursContributed: 0,
+            lastActive: 'Jamais',
+            rating: 0,
+            joinedAt: new Date().toISOString()
+        };
+        setVolunteers([volunteerToAdd, ...volunteers]);
+        setShowCreateModal(false);
+        setNewVolunteer({ fullName: '', email: '', phone: '', skills: [] });
+        toast.success("Demande d'inscription enregistrée");
     };
 
     const filteredVolunteers = useMemo(() => {
@@ -108,7 +133,7 @@ export default function VolunteeringPage() {
                     <p className="text-dark-500 mt-2 font-medium text-lg">Suivi des forces vives de la communauté</p>
                 </div>
                 <button 
-                    onClick={() => toast.success("Ouverture du formulaire d'inscription bénévole...")}
+                    onClick={() => setShowCreateModal(true)}
                     className="btn bg-pink-600 hover:bg-pink-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto"
                 >
                     <FiPlus size={20} /> Nouveau bénévole

@@ -6,10 +6,30 @@ import toast from 'react-hot-toast';
 export default function AbsencesPage() {
     const [search, setSearch] = useState('');
 
-    const mockAbsences = [
+    const [absences, setAbsences] = useState([
         { id: '1', staff: 'Ahmed Ali', type: 'Maladie', date: '2024-03-10', status: 'Approuvé' },
         { id: '2', staff: 'Sara Mansour', type: 'Congé', date: '2024-03-12', status: 'En attente' },
-    ];
+    ]);
+
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newAbsence, setNewAbsence] = useState({
+        staff: '',
+        type: 'Congé',
+        date: new Date().toISOString().split('T')[0]
+    });
+
+    const handleCreateAbsence = (e: React.FormEvent) => {
+        e.preventDefault();
+        const absenceToAdd = {
+            id: Math.random().toString(36).substr(2, 9),
+            ...newAbsence,
+            status: 'En attente'
+        };
+        setAbsences([absenceToAdd, ...absences]);
+        setShowCreateModal(false);
+        setNewAbsence({ staff: '', type: 'Congé', date: new Date().toISOString().split('T')[0] });
+        toast.success("Demande d'absence enregistrée");
+    };
 
     return (
         <div className="space-y-6">
@@ -21,7 +41,7 @@ export default function AbsencesPage() {
                     <p className="text-dark-400 mt-1 text-sm">Suivi des présences et justificatifs de l'équipe</p>
                 </div>
                 <button 
-                    onClick={() => toast.success("Ouverture du formulaire de nouvelle absence...")}
+                    onClick={() => setShowCreateModal(true)}
                     className="btn btn-primary px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-primary-500/20"
                 >
                     <FiPlus size={16} /> Déclarer une absence
@@ -68,7 +88,7 @@ export default function AbsencesPage() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-dark-100 dark:divide-dark-800">
-                            {mockAbsences.map(abs => (
+                            {absences.filter(a => a.staff.toLowerCase().includes(search.toLowerCase())).map(abs => (
                                 <tr key={abs.id} className="hover:bg-dark-50 dark:hover:bg-dark-800/30 transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
@@ -103,6 +123,50 @@ export default function AbsencesPage() {
                     </table>
                 </div>
             </div>
+
+            {/* Create Modal */}
+            {showCreateModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark-950/40 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white dark:bg-dark-900 rounded-[2.5rem] w-full max-w-lg p-8 shadow-2xl border border-dark-100 dark:border-dark-800 animate-slide-up">
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-2xl font-black text-dark-900 dark:text-white tracking-tight">Déclarer une Absence</h2>
+                            <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-dark-100 dark:hover:bg-dark-800 rounded-xl">
+                                <FiX size={24} />
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleCreateAbsence} className="space-y-5">
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Nom du Membre</label>
+                                <input required type="text" value={newAbsence.staff} onChange={e => setNewAbsence({...newAbsence, staff: e.target.value})}
+                                    className="input w-full" placeholder="Ex: Ahmed Mansour" />
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Date</label>
+                                    <input required type="date" value={newAbsence.date} onChange={e => setNewAbsence({...newAbsence, date: e.target.value})}
+                                        className="input w-full" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[10px] font-black text-dark-400 uppercase tracking-widest ml-1">Type</label>
+                                    <select value={newAbsence.type} onChange={e => setNewAbsence({...newAbsence, type: e.target.value})}
+                                        className="input w-full">
+                                        <option value="Congé">Congé</option>
+                                        <option value="Maladie">Maladie</option>
+                                        <option value="Urgence Famille">Urgence Famille</option>
+                                        <option value="Autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-primary-600/20 transition-all mt-4">
+                                Enregistrer la demande
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
