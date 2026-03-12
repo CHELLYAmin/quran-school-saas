@@ -38,6 +38,9 @@ export default function CmsPagesPage() {
     const [excerpt, setExcerpt] = useState('');
     const [showInMenu, setShowInMenu] = useState(false);
     const [sortOrder, setSortOrder] = useState(0);
+    const [seoTitle, setSeoTitle] = useState('');
+    const [seoDescription, setSeoDescription] = useState('');
+    const [icon, setIcon] = useState('');
     const [saving, setSaving] = useState(false);
 
     useEffect(() => { loadPages(); }, []);
@@ -77,7 +80,7 @@ export default function CmsPagesPage() {
     const openNewEditor = () => {
         setEditingPage(null);
         setTitle(''); setSlug(''); setContent(''); setCategory('page'); setExcerpt('');
-        setShowInMenu(false); setSortOrder(0);
+        setShowInMenu(false); setSortOrder(0); setSeoTitle(''); setSeoDescription(''); setIcon('');
         setShowEditor(true);
     };
 
@@ -86,6 +89,7 @@ export default function CmsPagesPage() {
         setTitle(page.title); setSlug(page.slug); setContent(page.content);
         setCategory(page.category); setExcerpt(page.excerpt || '');
         setShowInMenu(page.showInMenu || false); setSortOrder(page.sortOrder || 0);
+        setSeoTitle(page.seoTitle || ''); setSeoDescription(page.seoDescription || ''); setIcon(page.icon || '');
         setShowEditor(true);
     };
 
@@ -95,6 +99,7 @@ export default function CmsPagesPage() {
         try {
             const dto: CreateCmsPageDto = { 
                 title, slug, content, category, excerpt, 
+                seoTitle, seoDescription, icon,
                 isPublished: editingPage?.isPublished || false,
                 showInMenu,
                 sortOrder
@@ -158,51 +163,77 @@ export default function CmsPagesPage() {
             </div>
 
             {/* Pages List */}
-            <div className="grid gap-4">
+            <div className="grid gap-6">
                 {filtered.length === 0 ? (
-                    <div className="bg-white dark:bg-dark-900 rounded-4xl border border-dark-100 dark:border-dark-800 p-16 text-center">
+                    <div className="bg-white dark:bg-dark-900 rounded-4xl border border-dark-100 dark:border-dark-800 p-16 text-center shadow-sm">
                         <FiFileText size={48} className="mx-auto text-dark-200 dark:text-dark-700 mb-4" />
                         <p className="text-dark-400 font-bold">Aucune page trouvée</p>
-                        <p className="text-dark-300 text-sm mt-1">Créez votre première page pour alimenter le site vitrine.</p>
+                        <p className="text-dark-300 text-sm mt-1 font-medium">Créez votre première page pour alimenter le site vitrine.</p>
                     </div>
                 ) : filtered.map(page => (
-                    <div key={page.id} className="bg-white dark:bg-dark-900 rounded-3xl border border-dark-100 dark:border-dark-800 p-6 hover:shadow-md transition-all group">
-                        <div className="flex items-center justify-between gap-4">
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <h3 className="text-lg font-bold text-dark-900 dark:text-white truncate">{page.title}</h3>
-                                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border ${CATEGORY_COLORS[page.category] || CATEGORY_COLORS.page}`}>
-                                        {page.category}
-                                    </span>
-                                    {page.isPublished ? (
-                                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800/50 flex items-center gap-1">
-                                            <FiGlobe size={10} /> Publié
+                    <div key={page.id} className="bg-white dark:bg-dark-900 rounded-[2.5rem] border border-dark-100 dark:border-dark-800 p-6 sm:p-8 hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-300 group relative overflow-hidden">
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                            <div className="flex-1 min-w-0 space-y-3">
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <h3 className="text-xl font-black text-dark-900 dark:text-white truncate tracking-tight">{page.title}</h3>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className={`text-[10px] uppercase tracking-widest font-black px-3 py-1.5 rounded-xl border ${CATEGORY_COLORS[page.category] || CATEGORY_COLORS.page}`}>
+                                            {page.category}
                                         </span>
-                                    ) : (
-                                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-dark-50 text-dark-400 border border-dark-100 dark:bg-dark-800 dark:border-dark-700">
-                                            Brouillon
-                                        </span>
-                                    )}
-                                    {page.showInMenu && (
-                                        <span className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-amber-50 text-amber-600 border border-amber-100 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800/50 flex items-center gap-1">
-                                            Menu #{page.sortOrder}
-                                        </span>
-                                    )}
+                                        {page.isPublished ? (
+                                            <span className="text-[10px] uppercase tracking-widest font-black px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-900/10 dark:text-emerald-400 dark:border-emerald-800/30 flex items-center gap-1">
+                                                <FiGlobe size={11} className="mb-0.5" /> Publié
+                                            </span>
+                                        ) : (
+                                            <span className="text-[10px] uppercase tracking-widest font-black px-3 py-1.5 rounded-xl bg-dark-50 text-dark-400 border border-dark-100 dark:bg-dark-800/50 dark:border-dark-700">
+                                                Brouillon
+                                            </span>
+                                        )}
+                                        {page.showInMenu && (
+                                            <span className="text-[10px] uppercase tracking-widest font-black px-3 py-1.5 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 dark:bg-amber-900/10 dark:text-amber-400 dark:border-amber-800/30 flex items-center gap-1">
+                                                Menu #{page.sortOrder}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                                <p className="text-sm text-dark-400 font-medium">/{page.slug}</p>
-                                {page.excerpt && <p className="text-sm text-dark-500 mt-1 line-clamp-2">{page.excerpt}</p>}
+                                
+                                <div className="flex items-center gap-2 text-primary-600 dark:text-accent-gold font-mono text-xs font-bold bg-primary-50 dark:bg-primary-900/10 w-fit px-3 py-1 rounded-lg">
+                                    <span>/</span>
+                                    <span>{page.slug}</span>
+                                </div>
+
+                                {page.excerpt && (
+                                    <p className="text-sm text-dark-500 dark:text-dark-400 font-medium leading-relaxed line-clamp-2 max-w-2xl">
+                                        {page.excerpt}
+                                    </p>
+                                )}
                             </div>
-                            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onClick={() => handleTogglePublish(page.id)} title={page.isPublished ? "Dépublier" : "Publier"}
-                                    className={`p-2.5 rounded-xl transition-all ${page.isPublished ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/20' : 'bg-dark-50 text-dark-400 hover:bg-dark-100 dark:bg-dark-800'}`}
+
+                            {/* Action Buttons - Always visible on mobile, nicely grouped */}
+                            <div className="flex items-center gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-300 lg:translate-x-2 lg:group-hover:translate-x-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-dark-50 dark:border-dark-800/50">
+                                <button 
+                                    onClick={() => handleTogglePublish(page.id)} 
+                                    title={page.isPublished ? "Dépublier" : "Publier"}
+                                    className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-3 lg:p-3 rounded-2xl transition-all font-bold text-xs lg:text-base ${
+                                        page.isPublished ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/20' : 'bg-dark-50 text-dark-400 hover:bg-dark-100 dark:bg-dark-800'
+                                    }`}
                                 >
-                                    {page.isPublished ? <FiEye size={16} /> : <FiEyeOff size={16} />}
+                                    {page.isPublished ? <FiEye size={18} /> : <FiEyeOff size={18} />}
+                                    <span className="lg:hidden">{page.isPublished ? "Dépublier" : "Publier"}</span>
                                 </button>
-                                <button onClick={() => openEditEditor(page)} className="p-2.5 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 transition-all">
-                                    <FiEdit size={16} />
+                                <button 
+                                    onClick={() => openEditEditor(page)} 
+                                    className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-3 lg:p-3 rounded-2xl bg-primary-50 text-primary-600 hover:bg-primary-100 dark:bg-primary-900/20 transition-all font-bold text-xs lg:text-base"
+                                >
+                                    <FiEdit size={18} />
+                                    <span className="lg:hidden">Modifier</span>
                                 </button>
-                                <button onClick={() => handleDelete(page.id)} className="p-2.5 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 dark:bg-red-900/20 transition-all">
-                                    <FiTrash2 size={16} />
+                                <button 
+                                    onClick={() => handleDelete(page.id)} 
+                                    className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-3 lg:p-3 rounded-2xl bg-rose-50 text-rose-500 hover:bg-rose-100 dark:bg-rose-900/20 transition-all font-bold text-xs lg:text-base"
+                                >
+                                    <FiTrash2 size={18} />
+                                    <span className="lg:hidden">Supprimer</span>
                                 </button>
                             </div>
                         </div>
@@ -266,6 +297,23 @@ export default function CmsPagesPage() {
                                     <input type="number" value={sortOrder} onChange={(e) => setSortOrder(parseInt(e.target.value) || 0)}
                                         className="input w-full font-bold" placeholder="0" />
                                 </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-3xl border border-dark-100 dark:border-dark-800 bg-dark-50/30 dark:bg-dark-900/10">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Icon (Material Icon Name)</label>
+                                    <input type="text" value={icon} onChange={(e) => setIcon(e.target.value)}
+                                        className="input w-full font-bold" placeholder="dashboard, event, group..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">SEO Title Override</label>
+                                    <input type="text" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)}
+                                        className="input w-full" placeholder="Laisser vide pour titre par défaut" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">SEO Meta Description</label>
+                                <textarea value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)}
+                                    rows={2} className="input w-full text-sm" placeholder="Description pour les moteurs de recherche..." />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Contenu (Markdown)</label>

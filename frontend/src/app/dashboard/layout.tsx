@@ -120,25 +120,37 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ]
         },
         {
-            title: 'Hub de Vie',
+            title: 'Contenu & Site',
             module: 'web',
             items: [
-                { icon: <FiLayers size={18} />, label: 'Pages & Contenu', href: '/dashboard/mosque/pages' },
-                { icon: <FiGlobe size={18} />, label: 'Menu du Site', href: '/dashboard/mosque/pages' },
-                { icon: <FiBell size={18} />, label: 'Bandeau Actualités', href: '/dashboard/mosque/settings' },
-                { icon: <FiSettings size={18} />, label: 'Réglages Web & SEO', href: '/dashboard/mosque/settings' },
+                { icon: <FiGrid size={18} />, label: 'Dashboard Hub', href: '/dashboard/mosque/hub' },
+                { icon: <FiFileText size={18} />, label: 'Page et contenu', href: '/dashboard/mosque/pages' },
+                { icon: <FiMenu size={18} />, label: 'Menu du site', href: '/dashboard/mosque/menu' },
+            ]
+        },
+        {
+            title: 'Engagement',
+            module: 'web',
+            items: [
+                { icon: <FiHeart size={18} />, label: 'Campagnes de Dons', href: '/dashboard/mosque/donations' },
+                { icon: <FiUsers size={18} />, label: 'Missions Bénévolat', href: '/dashboard/mosque/volunteering' },
+            ]
+        },
+        {
+            title: 'Configuration',
+            module: 'web',
+            items: [
+                { icon: <FiBell size={18} />, label: 'Bandeau actualité', href: '/dashboard/mosque/banner' },
+                { icon: <FiSettings size={18} />, label: 'Réglages Web', href: '/dashboard/mosque/settings' },
+                { icon: <FiClock size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
             ]
         },
         {
             title: 'Activités Mosquée',
             module: 'gestion',
             items: [
-                { icon: <FiMessageCircle size={18} />, label: 'Communication', href: '/dashboard/mosque/communication' },
-                { icon: <FiCalendar size={18} />, label: 'Événements', href: '/dashboard/mosque/events' },
-                { icon: <FiUsers size={18} />, label: 'Bénévolat', href: '/dashboard/mosque/volunteering' },
                 { icon: <FiPocket size={18} />, label: 'Projets & Budget', href: '/dashboard/finance/projects' },
                 { icon: <FiFileText size={18} />, label: 'Congés & Absences', href: '/dashboard/staff/absences' },
-                { icon: <FiHeart size={18} />, label: 'Dons & Donateurs', href: '/dashboard/mosque/donations' },
                 { icon: <FiShield size={18} />, label: 'Service Funéraire', href: '/dashboard/mosque/funeral' },
                 { icon: <FiMapPin size={18} />, label: 'Cimetière', href: '/dashboard/mosque/cemetery' },
             ]
@@ -185,7 +197,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             items: [
                 { icon: <FiTrendingUp size={18} />, label: 'Tableau de Bord', href: '/dashboard/finance', permissions: [Permissions.FinanceView] },
                 { icon: <FiDollarSign size={18} />, label: 'Transactions (Grand Livre)', href: '/dashboard/finance/transactions', permissions: [Permissions.FinanceView] },
-                { icon: <FiCreditCard size={18} />, label: 'Dons & Donateurs', href: '/dashboard/finance/donors', permissions: [Permissions.FinanceView] },
                 { icon: <FiPieChart size={18} />, label: 'Projets & Budgets', href: '/dashboard/finance/projects', permissions: [Permissions.FinanceView] },
             ]
         },
@@ -351,7 +362,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                     {filteredItems.map((item: any) => {
                                         const isActive = item.href === '/dashboard'
                                             ? pathname === '/dashboard'
-                                            : pathname.startsWith(item.href);
+                                            : pathname === item.href || (pathname.startsWith(item.href + '/') && item.href !== '/dashboard');
                                         return (
                                             <Link
                                                 key={item.href}

@@ -261,7 +261,7 @@ export const volunteerApi = {
 };
 
 export const donationApi = {
-    getCampaigns: () => api.get('/api/donation/campaigns'),
+    getCampaigns: (published?: boolean) => api.get('/api/donation/campaigns', { params: { published } }),
     getCampaignById: (id: string) => api.get(`/api/donation/campaign/${id}`),
     getRecords: () => api.get<any[]>('/api/donation/records'),
     createCheckoutSession: (campaignId: string, amount: number, isAnonymous: boolean) => 

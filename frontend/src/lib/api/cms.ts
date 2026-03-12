@@ -12,6 +12,12 @@ export interface CmsPage {
     parentSlug?: string;
     featuredImageUrl?: string;
     excerpt?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+    metaImage?: string;
+    icon?: string;
+    blocksJson?: string;
+    isSystemPage?: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -27,6 +33,12 @@ export interface CreateCmsPageDto {
     parentSlug?: string;
     featuredImageUrl?: string;
     excerpt?: string;
+    seoTitle?: string;
+    seoDescription?: string;
+    metaImage?: string;
+    icon?: string;
+    blocksJson?: string;
+    isSystemPage?: boolean;
 }
 
 export interface UpdateCmsPageDto extends CreateCmsPageDto { }
