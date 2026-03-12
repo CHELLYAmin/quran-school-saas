@@ -179,17 +179,22 @@ export default function PrayerTimesPage() {
                 longitude: lng || -73.5674,
                 address: address || '',
                 calculationMethod: parseInt(calcMethod),
-                prayersJson: prayers.length > 0 ? JSON.stringify(prayers) : '[]',
+                prayersJson: (prayers && prayers.length > 0) ? JSON.stringify(prayers) : '[]',
                 isLiveAnnouncementActive,
                 liveAnnouncementText,
-                liveAnnouncementStartDate: liveAnnouncementStartDate ? new Date(liveAnnouncementStartDate).toISOString() : undefined,
-                liveAnnouncementEndDate: liveAnnouncementEndDate ? new Date(liveAnnouncementEndDate).toISOString() : undefined
+                liveAnnouncementStartDate: (liveAnnouncementStartDate && !isNaN(new Date(liveAnnouncementStartDate).getTime())) 
+                    ? new Date(liveAnnouncementStartDate).toISOString() 
+                    : undefined,
+                liveAnnouncementEndDate: (liveAnnouncementEndDate && !isNaN(new Date(liveAnnouncementEndDate).getTime())) 
+                    ? new Date(liveAnnouncementEndDate).toISOString() 
+                    : undefined
             };
 
             await saveMosqueSettings(dto);
             toast.success("Configuration sauvegardée avec succès !", { id: toastId });
-        } catch (error) {
-            toast.error("Erreur lors de la sauvegarde", { id: toastId });
+        } catch (error: any) {
+            console.error("Save error:", error);
+            toast.error(`Erreur lors de la sauvegarde: ${error?.message || "Erreur inconnue"}`, { id: toastId });
         }
     };
 

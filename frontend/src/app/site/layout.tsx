@@ -5,15 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect, ReactNode } from 'react';
 import api from '@/lib/api/client';
 
-const NAV_LINKS = [
-    { name: 'Accueil', href: '/site' },
-    { name: 'Le Centre', href: '/site/centre' },
-    { name: 'Services', href: '/site/services' },
-    { name: "L'Islam", href: '/site/islam' },
-    { name: 'Horaires', href: '/site/horaires' },
-    { name: 'Cimetière', href: '/site/cimetiere' },
-    { name: 'Contact', href: '/site/contact' },
-];
 
 interface PrayerInfo {
     name: string;
@@ -40,7 +31,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     const [mosqueAddress, setMosqueAddress] = useState('');
     const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
 
-    const [navLinks, setNavLinks] = useState(NAV_LINKS);
+    const [navLinks, setNavLinks] = useState<any[]>([]);
+    const [isMenuLoading, setIsMenuLoading] = useState(true);
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
@@ -56,6 +48,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
     const loadMenu = async () => {
         try {
+            setIsMenuLoading(true);
             const res = await api.get('/api/cms/menu');
             if (res.data && res.data.length > 0) {
                 setNavLinks(res.data.map((item: any) => ({
@@ -66,6 +59,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             }
         } catch (e) {
             console.error('Failed to load menu', e);
+        } finally {
+            setIsMenuLoading(false);
         }
     };
 
@@ -184,18 +179,26 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                     </Link>
 
                     <nav className="hidden lg:flex items-center gap-8">
-                        {navLinks.map(link => (
-                            <Link key={link.name} href={link.href}
-                                className={`text-[11px] font-black tracking-[0.15em] transition-all hover:text-primary-900 dark:hover:text-white relative group uppercase ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href))
-                                    ? 'text-primary-900 dark:text-white'
-                                    : 'text-primary-900/40 dark:text-dark-500'
-                                    }`}
-                            >
-                                {link.name}
-                                <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-1 bg-accent-gold rounded-full transition-all duration-500 group-hover:w-full ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href)) ? 'w-2' : ''
-                                    }`}></span>
-                            </Link>
-                        ))}
+                        {isMenuLoading ? (
+                            <div className="flex gap-8">
+                                {[1, 2, 3, 4, 5].map(i => (
+                                    <div key={i} className="w-16 h-3 bg-dark-100 dark:bg-dark-800 rounded-full animate-pulse" />
+                                ))}
+                            </div>
+                        ) : (
+                            navLinks.map(link => (
+                                <Link key={link.name} href={link.href}
+                                    className={`text-[11px] font-black tracking-[0.15em] transition-all hover:text-primary-900 dark:hover:text-white relative group uppercase ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href))
+                                        ? 'text-primary-900 dark:text-white'
+                                        : 'text-primary-900/40 dark:text-dark-500'
+                                        }`}
+                                >
+                                    {link.name}
+                                    <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-1 bg-accent-gold rounded-full transition-all duration-500 group-hover:w-full ${pathname === link.href || (link.href !== '/site' && pathname.startsWith(link.href)) ? 'w-2' : ''
+                                        }`}></span>
+                                </Link>
+                            ))
+                        )}
                     </nav>
 
                     <div className="flex items-center gap-4">

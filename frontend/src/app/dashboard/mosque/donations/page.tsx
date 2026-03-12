@@ -118,7 +118,7 @@ export default function DonationsPage() {
                     <h1 className="text-3xl font-extrabold text-dark-900 dark:text-white tracking-tight">Dons & Collectes</h1>
                     <p className="text-dark-500 mt-2 font-medium text-lg">Suivi des contributions et fonds de la mosquée</p>
                 </div>
-                <button className="btn bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto">
+                <button onClick={() => toast.success("Ouverture du formulaire d'enregistrement de don...")} className="btn bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto">
                     <FiPlus size={20} /> Enregistrer un don
                 </button>
             </div>

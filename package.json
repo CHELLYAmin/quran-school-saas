@@ -1,0 +1,31 @@
+{
+  "name": "quran-school-saas",
+  "version": "1.0.0",
+  "description": "Application SaaS complète pour la gestion d'écoles de Coran (Hifdh / Tajwid / Lecture).\r Multi-tenant, responsive, multilingue (AR/FR/EN).",
+  "main": "test-api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CHELLYAmin/quran-school-saas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/CHELLYAmin/quran-school-saas/issues"
+  },
+  "homepage": "https://github.com/CHELLYAmin/quran-school-saas#readme",
+  "devDependencies": {
+    "@aws-sdk/client-amplify": "^3.1007.0",
+    "@aws-sdk/client-apprunner": "^3.1007.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.1007.0",
+    "@aws-sdk/client-ec2": "^3.1007.0",
+    "@aws-sdk/client-rds": "^3.1007.0"
+  },
+  "dependencies": {
+    "pg": "^8.20.0"
+  }
+}

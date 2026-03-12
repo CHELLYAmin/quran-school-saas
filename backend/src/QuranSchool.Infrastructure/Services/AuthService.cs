@@ -164,7 +164,7 @@ public class AuthService : IAuthService
                 var testId = $"{pwd} ({fmt})";
                 try
                 {
-                    var connString = $"Host=quranschool-db.cjcuksm4yuo2.ca-central-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=postgres;Password={finalPwd};";
+                    var connString = $"Host=quranschool-prod-final.cwteswms66jd.us-east-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=postgres;Password={finalPwd};";
                     var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
                     optionsBuilder.UseNpgsql(connString);
                     

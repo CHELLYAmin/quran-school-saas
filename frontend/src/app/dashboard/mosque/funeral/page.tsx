@@ -142,6 +142,58 @@ export default function FuneralPage() {
                     ))}
                 </div>
             </div>
+            {/* Form Modal */}
+            {showForm && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white dark:bg-dark-900 rounded-4xl border border-dark-100 dark:border-dark-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                        <div className="p-8 border-b border-dark-100 dark:border-dark-800">
+                            <h2 className="text-2xl font-extrabold text-dark-900 dark:text-white">Nouvelle demande funéraire</h2>
+                        </div>
+                        <div className="p-8 space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Nom du défunt</label>
+                                    <input type="text" className="input w-full font-bold" placeholder="Nom complet" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Date du décès</label>
+                                    <input type="date" className="input w-full" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Nom du contact</label>
+                                    <input type="text" className="input w-full" placeholder="Responsable de la demande" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-dark-400 uppercase tracking-widest">Téléphone</label>
+                                    <input type="tel" className="input w-full" placeholder="418-000-0000" />
+                                </div>
+                            </div>
+                            <div className="space-y-4">
+                                <label className="text-xs font-bold text-dark-400 uppercase tracking-widest block">Services demandés</label>
+                                <div className="grid grid-cols-1 gap-2">
+                                    {SERVICES_LIST.map(s => (
+                                        <label key={s} className="flex items-center gap-3 p-4 bg-dark-50 dark:bg-dark-800 rounded-2xl border border-dark-100 dark:border-dark-700 cursor-pointer hover:border-primary-500 transition-all">
+                                            <input type="checkbox" className="w-5 h-5 rounded-lg border-dark-300 text-primary-600 focus:ring-primary-500" />
+                                            <span className="text-sm font-bold text-dark-700 dark:text-dark-300">{s}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-8 border-t border-dark-100 dark:border-dark-800 flex justify-end gap-3">
+                            <button onClick={() => setShowForm(false)} className="px-6 py-3 rounded-2xl font-bold bg-dark-100 text-dark-600 hover:bg-dark-200">
+                                Annuler
+                            </button>
+                            <button onClick={() => { setShowForm(false); toast.success('Demande enregistrée'); }}
+                                className="btn bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-2xl font-bold">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

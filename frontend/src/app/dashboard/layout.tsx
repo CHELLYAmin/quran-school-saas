@@ -102,6 +102,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiHome size={18} />, label: t.common.dashboard, href: '/dashboard' },
                 { icon: <FiUsers size={18} />, label: 'Espace Famille', href: '/dashboard/parent', permissions: [Permissions.ParentDashboardView] },
                 { icon: <FiMail size={18} />, label: t.common.messages, href: '/dashboard/messages', permissions: [Permissions.MessagesView] },
+                { icon: <FiMail size={18} />, label: t.common.messages, href: '/dashboard/messages', permissions: [Permissions.MessagesView] },
             ]
         },
         {
@@ -339,7 +340,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                                 <div className={`${isCollapsed && isSidebarVisible ? 'hidden' : 'block'} space-y-1`}>
                                     {filteredItems.map((item: any) => {
-                                        const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'));
+                                        const isActive = item.href === '/dashboard' || item.href === '/dashboard/finance' || item.href === '/dashboard/staff'
+                                            ? pathname === item.href
+                                            : pathname === item.href || pathname.startsWith(item.href + '/');
                                         return (
                                             <Link
                                                 key={item.href}

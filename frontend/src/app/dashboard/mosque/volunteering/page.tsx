@@ -107,7 +107,10 @@ export default function VolunteeringPage() {
                     <h1 className="text-3xl font-extrabold text-dark-900 dark:text-white tracking-tight">Gestion du Bénévolat</h1>
                     <p className="text-dark-500 mt-2 font-medium text-lg">Suivi des forces vives de la communauté</p>
                 </div>
-                <button className="btn bg-pink-600 hover:bg-pink-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto">
+                <button 
+                    onClick={() => toast.success("Ouverture du formulaire d'inscription bénévole...")}
+                    className="btn bg-pink-600 hover:bg-pink-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-pink-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto"
+                >
                     <FiPlus size={20} /> Nouveau bénévole
                 </button>
             </div>

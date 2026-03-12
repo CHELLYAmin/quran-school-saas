@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FiMessageCircle, FiMail, FiMessageSquare, FiSend, FiUsers, FiClock, FiFileText, FiCheckCircle } from 'react-icons/fi';
+import { FiMessageCircle, FiMail, FiMessageSquare, FiSend, FiUsers, FiClock, FiFileText, FiCheckCircle, FiPlus } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 
 type Channel = 'WhatsApp' | 'SMS' | 'Email';
 type Audience = 'Tous' | 'Parents' | 'Professeurs' | 'Bénévoles' | 'Donateurs';
@@ -53,6 +54,12 @@ export default function CommunicationCenter() {
                     </h1>
                     <p className="text-dark-500 mt-2 text-lg">Envoyez des messages de masse (WhatsApp, SMS, Email) à votre communauté.</p>
                 </div>
+                <button 
+                    onClick={() => {setMessage(''); toast.success("Prpreté de l'éditeur pour une nouvelle diffusion");}}
+                    className="btn bg-primary-600 hover:bg-primary-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-primary-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10"
+                >
+                    <FiPlus size={20} /> Nouvelle Diffusion
+                </button>
             </div>
 
             {/* Main grid */}

@@ -92,7 +92,10 @@ export default function EventsPage() {
                     <h1 className="text-3xl font-extrabold text-dark-900 dark:text-white tracking-tight">Espace Événements</h1>
                     <p className="text-dark-500 mt-2 font-medium text-lg">Gérez les activités et conférences de la mosquée</p>
                 </div>
-                <button className="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto">
+                <button 
+                    onClick={() => toast.success("Ouverture du formulaire de création d'événement...")}
+                    className="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 font-bold transition-all hover:-translate-y-0.5 relative z-10 w-full sm:w-auto"
+                >
                     <FiPlus size={20} /> Nouvel événement
                 </button>
             </div>
@@ -154,7 +157,7 @@ export default function EventsPage() {
                                 </div>
                                 <h3 className="text-xl font-bold text-dark-900 dark:text-white mb-2 line-clamp-2">{event.title}</h3>
                                 <p className="text-sm text-dark-500 line-clamp-2 mb-4 leading-relaxed">{event.description}</p>
-
+                                
                                 <div className="space-y-2 mb-6">
                                     <div className="flex items-center gap-3 text-sm font-bold text-dark-600 dark:text-dark-400">
                                         <div className="w-8 h-8 rounded-xl bg-dark-50 dark:bg-dark-800 flex items-center justify-center text-dark-400">
