@@ -14,22 +14,38 @@ export default function CommunicationCenter() {
     const [isSending, setIsSending] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Mock recent campaigns
-    const recentCampaigns = [
+    const [campaigns, setCampaigns] = useState([
         { id: 1, title: 'Rappel Inscriptions 2025', date: 'Hier à 14:30', channel: 'WhatsApp', audience: 'Parents', status: 'Envoyé', sentCount: 145 },
         { id: 2, title: 'Appel aux dons Ramadan', date: '01 Mar 2025', channel: 'Email', audience: 'Donateurs', status: 'Envoyé', sentCount: 890 },
         { id: 3, title: 'Changement horaire Jumuah', date: '28 Fév 2025', channel: 'SMS', audience: 'Tous', status: 'Envoyé', sentCount: 1250 },
-    ];
+    ]);
+
+    const [campaignTitle, setCampaignTitle] = useState('');
 
     const handleSend = () => {
-        if (!message.trim()) return;
+        if (!message.trim() || !campaignTitle.trim()) {
+            toast.error("Veuillez donner un titre et un message à votre diffusion");
+            return;
+        }
         setIsSending(true);
         // Simulate API call
         setTimeout(() => {
+            const newCampaign = {
+                id: campaigns.length + 1,
+                title: campaignTitle,
+                date: "À l'instant",
+                channel: selectedChannel,
+                audience: selectedAudience,
+                status: 'Envoyé',
+                sentCount: getAudienceCount(selectedAudience)
+            };
+            setCampaigns([newCampaign, ...campaigns]);
             setIsSending(false);
             setShowSuccess(true);
             setMessage('');
+            setCampaignTitle('');
             setTimeout(() => setShowSuccess(false), 4000);
+            toast.success("Diffusion envoyée avec succès !");
         }, 1500);
     };
 
@@ -145,6 +161,14 @@ export default function CommunicationCenter() {
                             <span className="w-6 h-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center text-xs font-black">2</span>
                             Rédaction du message
                         </h2>
+
+                        <input
+                            type="text"
+                            value={campaignTitle}
+                            onChange={(e) => setCampaignTitle(e.target.value)}
+                            placeholder="Titre de la campagne (Ex: Rappel Jumuah)..."
+                            className="w-full mb-4 px-4 py-3 bg-dark-50 dark:bg-dark-950 border border-dark-200 dark:border-dark-700 rounded-xl font-bold focus:ring-2 focus:ring-primary-500 outline-none"
+                        />
 
                         {selectedChannel === 'Email' && (
                             <input
@@ -291,7 +315,7 @@ export default function CommunicationCenter() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-dark-50 dark:divide-dark-800/50">
-                            {recentCampaigns.map(c => (
+                            {campaigns.map(c => (
                                 <tr key={c.id} className="hover:bg-dark-50/50 dark:hover:bg-dark-800/30 transition-colors group">
                                     <td className="py-4 font-bold text-dark-900 dark:text-white">{c.title}</td>
                                     <td className="py-4 text-dark-500 font-medium text-sm">{c.date}</td>
