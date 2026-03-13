@@ -106,11 +106,11 @@ export default function SiteHorairesPage() {
                         Rythme Spirituel
                     </div>
                     <h1 className="text-6xl md:text-8xl font-serif font-black mb-8 tracking-tighter leading-[0.9] cinzel-title uppercase text-primary-950">
-                        Horaires de <span className="text-accent-gold italic">Prière</span>
+                        Horaires de <span className="text-primary-900 italic">Prière</span>
                     </h1>
                     <div className="flex flex-col items-center gap-2 pt-8">
                         <p className="text-slate-500 text-2xl font-medium capitalize tracking-tight">{dateStr}</p>
-                        {hijriDate && <p className="text-accent-gold text-sm font-black tracking-widest uppercase">{hijriDate}</p>}
+                        {hijriDate && <p className="text-primary-900/40 text-sm font-black tracking-widest uppercase">{hijriDate}</p>}
                     </div>
                 </div>
             </section>

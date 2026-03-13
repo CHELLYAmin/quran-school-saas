@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-    // output: 'export', // Disabled to allow dynamic SSR pages (CMS, Dashboard)
+    output: 'export', // Enabled for Capacitor APK build
     images: {
         unoptimized: true,
     },

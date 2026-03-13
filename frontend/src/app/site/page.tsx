@@ -264,9 +264,7 @@ export default function SiteHomePage() {
                 {/* Architectural Elements */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border-[1px] border-primary-900/5 rounded-full -z-0 animate-pulse-slow" />
                 
-                {/* Gradient Glows */}
-                <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary-900/5 rounded-full blur-[120px] -z-10" />
-                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-accent-gold/5 rounded-full blur-[120px] -z-10" />
+
 
                 <div className="w-full max-w-7xl mx-auto px-6 lg:px-10 flex flex-col items-center justify-center text-center relative z-20">
                     <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-primary-900/5 border border-primary-900/10 mb-12 animate-fade-in">
@@ -278,11 +276,8 @@ export default function SiteHomePage() {
 
                     <h1 className="text-6xl md:text-8xl lg:text-[7.5rem] font-serif font-black text-primary-950 leading-[0.9] tracking-tighter max-w-6xl text-balance cinzel-title uppercase">
                         Nourrissez votre <br className="hidden md:block" />
-                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary-900 to-primary-700 pb-2">
+                        <span className="relative inline-block text-primary-900 pb-2">
                              esprit.
-                            <svg className="absolute -bottom-4 left-0 w-full h-8 text-accent-gold opacity-20" preserveAspectRatio="none" viewBox="0 0 400 30">
-                                <path d="M0,15 Q100,0 200,15 T400,15" fill="none" stroke="currentColor" strokeWidth="8" />
-                            </svg>
                         </span>
                     </h1>
 

@@ -128,7 +128,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans text-dark-900 dark:text-dark-100">
+        <div className="min-h-screen bg-[#FDFCFB] font-sans text-dark-900">
             {/* News Ticker / Live Announcement - TOP PLACEMENT */}
             {settings?.isLiveAnnouncementActive && settings?.liveAnnouncementText && (
                 <div className="bg-accent-gold py-3 relative z-[100] overflow-hidden border-b border-black/5 shadow-2xl">

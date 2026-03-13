@@ -6,9 +6,7 @@ export default function DonatePage() {
                 {/* Architectural Elements */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] border-[1px] border-primary-900/5 rounded-full -z-0" />
                 
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-900/5 rounded-full blur-[100px] -z-0 -translate-y-1/2 translate-x-1/3"></div>
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-gold/5 rounded-full blur-[80px] -z-0 translate-y-1/3 -translate-x-1/4"></div>
+
 
                 <div className="container mx-auto max-w-5xl text-center relative z-20">
                     <div className="inline-flex mb-8 px-6 py-2.5 rounded-full bg-primary-900/5 border border-primary-900/10 text-primary-950 text-[10px] font-black tracking-[0.3em] uppercase">
@@ -17,7 +15,7 @@ export default function DonatePage() {
                     </div>
                     <h1 className="text-6xl md:text-8xl font-serif font-black mb-8 tracking-tighter leading-[0.9] cinzel-title uppercase text-primary-950">
                         Soutenez Votre <br />
-                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary-900 to-primary-700 pb-2">
+                        <span className="relative inline-block text-primary-900 pb-2">
                              Communauté
                             <svg className="absolute -bottom-2 left-0 w-full h-8 text-accent-gold opacity-20" preserveAspectRatio="none" viewBox="0 0 400 30">
                                 <path d="M0,15 Q100,0 200,15 T400,15" fill="none" stroke="currentColor" strokeWidth="8" />

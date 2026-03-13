@@ -35,13 +35,13 @@ export default function DonationDetailClient({ id }: { id: string }) {
     const percent = Math.min(100, Math.round((campaign.raisedAmount / campaign.targetAmount) * 100));
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans relative">
-            <div className="absolute top-0 inset-x-0 h-[45vh] bg-primary-950 -z-10" />
-            <div className="absolute top-0 inset-x-0 h-[45vh] islamic-pattern opacity-5 -z-10" />
+        <div className="min-h-screen bg-[#FDFCFB] font-sans relative">
+            <div className="absolute top-0 inset-x-0 h-[45vh] bg-[#FDFCFB] border-b border-slate-100 -z-10" />
+            <div className="absolute top-0 inset-x-0 h-[45vh] border-slate-200/50 border-b -z-10" />
 
             <div className="max-w-6xl mx-auto px-6 lg:px-8 py-16 md:py-24 relative">
-                <Link href="/site" className="inline-flex items-center gap-3 text-[10px] font-black text-white/40 hover:text-accent-gold uppercase tracking-[0.4em] mb-12 group transition-all">
-                    <span className="size-9 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
+                <Link href="/site" className="inline-flex items-center gap-3 text-[10px] font-black text-primary-900/40 hover:text-accent-gold uppercase tracking-[0.4em] mb-12 group transition-all">
+                    <span className="size-9 rounded-full border border-primary-900/10 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
                         <FiArrowLeft size={14} />
                     </span>
                     Retour au Hub
@@ -50,11 +50,11 @@ export default function DonationDetailClient({ id }: { id: string }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
                     <div className="lg:col-span-7 space-y-12">
                         <div className="space-y-6">
-                            <span className="inline-flex items-center gap-2 bg-accent-gold text-primary-950 px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl">
-                                <span className="size-2 rounded-full bg-primary-950 animate-pulse" />
+                            <span className="inline-flex items-center gap-2 bg-primary-900/5 border border-primary-900/10 text-primary-950 px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
+                                <span className="size-2 rounded-full bg-primary-900 animate-pulse" />
                                 Campagne en cours
                             </span>
-                            <h1 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter cinzel-title uppercase">
+                            <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 leading-[0.9] tracking-tighter cinzel-title uppercase">
                                 {campaign.title}
                             </h1>
                         </div>
