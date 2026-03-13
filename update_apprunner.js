@@ -29,6 +29,8 @@ async function updateAppRunner() {
         // 3. Update env variables
         const envVars = currentService.SourceConfiguration.ImageRepository.ImageConfiguration.RuntimeEnvironmentVariables || {};
         envVars["ConnectionStrings__DefaultConnection"] = NEW_CONNECTION_STRING;
+        envVars["SEED_DATABASE"] = "true";
+        envVars["RESET_DATABASE"] = "false";
         
         console.log("Updating Connection String...");
         

@@ -31,51 +31,51 @@ export default function ContactPage() {
                     <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_rgba(6,78,59,0.08)] border border-slate-100 overflow-hidden flex flex-col lg:flex-row">
 
                         {/* Infos pratiques (Left Side) - Pearl Light Version */}
-                        <div className="lg:w-2/5 bg-slate-50 text-primary-950 p-10 lg:p-14 relative overflow-hidden border-r border-slate-100">
-                            <div className="absolute inset-0 zellige-pattern opacity-5" />
-                            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary-900/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="lg:w-2/5 bg-primary-900 text-white p-10 lg:p-14 relative overflow-hidden border-r border-white/10">
+                            <div className="absolute inset-0 zellige-pattern opacity-10" />
+                            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
 
                             <div className="relative z-10 h-full flex flex-col">
-                                <h2 className="text-[10px] font-black text-primary-900 tracking-[0.3em] uppercase mb-4">Où nous trouver</h2>
-                                <h3 className="text-4xl font-serif font-black tracking-tighter mb-12 cinzel-title uppercase leading-none text-primary-950">
+                                <h2 className="text-[10px] font-black text-accent-gold tracking-[0.3em] uppercase mb-4">Où nous trouver</h2>
+                                <h3 className="text-4xl font-serif font-black tracking-tighter mb-12 cinzel-title uppercase leading-none text-white">
                                     Centre <br /> Culturel
                                 </h3>
 
                                 <div className="space-y-10 flex-1">
                                     <div className="flex items-start gap-6 group">
-                                        <div className="w-14 h-14 shrink-0 bg-white border border-slate-200 rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:bg-primary-900 group-hover:text-white transition-all duration-500 text-primary-900">
+                                        <div className="w-14 h-14 shrink-0 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500 text-accent-gold">
                                             <span className="material-symbols-outlined">location_on</span>
                                         </div>
                                         <div>
-                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-slate-400 mb-2">Adresse</h4>
-                                            <p className="text-primary-950 font-serif text-lg leading-tight uppercase cinzel-title">1234 Rue de la Paix<br />Montréal, QC H1X 2Y3</p>
+                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-primary-300 mb-2">Adresse</h4>
+                                            <p className="text-white font-serif text-lg leading-tight uppercase cinzel-title">1234 Rue de la Paix<br />Montréal, QC H1X 2Y3</p>
                                         </div>
                                     </div>
 
                                     <div className="flex items-start gap-6 group">
-                                        <div className="w-14 h-14 shrink-0 bg-white border border-slate-200 rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:bg-primary-900 group-hover:text-white transition-all duration-500 text-primary-900">
+                                        <div className="w-14 h-14 shrink-0 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500 text-accent-gold">
                                             <span className="material-symbols-outlined">call</span>
                                         </div>
                                         <div>
-                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-slate-400 mb-2">Téléphone</h4>
-                                            <p className="text-primary-950 font-serif text-lg leading-tight uppercase cinzel-title">+1 (514) 123-4567</p>
+                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-primary-300 mb-2">Téléphone</h4>
+                                            <p className="text-white font-serif text-lg leading-tight uppercase cinzel-title">+1 (514) 123-4567</p>
                                         </div>
                                     </div>
 
                                     <div className="flex items-start gap-6 group">
-                                        <div className="w-14 h-14 shrink-0 bg-white border border-slate-200 rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:bg-primary-900 group-hover:text-white transition-all duration-500 text-primary-900">
+                                        <div className="w-14 h-14 shrink-0 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500 text-accent-gold">
                                             <span className="material-symbols-outlined">mail</span>
                                         </div>
                                         <div>
-                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-slate-400 mb-2">Email</h4>
-                                            <p className="text-primary-950 font-serif text-lg leading-tight uppercase cinzel-title">contact@cciq.org</p>
+                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-primary-300 mb-2">Email</h4>
+                                            <p className="text-white font-serif text-lg leading-tight uppercase cinzel-title">contact@cciq.org</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="mt-12 pt-12 border-t border-slate-200 flex gap-4">
+                                <div className="mt-12 pt-12 border-t border-white/10 flex gap-4">
                                     {['facebook', 'instagram', 'twitter'].map(social => (
-                                        <a key={social} href="#" className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center hover:bg-primary-900 hover:text-white transition-all duration-500 group text-slate-400">
+                                        <a key={social} href="#" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-accent-gold hover:text-primary-950 transition-all duration-500 group text-white/40">
                                             <span className="material-symbols-outlined text-xl opacity-60 group-hover:opacity-100">{social === 'twitter' ? 'social_distance' : social === 'facebook' ? 'public' : 'camera'}</span>
                                         </a>
                                     ))}

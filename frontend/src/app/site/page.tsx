@@ -226,12 +226,12 @@ export default function SiteHomePage() {
 
     const getCategoryColor = (cat: string) => {
         const colors: Record<string, string> = {
-            announcement: 'from-primary-900 to-primary-800',
+            announcement: 'from-primary-900 to-primary-700', // Vert CCIQ
             about: 'from-emerald-800 to-emerald-900',
-            service: 'from-accent-gold to-amber-600',
+            service: 'from-amber-500 to-amber-700',
             islam: 'from-primary-700 to-primary-900',
-            donation: 'from-pink-800 to-pink-900',
-            volunteer: 'from-blue-800 to-blue-900',
+            donation: 'from-rose-800 to-rose-950', // Bordeaux/Rose
+            volunteer: 'from-sky-700 to-sky-900', // Bleu Actions
             default: 'from-slate-700 to-slate-900'
         };
         return colors[cat] || colors.default;
@@ -315,20 +315,21 @@ export default function SiteHomePage() {
                 </div>
             </section>
 
-            {/* Prayer Schedule — High Contrast Light Style */}
-            <section id="horaires" className="bg-white text-primary-950 relative isolate py-24 lg:py-32 flex items-center min-h-[850px] overflow-hidden border-y border-slate-100">
-                <div className="absolute inset-0 zellige-pattern opacity-[0.03]" />
+            {/* Prayer Schedule — Soft Premium Style */}
+            <section id="horaires" className="bg-[#FDFCFB] text-primary-950 relative isolate py-20 lg:py-24 flex items-center overflow-hidden">
+                {/* Visual Band - Soft Overlap */}
+                <div className="absolute inset-y-0 left-0 w-full lg:w-4/5 bg-primary-950 -z-10 rounded-r-[5rem] shadow-[40px_0_100px_rgba(0,0,0,0.1)]">
+                    <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+                </div>
                 
-                {/* Decorative Elements */}
-                <div className="absolute -top-1/4 -right-1/4 w-full h-full border border-primary-900/5 rounded-full" />
-                <div className="absolute -bottom-1/4 -left-1/4 w-full h-full border border-primary-900/5 rounded-full" />
+                {/* Soft Decorative Elements */}
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-900/5 -z-20 skew-x-12 translate-x-1/4" />
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-20 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-32 items-center relative z-10 w-full">
-                    <div className="lg:col-span-12 text-center mb-10">
+                    <div className="lg:col-span-12 text-left lg:pl-10 mb-10">
                         <span className="text-accent-gold font-black uppercase tracking-[0.5em] text-[10px] mb-4 block">Spiritualité & Rythme</span>
-                        <h2 className="text-5xl md:text-7xl font-serif font-black leading-none cinzel-title uppercase group inline-block text-primary-950">
-                             Horaires de <span className="text-accent-gold italic text-primary-950">Prière</span>
-                             <div className="h-2 w-0 group-hover:w-full bg-accent-gold/30 transition-all duration-1000 mt-2 rounded-full" />
+                        <h2 className="text-5xl md:text-7xl font-serif font-black leading-none cinzel-title uppercase group inline-block text-white">
+                             Horaires de <span className="text-accent-gold italic">Prière</span>
                         </h2>
                     </div>
 
@@ -428,11 +429,11 @@ export default function SiteHomePage() {
                     <div className="lg:col-span-7 space-y-12">
                         <div className="space-y-6">
                             <span className="text-accent-gold font-black uppercase tracking-[0.5em] text-[10px]">Notre Vision</span>
-                            <h1 className="text-[clamp(2.5rem,10vw,7.5rem)] font-serif font-black text-primary-950 leading-[0.85] tracking-tighter cinzel-title">
+                            <h1 className="text-[clamp(2.5rem,10vw,7.5rem)] font-serif font-black text-white leading-[0.85] tracking-tighter cinzel-title">
                                 Une éducation <span className="text-accent-gold italic">pure</span>,<br />
                                 centrée sur le <span className="underline decoration-accent-gold/40 underline-offset-[12px]">Coran.</span>
                             </h1>
-                            <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl">
+                            <p className="text-xl text-primary-100 font-medium leading-relaxed max-w-2xl">
                                 Au-delà d&apos;un simple lieu de culte, le CCIQ est un pôle d&apos;excellence académique où chaque enfant et adulte peut s&apos;épanouir dans la mémorisation et la compréhension de la parole divine.
                             </p>
                         </div>
@@ -443,11 +444,11 @@ export default function SiteHomePage() {
                                 { title: 'Technologie', desc: 'Un suivi numérique moderne via notre plateforme exclusive QuranSchool SaaS.', icon: 'devices' }
                             ].map((val, i) => (
                                 <div key={i} className="space-y-4 group">
-                                    <div className="size-12 rounded-2xl bg-primary-900/5 border border-primary-900/10 flex items-center justify-center text-primary-900 group-hover:bg-primary-900 group-hover:text-white transition-all duration-500">
+                                    <div className="size-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-accent-gold group-hover:bg-accent-gold group-hover:text-primary-900 transition-all duration-500">
                                         <span className="material-symbols-outlined text-2xl">{val.icon}</span>
                                     </div>
-                                    <h4 className="text-primary-950 font-black text-2xl cinzel-title uppercase tracking-tighter">{val.title}</h4>
-                                    <p className="text-sm text-slate-400 leading-relaxed font-medium">{val.desc}</p>
+                                    <h4 className="text-white font-black text-2xl cinzel-title uppercase tracking-tighter">{val.title}</h4>
+                                    <p className="text-sm text-primary-100/60 leading-relaxed font-medium">{val.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -488,13 +489,13 @@ export default function SiteHomePage() {
                             publicContent
                                 .filter(item => filter === 'all' || item.category === filter)
                                 .map((item) => (
-                                    <Link key={item.id} href={`/site/${item.slug}`} className="group bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl hover:-translate-y-4 transition-all duration-500 hover:border-accent-gold/40 flex flex-col h-full">
-                                        <div className={`size-16 rounded-[1.5rem] bg-gradient-to-br ${getCategoryColor(item.category)} flex items-center justify-center mb-8 shadow-xl`}>
+                                    <Link key={item.id} href={`/site/${item.slug}`} className="group bg-white rounded-[3rem] p-8 border border-slate-100 shadow-xl hover:-translate-y-4 transition-all duration-500 hover:border-accent-gold/40 flex flex-col h-full ring-1 ring-slate-100/50">
+                                        <div className={`size-16 rounded-[1.5rem] bg-gradient-to-br ${getCategoryColor(item.category)} flex items-center justify-center mb-8 shadow-xl group-hover:scale-110 transition-transform duration-500`}>
                                             <span className="material-symbols-outlined text-white text-3xl">{getCategoryIcon(item.category)}</span>
                                         </div>
                                         <h3 className="text-3xl font-serif font-black text-primary-950 mb-6 cinzel-title uppercase leading-none">{item.title}</h3>
-                                        <p className="text-slate-500 font-medium line-clamp-3 mb-10 flex-grow">{item.excerpt}</p>
-                                        <div className="flex items-center justify-between pt-8 border-t border-slate-50">
+                                        <p className="text-slate-500 font-medium line-clamp-3 mb-10 flex-grow px-2">{item.excerpt}</p>
+                                        <div className="flex items-center justify-between pt-8 border-t border-slate-50 px-2">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">{new Date(item.createdAt).toLocaleDateString()}</span>
                                             <FiArrowRight className="text-accent-gold text-2xl group-hover:translate-x-3 transition-transform" />
                                         </div>
