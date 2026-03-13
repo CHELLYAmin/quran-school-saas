@@ -2,9 +2,9 @@
 import PageSkeleton from '@/components/ui/PageSkeleton';
 
 import { useEffect, useState, useMemo } from 'react';
-import { useUIStore } from '@/lib/store';
+import { useAuthStore, useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
-import { ProgressStatus } from '@/types';
+import { ProgressStatus, UserRole } from '@/types';
 import { FiBookOpen, FiStar, FiTrendingUp, FiPlus, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
 import { progressApi, studentApi, mushafApi } from '@/lib/api/client';
 import toast from 'react-hot-toast';
@@ -18,6 +18,7 @@ const statusConfig: Record<ProgressStatus, { color: string; label: string }> = {
 };
 
 export default function ProgressPage() {
+    const { user } = useAuthStore();
     const { locale } = useUIStore();
     const { t } = useTranslation(locale);
     const [filter, setFilter] = useState<string>('all');
@@ -33,29 +34,48 @@ export default function ProgressPage() {
         studentId: '', surahNumber: 1, startVerse: 1, endVerse: '', status: ProgressStatus.InProgress, qualityScore: 5, teacherNotes: ''
     });
 
+    const isTeacher = user?.roles?.some(r => r === UserRole.Teacher || r === UserRole.Admin || r === UserRole.Examiner);
+
     useEffect(() => {
-        loadData();
-    }, []);
+        if (user) loadData();
+    }, [user]);
 
     const loadData = async () => {
         try {
             setLoading(true);
-            const [progRes, stuRes, surRes] = await Promise.all([
-                progressApi.getAll(),
-                studentApi.getAll(),
-                mushafApi.getSurahs()
-            ]);
-            setProgressList(progRes.data);
-            setStudents(stuRes.data);
-            setSurahs(surRes.data);
-        } catch (error) {
+            
+            if (isTeacher) {
+                const [progRes, stuRes, surRes] = await Promise.all([
+                    progressApi.getAll(),
+                    studentApi.getAll(),
+                    mushafApi.getSurahs()
+                ]);
+                setProgressList(progRes.data);
+                setStudents(stuRes.data);
+                setSurahs(surRes.data);
+            } else {
+                const studentId = user?.userId;
+                if (!studentId) return;
+
+                const [progRes, surRes] = await Promise.all([
+                    progressApi.getByStudent(studentId),
+                    mushafApi.getSurahs()
+                ]);
+                setProgressList(progRes.data);
+                setSurahs(surRes.data);
+            }
+        } catch (error: any) {
             console.error(error);
-            toast.error('Erreur de connexion. Données factices affichées.');
-            setProgressList([
-                { id: '1', studentName: 'Youssef Zahra', surahName: 'Al-Fatiha', surahNumber: 1, juzNumber: 1, status: ProgressStatus.Memorized, qualityScore: 9, teacherNotes: 'Excellent', recordDate: '2025-01-10' },
-                { id: '2', studentName: 'Amina Zahra', surahName: 'An-Nas', surahNumber: 114, juzNumber: 30, status: ProgressStatus.Memorized, qualityScore: 8, teacherNotes: 'Bon tajwid', recordDate: '2025-01-12' },
-                { id: '3', studentName: 'Youssef Zahra', surahName: 'Al-Falaq', surahNumber: 113, juzNumber: 30, status: ProgressStatus.InProgress, qualityScore: 7, teacherNotes: 'Continuer la révision', recordDate: '2025-01-15' },
-            ]);
+            const status = error.status || 'Inconnu';
+            toast.error(`Erreur de chargement (Code ${status}).`);
+            
+            // Fallback mock data if total failure
+            if (progressList.length === 0) {
+                setProgressList([
+                    { id: '1', studentName: user?.fullName || 'Utilisateur', surahName: 'Al-Fatiha', surahNumber: 1, juzNumber: 1, status: ProgressStatus.Memorized, qualityScore: 9, teacherNotes: 'Excellent', recordDate: '2025-01-10' },
+                    { id: '2', studentName: user?.fullName || 'Utilisateur', surahName: 'An-Nas', surahNumber: 114, juzNumber: 30, status: ProgressStatus.Memorized, qualityScore: 8, teacherNotes: 'Bon tajwid', recordDate: '2025-01-12' },
+                ]);
+            }
         } finally {
             setLoading(false);
         }
@@ -123,11 +143,13 @@ export default function ProgressPage() {
                     <h1 className="text-2xl font-bold">{t.common.progress}</h1>
                     <p className="text-dark-400 mt-1">Suivi pédagogique — Sourate / Juz / Hizb</p>
                 </div>
-                <button
-                    onClick={() => { setEditingItem(null); setFormData({ studentId: '', surahNumber: 1, startVerse: 1, endVerse: '', status: ProgressStatus.InProgress, qualityScore: 5, teacherNotes: '' }); setShowModal(true); }}
-                    className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-primary-500/25">
-                    <FiPlus size={16} /> Ajouter progression
-                </button>
+                {isTeacher && (
+                    <button
+                        onClick={() => { setEditingItem(null); setFormData({ studentId: '', surahNumber: 1, startVerse: 1, endVerse: '', status: ProgressStatus.InProgress, qualityScore: 5, teacherNotes: '' }); setShowModal(true); }}
+                        className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-primary-500/25">
+                        <FiPlus size={16} /> Ajouter progression
+                    </button>
+                )}
             </div>
 
             {/* Summary Cards */}
@@ -196,14 +218,16 @@ export default function ProgressPage() {
                                         {statusConfig[item.status as ProgressStatus]?.label || 'Inconnu'}
                                     </span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => { setEditingItem(item); setFormData({ studentId: item.studentId, surahNumber: item.surahNumber || 1, startVerse: item.startVerse || 1, endVerse: item.endVerse || '', status: item.status as any, qualityScore: item.qualityScore || 5, teacherNotes: item.teacherNotes || '' }); setShowModal(true); }} className="p-2 text-dark-400 hover:text-primary-600 transition-colors bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-dark-100 dark:border-dark-700">
-                                        <FiEdit2 size={14} />
-                                    </button>
-                                    <button onClick={() => handleDelete(item.id)} className="p-2 text-dark-400 hover:text-red-500 transition-colors bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-dark-100 dark:border-dark-700">
-                                        <FiTrash2 size={14} />
-                                    </button>
-                                </div>
+                                {isTeacher && (
+                                    <div className="flex items-center gap-2">
+                                        <button onClick={() => { setEditingItem(item); setFormData({ studentId: item.studentId, surahNumber: item.surahNumber || 1, startVerse: item.startVerse || 1, endVerse: item.endVerse || '', status: item.status as any, qualityScore: item.qualityScore || 5, teacherNotes: item.teacherNotes || '' }); setShowModal(true); }} className="p-2 text-dark-400 hover:text-primary-600 transition-colors bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-dark-100 dark:border-dark-700">
+                                            <FiEdit2 size={14} />
+                                        </button>
+                                        <button onClick={() => handleDelete(item.id)} className="p-2 text-dark-400 hover:text-red-500 transition-colors bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-dark-100 dark:border-dark-700">
+                                            <FiTrash2 size={14} />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         {item.teacherNotes && (

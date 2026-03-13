@@ -284,6 +284,9 @@ public static class SeedData
             QuranSchool.Domain.Constants.Permissions.ProgressView,
             QuranSchool.Domain.Constants.Permissions.PaymentsView,
             QuranSchool.Domain.Constants.Permissions.MessagesView, QuranSchool.Domain.Constants.Permissions.MessagesSend,
+            QuranSchool.Domain.Constants.Permissions.GroupsView,
+            QuranSchool.Domain.Constants.Permissions.StudentsView,
+            QuranSchool.Domain.Constants.Permissions.TeachersView,
             QuranSchool.Domain.Constants.Permissions.MushafView
         };
         await LinkRolePerms(parentRole, parentPerms);
@@ -294,7 +297,13 @@ public static class SeedData
             QuranSchool.Domain.Constants.Permissions.ScheduleView,
             QuranSchool.Domain.Constants.Permissions.ProgressView,
             QuranSchool.Domain.Constants.Permissions.HomeworkView,
-            QuranSchool.Domain.Constants.Permissions.MushafView
+            QuranSchool.Domain.Constants.Permissions.GroupsView,
+            QuranSchool.Domain.Constants.Permissions.StudentsView,
+            QuranSchool.Domain.Constants.Permissions.TeachersView,
+            QuranSchool.Domain.Constants.Permissions.MushafView,
+            QuranSchool.Domain.Constants.Permissions.SessionsView,
+            QuranSchool.Domain.Constants.Permissions.ExamsView,
+            QuranSchool.Domain.Constants.Permissions.AttendanceView
         };
         await LinkRolePerms(studentRole, studentPerms);
 
@@ -306,6 +315,233 @@ public static class SeedData
         };
         await LinkRolePerms(accountantRole, accountantPerms);
 
-        await context.SaveChangesAsync();
+        // 7. Seed Levels
+        var levels = new List<Level>();
+        if (!await context.Levels.AnyAsync(l => l.SchoolId == schoolId))
+        {
+            levels.Add(new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 1 - Débutant", Order = 1, StartSurah = 114, EndSurah = 105, Description = "Apprentissage des petites sourates et bases du Tajwid" });
+            levels.Add(new Level { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Niveau 2 - Intermédiaire", Order = 2, StartSurah = 104, EndSurah = 90, Description = "Poursuite de la mémorisation du Juz Amma" });
+            context.Levels.AddRange(levels);
+            await context.SaveChangesAsync();
+        }
+        else
+        {
+            levels = await context.Levels.Where(l => l.SchoolId == schoolId).ToListAsync();
+        }
+
+        // 8. Seed Teachers
+        var teachers = new List<Teacher>();
+        if (!await context.Teachers.AnyAsync(t => t.SchoolId == schoolId))
+        {
+            var teacherData = new[]
+            {
+                new { First = "Ahmad", Last = "Benali", Email = "ahmed.b@example.com", Specialization = "Hifdh & Tajwid", IsExaminer = true },
+                new { First = "Khadija", Last = "Mansour", Email = "khadija.m@example.com", Specialization = "Arabe & Coran", IsExaminer = false }
+            };
+
+            foreach (var t in teacherData)
+            {
+                var teacherId = Guid.NewGuid();
+                var teacher = new Teacher
+                {
+                    Id = teacherId,
+                    SchoolId = schoolId,
+                    FirstName = t.First,
+                    LastName = t.Last,
+                    Email = t.Email,
+                    Specialization = t.Specialization,
+                    HireDate = DateTime.UtcNow.AddYears(-1)
+                };
+                teachers.Add(teacher);
+                context.Teachers.Add(teacher);
+
+                // Associated User
+                var user = new User
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    FirstName = t.First,
+                    LastName = t.Last,
+                    Email = t.Email,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Password123!"),
+                    LinkedProfileType = ProfileType.Teacher,
+                    LinkedProfileId = teacherId,
+                    IsActive = true
+                };
+                context.Users.Add(user);
+                
+                // Assign Roles
+                context.UserRoles.Add(new UserRole { SchoolId = schoolId, UserId = user.Id, RoleId = teacherRole.Id });
+                if (t.IsExaminer)
+                {
+                    context.UserRoles.Add(new UserRole { SchoolId = schoolId, UserId = user.Id, RoleId = examinerRole.Id });
+                }
+            }
+            await context.SaveChangesAsync();
+        }
+        else
+        {
+            teachers = await context.Teachers.Where(t => t.SchoolId == schoolId).ToListAsync();
+        }
+
+        // 9. Seed Groups
+        var groups = new List<Group>();
+        if (!await context.Groups.AnyAsync(g => g.SchoolId == schoolId))
+        {
+            groups.Add(new Group { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Groupe Al-Fatiha", LevelId = levels[0].Id, TeacherId = teachers[0].Id, MaxCapacity = 15, Description = "Cours du Lundi et Mercredi" });
+            groups.Add(new Group { Id = Guid.NewGuid(), SchoolId = schoolId, Name = "Groupe Al-Baqarah", LevelId = levels[1].Id, TeacherId = teachers[1].Id, MaxCapacity = 15, Description = "Cours du Mardi et Jeudi" });
+            context.Groups.AddRange(groups);
+            await context.SaveChangesAsync();
+        }
+        else
+        {
+            groups = await context.Groups.Where(g => g.SchoolId == schoolId).ToListAsync();
+        }
+
+        // 10. Seed Students
+        var students = new List<Student>();
+        if (!await context.Students.AnyAsync(s => s.SchoolId == schoolId))
+        {
+            var studentData = new[]
+            {
+                new { First = "Youssef", Last = "Zahra", Email = "youssef@example.com", GroupIdx = 0, XP = 1250 },
+                new { First = "Amina", Last = "Zahra", Email = "amina@example.com", GroupIdx = 0, XP = 980 },
+                new { First = "Omar", Last = "Farooq", Email = "omar@example.com", GroupIdx = 1, XP = 1500 },
+                new { First = "Aisha", Last = "Siddiq", Email = "aisha@example.com", GroupIdx = 1, XP = 2100 }
+            };
+
+            foreach (var s in studentData)
+            {
+                var studentId = Guid.NewGuid();
+                var student = new Student
+                {
+                    Id = studentId,
+                    SchoolId = schoolId,
+                    FirstName = s.First,
+                    LastName = s.Last,
+                    GroupId = groups[s.GroupIdx].Id,
+                    TotalXP = s.XP,
+                    DateOfBirth = DateTime.UtcNow.AddYears(-10),
+                    EnrollmentDate = DateTime.UtcNow.AddMonths(-6),
+                    CurrentLevel = levels[s.GroupIdx].Name
+                };
+                students.Add(student);
+                context.Students.Add(student);
+
+                // Associated User
+                var user = new User
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    FirstName = s.First,
+                    LastName = s.Last,
+                    Email = s.Email,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Password123!"),
+                    LinkedProfileType = ProfileType.Student,
+                    LinkedProfileId = studentId,
+                    IsActive = true
+                };
+                context.Users.Add(user);
+                
+                // Assign Role
+                context.UserRoles.Add(new UserRole { SchoolId = schoolId, UserId = user.Id, RoleId = studentRole.Id });
+            }
+            await context.SaveChangesAsync();
+        }
+        else
+        {
+            students = await context.Students.Where(s => s.SchoolId == schoolId).ToListAsync();
+        }
+
+        // 11. Seed Sessions (Last 7 days and Next 7 days)
+        if (!await context.Sessions.AnyAsync(s => s.SchoolId == schoolId))
+        {
+            var today = DateTime.UtcNow.Date;
+            for (int i = -7; i <= 7; i++)
+            {
+                var sessionDate = today.AddDays(i);
+                // Group 1: Mon (1), Wed (3), Fri (5)
+                if (new[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }.Contains(sessionDate.DayOfWeek))
+                {
+                    var session = new Session
+                    {
+                        Id = Guid.NewGuid(),
+                        SchoolId = schoolId,
+                        GroupId = groups[0].Id,
+                        TeacherId = teachers[0].Id,
+                        Date = sessionDate,
+                        StartTime = "10:00",
+                        EndTime = "12:00",
+                        Status = sessionDate < today ? SessionStatus.Completed : SessionStatus.Planned,
+                        SessionObjective = $"Mémorisation Sourate {levels[0].StartSurah}"
+                    };
+                    context.Sessions.Add(session);
+
+                    // If past, seed attendance and progress
+                    if (sessionDate < today)
+                    {
+                        foreach (var stu in students.Where(s => s.GroupId == groups[0].Id))
+                        {
+                            context.SessionAttendances.Add(new SessionAttendance
+                            {
+                                Id = Guid.NewGuid(),
+                                SchoolId = schoolId,
+                                SessionId = session.Id,
+                                StudentId = stu.Id,
+                                Status = SessionAttendanceStatus.Present
+                            });
+
+                            context.ProgressRecords.Add(new Progress
+                            {
+                                Id = Guid.NewGuid(),
+                                SchoolId = schoolId,
+                                StudentId = stu.Id,
+                                SurahNumber = 114,
+                                Status = ProgressStatus.Memorized,
+                                QualityScore = 9,
+                                RecordDate = sessionDate,
+                                TeacherNotes = "Trés bien mémorisé."
+                            });
+                        }
+                    }
+                }
+
+                // Group 2: Tue (2), Thu (4)
+                if (new[] { DayOfWeek.Tuesday, DayOfWeek.Thursday }.Contains(sessionDate.DayOfWeek))
+                {
+                    var session = new Session
+                    {
+                        Id = Guid.NewGuid(),
+                        SchoolId = schoolId,
+                        GroupId = groups[1].Id,
+                        TeacherId = teachers[1].Id,
+                        Date = sessionDate,
+                        StartTime = "14:00",
+                        EndTime = "16:00",
+                        Status = sessionDate < today ? SessionStatus.Completed : SessionStatus.Planned,
+                        SessionObjective = $"Révision Sourate {levels[1].StartSurah}"
+                    };
+                    context.Sessions.Add(session);
+                }
+            }
+            await context.SaveChangesAsync();
+        }
+
+        // 12. Seed Schedules
+        if (!await context.Schedules.AnyAsync(s => s.SchoolId == schoolId))
+        {
+            // Group 1 Schedule
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = 1, StartTime = "10:00", EndTime = "12:00", RoomName = "Salle 1" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = 3, StartTime = "10:00", EndTime = "12:00", RoomName = "Salle 1" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = 5, StartTime = "10:00", EndTime = "12:00", RoomName = "Salle 1" });
+
+            // Group 2 Schedule
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[1].Id, DayOfWeek = 2, StartTime = "14:00", EndTime = "16:00", RoomName = "Salle 2" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[1].Id, DayOfWeek = 4, StartTime = "14:00", EndTime = "16:00", RoomName = "Salle 2" });
+            
+            await context.SaveChangesAsync();
+        }
+
+        Console.WriteLine(">>> Seeding completed successfully.");
     }
 }

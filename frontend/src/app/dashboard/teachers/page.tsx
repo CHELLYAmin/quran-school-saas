@@ -10,11 +10,14 @@ import {
     FiUsers, FiSearch, FiTarget, FiActivity, FiUserPlus, FiEdit2, FiTrash2, FiX, FiCheck, FiShield, FiPhone, FiMail, FiGrid, FiList
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation';
 import RequireRole from '@/components/auth/RequireRole';
 
 export default function TeachersPage() {
     const { locale, viewPreferences, setViewPreference } = useUIStore();
     const { t } = useTranslation(locale);
+    const searchParams = useSearchParams();
+    const roleFilter = searchParams.get('role');
 
     const [teachers, setTeachers] = useState<UserResponse[]>([]);
     const [loading, setLoading] = useState(true);
@@ -25,7 +28,7 @@ export default function TeachersPage() {
     const [showModal, setShowModal] = useState(false);
     const [editingUser, setEditingUser] = useState<UserResponse | null>(null);
     const [formData, setFormData] = useState({
-        firstName: '', lastName: '', email: '', phone: '', password: '', role: UserRole.Teacher, isExaminer: false
+        firstName: '', lastName: '', email: '', phone: '', password: '', role: UserRole.Teacher, isExaminer: roleFilter === 'Examiner'
     });
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
@@ -38,9 +41,9 @@ export default function TeachersPage() {
             const { data } = await userApi.getByRoles([UserRole.Teacher, UserRole.Examiner]);
             setTeachers(data);
         } catch {
-            // Mock Data for User feedback if DB not hit
+            // Mock Data
             setTeachers([
-                { id: '1', email: 'ahmed.b@example.com', firstName: 'Ahmed', lastName: 'Benali', fullName: 'Ahmed Benali', roles: [UserRole.Teacher, UserRole.Examiner], isExaminer: true, phone: '+33 6 12 34 56 78', isActive: true, preferredLanguage: 'fr', createdAt: new Date().toISOString() },
+                { id: '1', email: 'ahmed.b@example.com', firstName: 'Ahmad', lastName: 'Benali', fullName: 'Ahmad Benali', roles: [UserRole.Teacher, UserRole.Examiner], isExaminer: true, phone: '+33 6 12 34 56 78', isActive: true, preferredLanguage: 'fr', createdAt: new Date().toISOString() },
                 { id: '2', email: 'khadija.m@example.com', firstName: 'Khadija', lastName: 'Mansour', fullName: 'Khadija Mansour', roles: [UserRole.Teacher], isExaminer: false, phone: '+212 6 00 11 22 33', isActive: true, preferredLanguage: 'ar', createdAt: new Date().toISOString() },
                 { id: '3', email: 'ibrahim.k@example.com', firstName: 'Ibrahim', lastName: 'Khalil', fullName: 'Cheikh Ibrahim', roles: [UserRole.Teacher, UserRole.Examiner], isExaminer: true, phone: '', isActive: true, preferredLanguage: 'fr', createdAt: new Date().toISOString() },
                 { id: '4', email: 'fatima.z@example.com', firstName: 'Fatima', lastName: 'Zahra', fullName: 'Fatima Zahra', roles: [UserRole.Teacher], isExaminer: false, phone: '+33 7 88 99 00 11', isActive: true, preferredLanguage: 'fr', createdAt: new Date().toISOString() },
@@ -88,7 +91,7 @@ export default function TeachersPage() {
 
     const openCreateModal = () => {
         setEditingUser(null);
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', password: '', role: UserRole.Teacher, isExaminer: false });
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', password: '', role: UserRole.Teacher, isExaminer: roleFilter === 'Examiner' });
         setShowModal(true);
     };
 
@@ -106,11 +109,20 @@ export default function TeachersPage() {
         setShowModal(true);
     };
 
-    const filtered = teachers.filter(t =>
-        (t.fullName || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (t.email || "").toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filtered = teachers.filter(t => {
+        const matchesSearch = (t.fullName || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (t.email || "").toLowerCase().includes(searchQuery.toLowerCase());
+        
+        if (roleFilter === 'Examiner') {
+            return matchesSearch && (t.isExaminer || t.roles?.includes(UserRole.Examiner));
+        }
+        if (roleFilter === 'Teacher') {
+            return matchesSearch && (t.roles?.includes(UserRole.Teacher));
+        }
+        return matchesSearch;
+    });
 
+    const pageTitle = roleFilter === 'Examiner' ? t.common.roles.Examiner : (roleFilter === 'Teacher' ? t.common.teachers : 'Équipe Pédagogique');
 
     if (loading) return <PageSkeleton variant="table" />;
 
@@ -119,12 +131,12 @@ export default function TeachersPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-dark-900 dark:text-white">Enseignants & Examinateurs</h1>
-                    <p className="text-sm text-dark-400 mt-0.5">Gérez votre équipe pédagogique</p>
+                    <h1 className="text-2xl font-bold text-dark-900 dark:text-white">{pageTitle}</h1>
+                    <p className="text-sm text-dark-400 mt-0.5">{roleFilter === 'Examiner' ? 'Membres habilités aux examens' : 'Gérez votre équipe pédagogique'}</p>
                 </div>
                 <RequireRole allowedRoles={[UserRole.SuperAdmin, UserRole.Admin]}>
                     <button onClick={openCreateModal} className="btn-primary flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-primary-500/25">
-                        <FiUserPlus size={16} /> Ajouter un enseignant
+                        <FiUserPlus size={16} /> Ajouter {roleFilter === 'Examiner' ? 'un examinateur' : 'un enseignant'}
                     </button>
                 </RequireRole>
             </div>
@@ -177,7 +189,7 @@ export default function TeachersPage() {
                     <div className="w-16 h-16 bg-dark-50 dark:bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4 text-dark-300">
                         <FiUsers size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-dark-900 dark:text-white mb-1">Aucun enseignant trouvé</h3>
+                    <h3 className="text-lg font-bold text-dark-900 dark:text-white mb-1">Aucun membre trouvé</h3>
                     <p className="text-dark-400 text-sm">Modifiez vos critères de recherche ou ajoutez-en un nouveau.</p>
                 </div>
             ) : viewMode === 'grid' ? (
@@ -301,23 +313,13 @@ export default function TeachersPage() {
                 </div>
             )}
 
-            {filtered.length === 0 && (
-                <div className="text-center py-16 bg-white dark:bg-dark-900 rounded-3xl border border-dark-100 dark:border-dark-800 border-dashed">
-                    <div className="w-16 h-16 bg-dark-50 dark:bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4 text-dark-300">
-                        <FiUsers size={24} />
-                    </div>
-                    <h3 className="text-lg font-bold text-dark-900 dark:text-white mb-1">Aucun enseignant trouvé</h3>
-                    <p className="text-dark-400 text-sm">Modifiez vos critères de recherche ou ajoutez-en un nouveau.</p>
-                </div>
-            )}
-
             {/* Create/Edit Modal */}
             {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark-900/50 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white dark:bg-dark-900 w-full max-w-md rounded-3xl shadow-2xl border border-dark-100 dark:border-dark-800 overflow-hidden">
                         <div className="p-5 border-b border-dark-100 dark:border-dark-800 flex items-center justify-between bg-dark-50/50 dark:bg-dark-800/50">
                             <h2 className="text-lg font-bold text-dark-900 dark:text-white">
-                                {editingUser ? 'Modifier l\'enseignant' : 'Ajouter un enseignant'}
+                                {editingUser ? 'Modifier l\'enseignant' : (roleFilter === 'Examiner' ? 'Ajouter un examinateur' : 'Ajouter un enseignant')}
                             </h2>
                             <button type="button" onClick={() => setShowModal(false)} className="p-2 rounded-xl text-dark-400 hover:bg-white dark:hover:bg-dark-700 transition-colors">
                                 <FiX size={18} />

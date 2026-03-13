@@ -5,6 +5,8 @@ using QuranSchool.Application.DTOs;
 using QuranSchool.Application.Interfaces;
 using QuranSchool.Domain.Entities;
 using QuranSchool.Domain.Enums;
+using QuranSchool.Domain.Constants;
+using QuranSchool.API.Attributes;
 using QuranSchool.Infrastructure.Data;
 using System.Security.Claims;
 
@@ -27,6 +29,7 @@ public class MissionsController : ControllerBase
     }
 
     [HttpGet("student/{studentId}")]
+    [RequirePermission(Permissions.HomeworkView)]
     public async Task<ActionResult<IEnumerable<StudentMissionDto>>> GetStudentMissions(Guid studentId)
     {
         if (studentId == Guid.Empty) return Ok(new List<StudentMissionDto>());
@@ -61,7 +64,7 @@ public class MissionsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Teacher,SuperAdmin")]
+    [RequirePermission(Permissions.HomeworkManage)]
     public async Task<ActionResult<StudentMissionDto>> CreateManualMission(CreateManualMissionDto dto)
     {
         // Extract Teacher ID from claims
@@ -102,7 +105,7 @@ public class MissionsController : ControllerBase
     }
 
     [HttpPost("group/{groupId}")]
-    [Authorize(Roles = "Admin,Teacher,SuperAdmin")]
+    [RequirePermission(Permissions.HomeworkManage)]
     public async Task<ActionResult> CreateGroupMission(Guid groupId, CreateManualMissionDto dto)
     {
         // Extract Teacher ID from claims
@@ -149,7 +152,7 @@ public class MissionsController : ControllerBase
     }
 
     [HttpPost("student/{studentId}/generate-smart-revision")]
-    [Authorize(Roles = "Admin,Teacher,SuperAdmin")]
+    [RequirePermission(Permissions.HomeworkManage)]
     public async Task<ActionResult<StudentMissionDto>> TriggerSmartRevisionGeneration(Guid studentId)
     {
         var mission = await _smartRevisionService.GenerateSmartRevisionAsync(studentId);
@@ -189,7 +192,7 @@ public class MissionsController : ControllerBase
     }
 
     [HttpPost("{id}/feedback")]
-    [Authorize(Roles = "Admin,Teacher,SuperAdmin")]
+    [RequirePermission(Permissions.HomeworkManage)]
     public async Task<IActionResult> ProvideFeedback(Guid id, ProvideMissionFeedbackDto dto)
     {
         var mission = await _context.StudentMissions.FindAsync(id);
@@ -222,7 +225,7 @@ public class MissionsController : ControllerBase
     }
 
     [HttpGet("evaluations/pending")]
-    [Authorize(Roles = "Admin,Teacher,SuperAdmin")]
+    [RequirePermission(Permissions.HomeworkManage)]
     public async Task<ActionResult<IEnumerable<StudentMissionDto>>> GetPendingEvaluations()
     {
         var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

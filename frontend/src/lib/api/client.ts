@@ -49,6 +49,33 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const status = error.response ? error.response.status : null;
+        const message = error.response?.data?.message || error.message;
+
+        console.error(`[API Error] ${status}: ${message}`, error.response?.data);
+
+        if (status === 401 && typeof window !== 'undefined') {
+            // Token expired or invalid
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            // Avoid infinite loops if already on login
+            if (!window.location.pathname.includes('/auth/login')) {
+                window.location.href = '/auth/login?expired=true';
+            }
+        }
+        
+        return Promise.reject({
+            ...error,
+            status,
+            message,
+            originalError: error
+        });
+    }
+);
+
 export const authApi = {
     login: (data: LoginRequest) => api.post('/api/auth/login', data),
     register: (data: RegisterRequest) => api.post('/api/auth/register', data),

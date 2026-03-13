@@ -50,7 +50,12 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("ProductionPolicy", policy =>
     {
-        policy.WithOrigins("https://main.dvzbe963bxnuz.amplifyapp.com", "https://master.dvzbe963bxnuz.amplifyapp.com")
+        policy.WithOrigins(
+            "https://main.dvzbe963bxnuz.amplifyapp.com", 
+            "https://master.dvzbe963bxnuz.amplifyapp.com",
+            "https://main.d3r1g8f9l4v9j6.amplifyapp.com",
+            "https://quranschool.ca"
+        )
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();

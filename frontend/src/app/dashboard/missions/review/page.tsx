@@ -9,8 +9,14 @@ import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+import { useRouter } from 'next/navigation';
+import { usePermission, Permissions } from '@/hooks/usePermission';
+
 export default function AudioReviewPage() {
-    const { user } = useAuthStore();
+    const { user, isLoading: authLoading } = useAuthStore();
+    const router = useRouter();
+    const { hasPermission } = usePermission();
+
     const [pendingMissions, setPendingMissions] = useState<StudentMissionResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedMission, setSelectedMission] = useState<StudentMissionResponse | null>(null);
@@ -19,8 +25,15 @@ export default function AudioReviewPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        loadPendingMissions();
-    }, []);
+        if (!authLoading) {
+            if (!hasPermission(Permissions.HomeworkManage)) {
+                toast.error("Accès non autorisé.");
+                router.push('/dashboard');
+                return;
+            }
+            loadPendingMissions();
+        }
+    }, [authLoading]);
 
     const loadPendingMissions = async () => {
         setIsLoading(true);

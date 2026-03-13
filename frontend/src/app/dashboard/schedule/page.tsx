@@ -2,12 +2,13 @@
 import PageSkeleton from '@/components/ui/PageSkeleton';
 
 import { useEffect, useState } from 'react';
-import { useUIStore } from '@/lib/store';
+import { useAuthStore, useUIStore } from '@/lib/store';
 import { useTranslation } from '@/lib/i18n/translations';
 import { FiClock, FiMapPin } from 'react-icons/fi';
 import { scheduleApi, groupApi, sessionApi } from '@/lib/api/client';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { UserRole } from '@/types';
 
 const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 const hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
@@ -19,6 +20,7 @@ const fallbackSchedule = [
 ];
 
 export default function SchedulePage() {
+    const { user } = useAuthStore();
     const { locale } = useUIStore();
     const { t } = useTranslation(locale);
 
@@ -28,22 +30,41 @@ export default function SchedulePage() {
     const router = useRouter();
 
     useEffect(() => {
-        loadData();
-    }, []);
+        if (user) loadData();
+    }, [user]);
 
     const loadData = async () => {
         try {
             setLoading(true);
-            const [schedRes, groupRes] = await Promise.all([
+            
+            // We use Promise.allSettled to avoid failing everything if one fails
+            const [schedResult, groupResult] = await Promise.allSettled([
                 scheduleApi.getAll(),
                 groupApi.getAll()
             ]);
+
+            let scheds: any[] = [];
+            if (schedResult.status === 'fulfilled') {
+                scheds = schedResult.value.data;
+            } else {
+                console.error('Failed to load schedules', schedResult.reason);
+                const status = (schedResult.reason as any).status || 'Inconnu';
+                toast.error(`Erreur de chargement du planning (Code ${status})`);
+            }
+
+            if (groupResult.status === 'fulfilled') {
+                setGroups(groupResult.value.data);
+            } else {
+                console.warn('Failed to load groups list (RBAC?)', groupResult.reason);
+                // Not a critical error for students
+            }
+
             // Add visual colors mapped to group IDs
             const colors = ['primary', 'accent', 'indigo', 'rose', 'emerald', 'amber'];
             const colorMap = new Map();
             let idx = 0;
 
-            const groupedScheds = schedRes.data.map((s: any) => {
+            const groupedScheds = scheds.map((s: any) => {
                 if (!colorMap.has(s.groupId)) {
                     colorMap.set(s.groupId, colors[idx % colors.length]);
                     idx++;
@@ -55,11 +76,14 @@ export default function SchedulePage() {
                 };
             });
 
-            setScheduleList(groupedScheds);
-            setGroups(groupRes.data);
+            if (groupedScheds.length > 0) {
+                setScheduleList(groupedScheds);
+            } else if (schedResult.status === 'rejected') {
+                setScheduleList(fallbackSchedule);
+            }
         } catch (error) {
             console.error(error);
-            toast.error('Erreur de connexion. Données factices affichées.');
+            toast.error('Erreur de connexion.');
             setScheduleList(fallbackSchedule);
         } finally {
             setLoading(false);
@@ -86,6 +110,8 @@ export default function SchedulePage() {
     };
 
     if (loading) return <PageSkeleton variant="calendar" />;
+
+    const isTeacher = user?.roles?.some(r => r === UserRole.Teacher || r === UserRole.Admin || r === UserRole.Examiner);
 
     return (
         <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500 max-w-7xl mx-auto">
@@ -139,10 +165,11 @@ export default function SchedulePage() {
                                                     ${isOccupied ? 'opacity-50' : ''}
                                                 `}
                                             >
-                                                {/* Event Card (Positioned absolutely if it spans multiple hours to break out of single cell constraints, but for simplicity here we render inside the start cell and assume min-height pushes next rows if needed, or use a pseudo absolute approach) */}
+                                                {/* Event Card */}
                                                 {event && (
                                                     <div
                                                         onClick={async () => {
+                                                            if (!isTeacher) return; // Only teachers can open sessions from schedule
                                                             try {
                                                                 const toastId = toast.loading('Ouverture de la séance...');
 
@@ -186,7 +213,7 @@ export default function SchedulePage() {
                                                                 router.push(`/dashboard/sessions`);
                                                             }
                                                         }}
-                                                        className={`m-1 p-4 rounded-[1.5rem] cursor-pointer shadow-md border hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all flex flex-col justify-between overflow-hidden group/event ${event.color || 'bg-primary-50 border-primary-100 text-primary-800 dark:bg-primary-900/20 dark:border-primary-800 dark:text-primary-300'}`}
+                                                        className={`m-1 p-4 rounded-[1.5rem] ${isTeacher ? 'cursor-pointer' : 'cursor-default'} shadow-md border hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02] transition-all flex flex-col justify-between overflow-hidden group/event ${event.color || 'bg-primary-50 border-primary-100 text-primary-800 dark:bg-primary-900/20 dark:border-primary-800 dark:text-primary-300'}`}
                                                         style={{
                                                             height: `${getSpan(event.startTime, event.endTime) * 80 - 8}px`,
                                                             zIndex: 10,
@@ -196,7 +223,7 @@ export default function SchedulePage() {
                                                         <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent dark:from-white/5 opacity-50 pointer-events-none" />
                                                         <div className="relative z-10 flex flex-col h-full justify-between">
                                                             <p className="font-extrabold text-sm truncate leading-tight mb-2 opacity-90 group-hover/event:opacity-100 transition-opacity">
-                                                                {event.group?.name || event.groupName}
+                                                                {event.group?.name || event.groupName || `Groupe ${event.groupId?.substring(0, 5)}`}
                                                             </p>
                                                             <div className="space-y-1.5 opacity-80 font-bold text-[10px] uppercase tracking-wider group-hover/event:opacity-100 transition-opacity">
                                                                 <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/10 px-2.5 py-1.5 rounded-lg w-fit backdrop-blur-sm">

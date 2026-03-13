@@ -38,7 +38,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
     const sidebarModules = [
-        { id: 'scolarite', label: t.common.roles.Teacher + ' / École', icon: '🎓' },
+        { id: 'scolarite', label: 'École', icon: '🎓' },
         { id: 'gestion', label: 'Mosquée / Gestion', icon: '🕌' },
         { id: 'web', label: 'Site Web & CMS', icon: '🌐' },
         { id: 'admin', label: 'Administration', icon: '⚙️' },
@@ -170,8 +170,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             module: 'scolarite',
             items: [
                 { icon: <FiUsers size={18} />, label: t.common.students, href: '/dashboard/students', permissions: [Permissions.StudentsView, Permissions.UsersView] },
-                { icon: <FiUsers size={18} />, label: t.common.teachers, href: '/dashboard/teachers', permissions: [Permissions.TeachersView, Permissions.UsersView] },
-                { icon: <FiShield size={18} />, label: t.common.roles.Examiner, href: '/dashboard/teachers', permissions: [Permissions.ExamsView, Permissions.UsersView] },
+                { icon: <FiUsers size={18} />, label: t.common.teachers, href: '/dashboard/teachers?role=Teacher', permissions: [Permissions.TeachersView, Permissions.UsersView] },
+                { icon: <FiShield size={18} />, label: t.common.roles.Examiner, href: '/dashboard/teachers?role=Examiner', permissions: [Permissions.ExamsView, Permissions.UsersView] },
                 { icon: <FiUsers size={18} />, label: 'Parents', href: '/dashboard/parents', permissions: [Permissions.UsersView, Permissions.UsersManage] },
             ]
         },
@@ -362,9 +362,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                                 <div className={`${isCollapsed && isSidebarVisible ? 'hidden' : 'block'} space-y-1`}>
                                     {filteredItems.map((item: any) => {
+                                        const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
+                                        const itemUrl = new URL(item.href, 'http://localhost');
+                                        const itemSearch = itemUrl.search;
+                                        
                                         const isActive = item.href === '/dashboard'
                                             ? pathname === '/dashboard'
-                                            : pathname === item.href || (pathname.startsWith(item.href + '/') && item.href !== '/dashboard');
+                                            : (pathname === itemUrl.pathname && (itemSearch === '' || window.location.search === itemSearch)) || 
+                                              (pathname.startsWith(itemUrl.pathname + '/') && item.href !== '/dashboard');
                                         return (
                                             <Link
                                                 key={item.href}
