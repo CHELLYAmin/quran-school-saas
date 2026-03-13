@@ -531,13 +531,13 @@ public static class SeedData
         if (!await context.Schedules.AnyAsync(s => s.SchoolId == schoolId))
         {
             // Group 1 Schedule
-            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = 1, StartTime = "10:00", EndTime = "12:00", RoomName = "Salle 1" });
-            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = 3, StartTime = "10:00", EndTime = "12:00", RoomName = "Salle 1" });
-            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = 5, StartTime = "10:00", EndTime = "12:00", RoomName = "Salle 1" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = DayOfWeekEnum.Monday, StartTime = TimeOnly.Parse("10:00"), EndTime = TimeOnly.Parse("12:00"), RoomName = "Salle 1" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = DayOfWeekEnum.Wednesday, StartTime = TimeOnly.Parse("10:00"), EndTime = TimeOnly.Parse("12:00"), RoomName = "Salle 1" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[0].Id, DayOfWeek = DayOfWeekEnum.Friday, StartTime = TimeOnly.Parse("10:00"), EndTime = TimeOnly.Parse("12:00"), RoomName = "Salle 1" });
 
             // Group 2 Schedule
-            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[1].Id, DayOfWeek = 2, StartTime = "14:00", EndTime = "16:00", RoomName = "Salle 2" });
-            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[1].Id, DayOfWeek = 4, StartTime = "14:00", EndTime = "16:00", RoomName = "Salle 2" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[1].Id, DayOfWeek = DayOfWeekEnum.Tuesday, StartTime = TimeOnly.Parse("14:00"), EndTime = TimeOnly.Parse("16:00"), RoomName = "Salle 2" });
+            context.Schedules.Add(new Schedule { Id = Guid.NewGuid(), SchoolId = schoolId, GroupId = groups[1].Id, DayOfWeek = DayOfWeekEnum.Thursday, StartTime = TimeOnly.Parse("14:00"), EndTime = TimeOnly.Parse("16:00"), RoomName = "Salle 2" });
             
             await context.SaveChangesAsync();
         }
