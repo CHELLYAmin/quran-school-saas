@@ -331,10 +331,8 @@ export default function SessionsPage() {
             setSessions(mappedSessions);
         } catch (error) {
             console.error(error);
-            toast.error('Erreur lors du chargement des données. Affichage des données factices.');
-            // Fallback to initial mock if API fails
-            setGroups(INITIAL_GROUPS);
-            setSessions(generateSessions(INITIAL_GROUPS, 4, 4));
+            toast.error('Erreur lors du chargement des données réelles du serveur.');
+            setSessions([]); 
         } finally {
             setLoading(false);
         }
@@ -477,23 +475,7 @@ export default function SessionsPage() {
             setNewObjective('');
             loadData();
         } catch (error) {
-            toast.error('Erreur lors de la création');
-            // Mock fallback if API is not working
-            const s: Session = {
-                id: String(Date.now()),
-                groupName: newGroup,
-                date: newDate,
-                startTime: newStartTime,
-                endTime: newEndTime,
-                status: 'Planned',
-                objective: newObjective,
-                studentCount: group.studentCount ?? 0,
-                presentCount: 0,
-                recitationCount: 0,
-            };
-            setSessions(prev => [...prev, s]);
-            setShowCreateModal(false);
-            setNewObjective('');
+            toast.error('Erreur lors de la création côté serveur.');
         }
     };
 

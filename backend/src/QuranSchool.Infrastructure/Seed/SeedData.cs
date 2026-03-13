@@ -155,6 +155,19 @@ public static class SeedData
             { 
                 Id = Guid.NewGuid(), 
                 SchoolId = schoolId, 
+                Title = "Notre Enseignement", 
+                Slug = "page-enseignement", 
+                Excerpt = "Découvrez notre approche pédagogique pour l'apprentissage du Coran.",
+                Content = "# Notre Enseignement\n\nNous proposons une méthode structurée basée sur :\n- **La Mémorisation (Hifdh)** : Un suivi personnalisé selon le rythme de l'élève.\n- **Le Tajwid** : Apprentissage des règles de récitation.\n- **La Compréhension** : Introduction au sens des versets.",
+                Category = "service", 
+                IsPublished = true, 
+                SortOrder = 6,
+                CreatedAt = DateTime.UtcNow.AddDays(-3)
+            },
+            new CmsPage 
+            { 
+                Id = Guid.NewGuid(), 
+                SchoolId = schoolId, 
                 Title = "Ramadan 1447 / 2026", 
                 Slug = "ramadan-2026", 
                 Excerpt = "Le mois béni de Ramadan débutera inch'Allah autour du 1er Mars 2026.",
@@ -165,6 +178,35 @@ public static class SeedData
                 CreatedAt = DateTime.UtcNow.AddDays(-5)
             }
         };
+
+        // Seed some Financial Transactions
+        if (!await context.FinancialTransactions.AnyAsync(t => t.SchoolId == schoolId))
+        {
+            var category = await context.TransactionCategories.FirstOrDefaultAsync(c => c.SchoolId == schoolId);
+            if (category != null)
+            {
+                context.FinancialTransactions.Add(new FinancialTransaction
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Amount = 1500,
+                    Date = DateTime.UtcNow.AddDays(-1),
+                    Type = FinancialTransactionType.Income,
+                    Reference = "Cotisations Mars",
+                    CategoryId = category.Id
+                });
+                context.FinancialTransactions.Add(new FinancialTransaction
+                {
+                    Id = Guid.NewGuid(),
+                    SchoolId = schoolId,
+                    Amount = 500,
+                    Date = DateTime.UtcNow,
+                    Type = FinancialTransactionType.Expense,
+                    Reference = "Loyer Mars",
+                    CategoryId = category.Id
+                });
+            }
+        }
         
         foreach (var p in cmsPages)
         {

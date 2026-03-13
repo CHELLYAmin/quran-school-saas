@@ -24,117 +24,95 @@ export default function VolunteerDetailClient({ id }: { id: string }) {
         }
     };
 
-    if (loading) return <div className="py-32 text-center animate-pulse">Chargement de la mission...</div>;
+    if (loading) return (
+        <div className="min-h-screen bg-[#FDFCFB] flex flex-col items-center justify-center p-6 text-center">
+            <div className="size-16 rounded-[2rem] border-4 border-primary-900/10 border-t-primary-900 animate-spin mb-6" />
+            <p className="text-[10px] font-black text-primary-950 uppercase tracking-[0.4em]">Chargement de la mission...</p>
+        </div>
+    );
+
     if (!mission) return (
         <div className="max-w-4xl mx-auto px-6 py-32 text-center">
-            <h1 className="text-3xl font-serif font-black mb-4">Mission introuvable</h1>
-            <Link href="/site" className="text-primary-600 font-bold uppercase tracking-widest text-sm">Retour</Link>
+            <h1 className="text-4xl font-serif font-black mb-8 cinzel-title uppercase text-primary-950">Mission introuvable</h1>
+            <Link href="/site" className="bg-primary-900 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs">Retour</Link>
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans relative">
-            <div className="absolute top-0 inset-x-0 h-[45vh] bg-primary-950 -z-10" />
-            <div className="absolute top-0 inset-x-0 h-[45vh] islamic-pattern opacity-5 -z-10" />
+        <div className="min-h-screen bg-[#FDFCFB] font-sans relative overflow-hidden">
+            {/* Light Premium Hero */}
+            <section className="relative overflow-hidden bg-[#FDFCFB] text-primary-950 pt-32 pb-48 px-6 border-b border-slate-100">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] border-[1px] border-primary-900/5 rounded-full -z-0" />
+                <div className="container mx-auto max-w-5xl text-center relative z-20">
+                    <div className="inline-flex mb-8 px-6 py-2.5 rounded-full bg-primary-900/5 border border-primary-900/10 text-primary-950 text-[10px] font-black tracking-[0.3em] uppercase">
+                        Action Communautaire
+                    </div>
+                    <h1 className="text-6xl md:text-8xl font-serif font-black mb-8 tracking-tighter leading-[0.9] cinzel-title uppercase text-primary-950 italic">
+                        {mission.title}
+                    </h1>
+                </div>
+            </section>
 
-            <div className="max-w-6xl mx-auto px-6 lg:px-8 py-16 md:py-24 relative">
-                <Link href="/site" className="inline-flex items-center gap-3 text-[10px] font-black text-white/40 hover:text-accent-gold uppercase tracking-[0.4em] mb-12 group transition-all">
-                    <span className="size-9 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
-                        <FiArrowLeft size={14} />
-                    </span>
-                    Retour au Hub
-                </Link>
-
+            <div className="max-w-6xl mx-auto px-6 lg:px-8 pb-32 relative z-30 -mt-32">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-                    <div className="lg:col-span-7 space-y-12">
-                        <div className="space-y-6">
-                            <span className="inline-flex items-center gap-2 bg-primary-900 text-white px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl border border-white/5">
-                                <span className="size-2 rounded-full bg-accent-gold animate-pulse" />
-                                Mission de Bénévolat
-                            </span>
-                            <h1 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter cinzel-title uppercase">
-                                {mission.title}
-                            </h1>
-                        </div>
-
-                        <div className="bg-white dark:bg-dark-900 rounded-[3.5rem] p-10 md:p-16 shadow-[0_40px_100px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-dark-800 space-y-12">
-                            <div className="prose prose-xl prose-slate dark:prose-invert max-w-none">
-                                <p className="text-slate-600 dark:text-dark-300 leading-relaxed font-medium">
+                    <div className="lg:col-span-8 flex flex-col gap-12">
+                        <div className="bg-white rounded-[4rem] p-10 md:p-16 shadow-[0_50px_100px_rgba(6,78,59,0.06)] border border-slate-100">
+                            <article className="prose prose-xl prose-slate max-w-none">
+                                <p className="text-slate-600 leading-relaxed font-medium">
                                     {mission.description}
                                 </p>
-                            </div>
+                            </article>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-10 border-t border-slate-100 dark:border-dark-800">
-                                <div className="flex items-center gap-6 group">
-                                    <div className="size-16 rounded-[1.5rem] bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
-                                        <FiMapPin size={28} />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16 pt-16 border-t border-slate-50">
+                                <div className="flex items-start gap-6 group">
+                                    <div className="size-14 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-primary-900 group-hover:bg-primary-900 group-hover:text-white transition-all duration-500">
+                                        <FiMapPin size={24} />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Localisation</p>
-                                        <p className="text-2xl font-black text-primary-950 dark:text-white tracking-tighter">
-                                            {mission.location || 'Centre Spirituel'}
-                                        </p>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 mb-2">Lieu</p>
+                                        <p className="text-xl font-black text-primary-950 cinzel-title uppercase">{mission.location || 'Centre CCIQ'}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-6 group">
-                                    <div className="size-16 rounded-[1.5rem] bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-all duration-500">
-                                        <FiClock size={28} />
+                                <div className="flex items-start gap-6 group">
+                                    <div className="size-14 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-primary-900 group-hover:bg-primary-900 group-hover:text-white transition-all duration-500">
+                                        <FiClock size={24} />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Engagement</p>
-                                        <p className="text-2xl font-black text-primary-950 dark:text-white tracking-tighter">
-                                            {mission.commitment || 'À définir'}
-                                        </p>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 mb-2">Engagement</p>
+                                        <p className="text-xl font-black text-primary-950 cinzel-title uppercase">{mission.commitment || 'À définir'}</p>
                                     </div>
                                 </div>
                             </div>
-
-                            {mission.requirements && (
-                                <div className="p-10 bg-slate-50 dark:bg-dark-950 rounded-[2.5rem] border border-slate-100 dark:border-dark-800 relative overflow-hidden group/req">
-                                    <div className="absolute top-0 left-0 w-2 h-full bg-accent-gold/40 group-hover/req:bg-accent-gold transition-colors" />
-                                    <h3 className="text-xl font-black text-primary-950 dark:text-white mb-6 flex items-center gap-4 cinzel-title">
-                                        <FiAward className="text-accent-gold scale-125" /> 
-                                        Profil Recherché
-                                    </h3>
-                                    <p className="text-slate-600 dark:text-dark-400 leading-relaxed font-medium">
-                                        {mission.requirements}
-                                    </p>
-                                </div>
-                            )}
                         </div>
+
+                        {mission.requirements && (
+                            <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl relative overflow-hidden group/req">
+                                <div className="absolute top-0 left-0 w-2 h-full bg-accent-gold/40 group-hover/req:bg-accent-gold transition-colors" />
+                                <h3 className="text-2xl font-black text-primary-950 mb-6 flex items-center gap-4 cinzel-title uppercase tracking-tighter">
+                                    <FiAward className="text-accent-gold" /> Profil Recherché
+                                </h3>
+                                <p className="text-slate-500 leading-relaxed font-medium">{mission.requirements}</p>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="lg:col-span-5">
-                        <div className="sticky top-32 bg-primary-950 text-white rounded-[3.5rem] p-10 md:p-12 shadow-[0_50px_100px_rgba(6,78,59,0.2)] relative overflow-hidden group border border-white/5">
-                            <div className="absolute inset-0 zellige-pattern opacity-5" />
-                            <div className="relative z-10 space-y-10">
-                                <div className="text-center space-y-6">
-                                    <div className="size-24 bg-white/5 rounded-[2rem] mx-auto flex items-center justify-center text-accent-gold border border-white/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 backdrop-blur-xl">
-                                        <FiUsers size={40} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-3xl font-serif font-black cinzel-title uppercase tracking-tighter">Rejoignez-nous</h3>
-                                        <p className="text-white/40 text-[11px] font-black uppercase tracking-[0.3em] mt-3">Cultiver l&apos;Excellence Ensemble</p>
-                                    </div>
+                    <div className="lg:col-span-4">
+                        <div className="sticky top-32 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-2xl space-y-8">
+                            <div className="text-center space-y-6">
+                                <div className="size-20 bg-primary-900/5 rounded-[2rem] mx-auto flex items-center justify-center text-primary-900 border border-primary-900/10">
+                                    <FiUsers size={32} />
                                 </div>
-                                <p className="text-center text-white/60 text-lg font-medium leading-relaxed px-4">
-                                    Chaque heure offerte est une pierre ajoutée à l&apos;édifice de notre communauté. Rejoignez une équipe dévouée et passionnée.
-                                </p>
-                                <div className="space-y-4 pt-6">
-                                    <button className="flex items-center justify-center w-full py-6 bg-accent-gold text-primary-950 rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl hover:bg-white hover:-translate-y-2 transition-all duration-500">
-                                        <FiSend className="mr-3 scale-125 transition-transform" />
-                                        Postuler Maintenant
-                                    </button>
-                                    <Link href="/site" className="flex items-center justify-center w-full py-6 bg-white/5 text-white border border-white/10 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-500 backdrop-blur-md">
-                                        Explorer d&apos;autres missions
-                                    </Link>
-                                </div>
-                                <div className="pt-10 border-t border-white/10 text-center">
-                                    <p className="text-[10px] text-white/30 font-black uppercase tracking-[0.3em] leading-relaxed italic">
-                                        &ldquo;Le meilleur des hommes est celui qui est le plus utile aux autres.&rdquo;
-                                    </p>
-                                </div>
+                                <h3 className="text-3xl font-serif font-black cinzel-title uppercase text-primary-950 leading-none">Agir Ensemble</h3>
                             </div>
+                            <p className="text-center text-slate-500 font-medium leading-relaxed">
+                                Chaque geste compte. Rejoignez une communauté dévouée.
+                            </p>
+                            <button className="w-full py-6 bg-primary-900 hover:bg-black text-white rounded-[1.5rem] font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary-900/20 transition-all hover:-translate-y-1">
+                                Postuler Maintenant
+                            </button>
+                            <Link href="/site" className="flex items-center justify-center w-full py-6 bg-slate-50 text-slate-400 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:text-primary-900 transition-colors">
+                                Retour
+                            </Link>
                         </div>
                     </div>
                 </div>

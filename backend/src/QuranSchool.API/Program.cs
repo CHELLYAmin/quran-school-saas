@@ -50,9 +50,10 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("ProductionPolicy", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("https://main.dvzbe963bxnuz.amplifyapp.com", "https://master.dvzbe963bxnuz.amplifyapp.com")
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 

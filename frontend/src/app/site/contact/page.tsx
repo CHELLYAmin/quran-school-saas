@@ -1,126 +1,137 @@
 export default function ContactPage() {
     return (
-        <>
-
-            {/* Premium Hero */}
-            <section className="relative overflow-hidden bg-primary-950 text-white pt-24 pb-48 px-6">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-10 mix-blend-luminosity"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-primary-950/90 via-primary-950/95 to-primary-950"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dark-50 dark:from-dark-950 to-transparent z-10 w-full"></div>
+        <div className="bg-[#FDFCFB]">
+            {/* Premium Hero - Light Version */}
+            <section className="relative overflow-hidden bg-[#FDFCFB] text-primary-950 pt-32 pb-48 px-6 border-b border-slate-100">
+                {/* Architectural Elements (inspired by homepage) */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border-[1px] border-primary-900/5 rounded-full -z-0 animate-pulse-slow" />
+                
+                {/* Gradient Glows */}
+                <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-primary-900/5 rounded-full blur-[120px] -z-0" />
+                <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-accent-gold/5 rounded-full blur-[120px] -z-0" />
 
                 <div className="container mx-auto max-w-4xl text-center relative z-20">
-                    <div className="inline-flex mb-8 px-5 py-2.5 rounded-full border border-primary-500/30 bg-primary-900/50 backdrop-blur-md text-accent-400 text-[10px] font-black tracking-[0.2em] uppercase shadow-lg shadow-primary-900/20">
+                    <div className="inline-flex mb-8 px-6 py-2.5 rounded-full bg-primary-900/5 border border-primary-900/10 text-primary-950 text-[10px] font-black tracking-[0.3em] uppercase">
+                        <span className="size-2 rounded-full bg-accent-gold mr-2 animate-pulse" />
                         Contactez-Nous
                     </div>
-                    <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tighter leading-tight drop-shadow-2xl">
-                        Nous sommes à <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-300">votre écoute</span>
+                    <h1 className="text-6xl md:text-8xl font-serif font-black mb-8 tracking-tighter leading-[0.9] cinzel-title uppercase text-primary-950">
+                        Nous sommes à <br />
+                        <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary-900 to-primary-700 pb-2">
+                             votre écoute
+                            <svg className="absolute -bottom-2 left-0 w-full h-8 text-accent-gold opacity-20" preserveAspectRatio="none" viewBox="0 0 400 30">
+                                <path d="M0,15 Q100,0 200,15 T400,15" fill="none" stroke="currentColor" strokeWidth="8" />
+                            </svg>
+                        </span>
                     </h1>
-                    <p className="text-xl text-primary-100/90 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-sm">
+                    <p className="text-xl md:text-2xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
                         Que ce soit pour une inscription, un don ou une simple question, notre équipe est là pour vous répondre chaleureusement.
                     </p>
                 </div>
             </section>
 
-            {/* Contact Content & Form Overlay */}
+            {/* Contact Content & Form Overlay - Pearl Theme */}
             <section className="px-6 flex-grow pb-24 relative z-30 -mt-32">
                 <div className="container mx-auto max-w-6xl">
-                    <div className="bg-white dark:bg-dark-900 rounded-[3rem] shadow-2xl shadow-dark-900/5 border border-dark-100 dark:border-dark-800 overflow-hidden flex flex-col lg:flex-row">
+                    <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_rgba(6,78,59,0.08)] border border-slate-100 overflow-hidden flex flex-col lg:flex-row">
 
-                        {/* Infos pratiques (Left Side) */}
+                        {/* Infos pratiques (Left Side) - Refined Light/Primary Version */}
                         <div className="lg:w-2/5 bg-primary-950 text-white p-10 lg:p-14 relative overflow-hidden">
+                            <div className="absolute inset-0 zellige-pattern opacity-10" />
                             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
-                            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary-600/20 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/2"></div>
 
                             <div className="relative z-10 h-full flex flex-col">
-                                <h2 className="text-[11px] font-black text-accent-400 tracking-[0.2em] uppercase mb-4">Où nous trouver</h2>
-                                <h3 className="text-4xl font-black tracking-tight mb-12">
-                                    Centre Culturel
+                                <h2 className="text-[10px] font-black text-accent-gold tracking-[0.3em] uppercase mb-4">Où nous trouver</h2>
+                                <h3 className="text-4xl font-serif font-black tracking-tighter mb-12 cinzel-title uppercase leading-none">
+                                    Centre <br /> Culturel
                                 </h3>
 
-                                <div className="space-y-8 flex-1">
-                                    <div className="flex items-start gap-5 group">
-                                        <div className="w-12 h-12 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner group-hover:bg-accent-500 group-hover:border-accent-400 transition-all duration-300">
-                                            📍
+                                <div className="space-y-10 flex-1">
+                                    <div className="flex items-start gap-6 group">
+                                        <div className="w-14 h-14 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500">
+                                            <span className="material-symbols-outlined">location_on</span>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm tracking-widest uppercase text-primary-200 mb-2">Adresse</h4>
-                                            <p className="text-white font-medium leading-relaxed">1234 Rue de la Paix<br />Montréal, QC H1X 2Y3</p>
+                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-accent-gold/60 mb-2">Adresse</h4>
+                                            <p className="text-white font-serif text-lg leading-tight uppercase cinzel-title">1234 Rue de la Paix<br />Montréal, QC H1X 2Y3</p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-5 group">
-                                        <div className="w-12 h-12 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner group-hover:bg-accent-500 group-hover:border-accent-400 transition-all duration-300">
-                                            📞
+                                    <div className="flex items-start gap-6 group">
+                                        <div className="w-14 h-14 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500">
+                                            <span className="material-symbols-outlined">call</span>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm tracking-widest uppercase text-primary-200 mb-2">Téléphone</h4>
-                                            <p className="text-white font-medium leading-relaxed">+1 (514) 123-4567</p>
+                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-accent-gold/60 mb-2">Téléphone</h4>
+                                            <p className="text-white font-serif text-lg leading-tight uppercase cinzel-title">+1 (514) 123-4567</p>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-start gap-5 group">
-                                        <div className="w-12 h-12 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner group-hover:bg-accent-500 group-hover:border-accent-400 transition-all duration-300">
-                                            ✉️
+                                    <div className="flex items-start gap-6 group">
+                                        <div className="w-14 h-14 shrink-0 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-2xl shadow-inner group-hover:bg-accent-gold group-hover:text-primary-950 transition-all duration-500">
+                                            <span className="material-symbols-outlined">mail</span>
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-sm tracking-widest uppercase text-primary-200 mb-2">Email</h4>
-                                            <p className="text-white font-medium leading-relaxed">contact@cciq.org</p>
+                                            <h4 className="font-black text-[10px] tracking-[0.2em] uppercase text-accent-gold/60 mb-2">Email</h4>
+                                            <p className="text-white font-serif text-lg leading-tight uppercase cinzel-title">contact@cciq.org</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="mt-12 flex gap-4">
-                                    {/* Social media minimal placeholder */}
-                                    {['Fb', 'Ig', 'Tw'].map(social => (
-                                        <a key={social} href="#" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold hover:bg-white hover:text-primary-950 transition-colors">
-                                            {social}
+                                <div className="mt-12 pt-12 border-t border-white/5 flex gap-4">
+                                    {['facebook', 'instagram', 'twitter'].map(social => (
+                                        <a key={social} href="#" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-primary-950 transition-all duration-500 group">
+                                            <span className="material-symbols-outlined text-xl opacity-60 group-hover:opacity-100">{social === 'twitter' ? 'social_distance' : social === 'facebook' ? 'public' : 'camera'}</span>
                                         </a>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Form (Right Side) */}
-                        <div className="lg:w-3/5 p-10 lg:p-14 bg-white dark:bg-dark-900">
-                            <h3 className="text-2xl font-black text-dark-900 dark:text-white tracking-tight mb-8">Envoyez-nous un message</h3>
-                            <form className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Form (Right Side) - Ultra Clean */}
+                        <div className="lg:w-3/5 p-10 lg:p-16 bg-white">
+                            <div className="mb-10">
+                                <h3 className="text-3xl font-serif font-black text-primary-950 tracking-tighter cinzel-title uppercase mb-2">Envoyez-nous un message</h3>
+                                <div className="h-1 w-20 bg-accent-gold/40 rounded-full" />
+                            </div>
+                            <form className="space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-dark-500 dark:text-dark-400 uppercase tracking-[0.2em] ml-1">Nom complet</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Nom complet</label>
                                         <input
                                             type="text"
-                                            className="w-full bg-dark-50 dark:bg-dark-950 border border-dark-100 dark:border-dark-800 focus:border-primary-500 rounded-2xl px-5 py-4 outline-none font-bold text-dark-900 dark:text-white text-sm transition-all shadow-inner focus:ring-4 focus:ring-primary-500/10 placeholder:text-dark-300 dark:placeholder:text-dark-600"
+                                            className="w-full bg-slate-50 border border-slate-100 focus:border-primary-500 rounded-2xl px-6 py-4 outline-none font-bold text-primary-950 text-sm transition-all focus:ring-4 focus:ring-primary-500/5 placeholder:text-slate-300"
                                             placeholder="John Doe"
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-dark-500 dark:text-dark-400 uppercase tracking-[0.2em] ml-1">Email</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Email</label>
                                         <input
                                             type="email"
-                                            className="w-full bg-dark-50 dark:bg-dark-950 border border-dark-100 dark:border-dark-800 focus:border-primary-500 rounded-2xl px-5 py-4 outline-none font-bold text-dark-900 dark:text-white text-sm transition-all shadow-inner focus:ring-4 focus:ring-primary-500/10 placeholder:text-dark-300 dark:placeholder:text-dark-600"
+                                            className="w-full bg-slate-50 border border-slate-100 focus:border-primary-500 rounded-2xl px-6 py-4 outline-none font-bold text-primary-950 text-sm transition-all focus:ring-4 focus:ring-primary-500/5 placeholder:text-slate-300"
                                             placeholder="john@example.com"
                                         />
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-dark-500 dark:text-dark-400 uppercase tracking-[0.2em] ml-1">Sujet</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Sujet</label>
                                     <input
                                         type="text"
-                                        className="w-full bg-dark-50 dark:bg-dark-950 border border-dark-100 dark:border-dark-800 focus:border-primary-500 rounded-2xl px-5 py-4 outline-none font-bold text-dark-900 dark:text-white text-sm transition-all shadow-inner focus:ring-4 focus:ring-primary-500/10 placeholder:text-dark-300 dark:placeholder:text-dark-600"
+                                        className="w-full bg-slate-50 border border-slate-100 focus:border-primary-500 rounded-2xl px-6 py-4 outline-none font-bold text-primary-950 text-sm transition-all focus:ring-4 focus:ring-primary-500/5 placeholder:text-slate-300"
                                         placeholder="Inscription aux cours d'arabe"
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-dark-500 dark:text-dark-400 uppercase tracking-[0.2em] ml-1">Message</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] ml-1">Message</label>
                                     <textarea
-                                        rows={4}
-                                        className="w-full bg-dark-50 dark:bg-dark-950 border border-dark-100 dark:border-dark-800 focus:border-primary-500 rounded-2xl px-5 py-4 outline-none font-bold text-dark-900 dark:text-white text-sm transition-all shadow-inner focus:ring-4 focus:ring-primary-500/10 placeholder:text-dark-300 dark:placeholder:text-dark-600 resize-none"
+                                        rows={5}
+                                        className="w-full bg-slate-50 border border-slate-100 focus:border-primary-500 rounded-2xl px-6 py-4 outline-none font-bold text-primary-950 text-sm transition-all focus:ring-4 focus:ring-primary-500/5 placeholder:text-slate-300 resize-none"
                                         placeholder="Comment pouvons-nous vous aider ?"
                                     ></textarea>
                                 </div>
-
-                                <button type="button" className="w-full py-4 bg-primary-950 hover:bg-primary-900 text-white rounded-[1.25rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-primary-950/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all mt-4 border border-primary-800">
+                                <button type="button" className="w-full py-5 bg-primary-900 hover:bg-primary-950 text-white rounded-[1.5rem] font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-primary-900/20 hover:shadow-2xl hover:-translate-y-1 transition-all mt-4 border border-white/10 group flex items-center justify-center gap-3">
                                     Envoyer le message
+                                    <span className="material-symbols-outlined text-accent-gold group-hover:translate-x-2 transition-transform">arrow_forward</span>
                                 </button>
                             </form>
                         </div>
@@ -128,21 +139,22 @@ export default function ContactPage() {
                 </div>
             </section>
 
-            {/* Map Placeholder */}
+            {/* Map Placeholder - Light Styling */}
             <section className="py-24 pt-0">
                 <div className="container mx-auto px-6 max-w-6xl">
-                    <div className="w-full h-[400px] bg-dark-50 dark:bg-dark-950 border border-dark-100 dark:border-dark-800 rounded-[3rem] overflow-hidden shadow-inner flex items-center justify-center relative group">
-                        {/* In production, replace with iframe: */}
-                        <div className="absolute inset-0 opacity-40 mix-blend-luminosity group-hover:opacity-60 transition-opacity duration-700 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Montreal,QC&zoom=13&size=1200x400&maptype=roadmap')] bg-cover bg-center"></div>
-                        <div className="absolute inset-0 bg-primary-950/10 mix-blend-overlay"></div>
-                        <div className="z-10 bg-white/90 dark:bg-dark-900/90 backdrop-blur-md px-10 py-8 rounded-[2rem] text-center shadow-2xl border border-white/20 dark:border-dark-800/50 transform group-hover:-translate-y-2 transition-transform duration-500">
-                            <h4 className="font-black text-3xl text-dark-900 dark:text-white tracking-tight mb-2">Montréal, QC</h4>
-                            <p className="text-dark-500 text-sm font-bold uppercase tracking-widest">Intégration Google Maps requise</p>
+                    <div className="w-full h-[450px] bg-slate-50 border border-slate-100 rounded-[3rem] overflow-hidden shadow-inner flex items-center justify-center relative group">
+                        <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-1000 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=Montreal,QC&zoom=13&size=1200x400&maptype=roadmap')] bg-cover bg-center"></div>
+                        <div className="absolute inset-0 bg-primary-900/5 mix-blend-overlay"></div>
+                        <div className="z-10 bg-white/80 backdrop-blur-xl px-12 py-10 rounded-[2.5rem] text-center shadow-2xl border border-white/40 transform group-hover:-translate-y-4 transition-all duration-700">
+                            <div className="size-16 bg-primary-900 rounded-2xl flex items-center justify-center text-accent-gold mx-auto mb-6 shadow-2xl rotate-3 group-hover:rotate-0 transition-transform">
+                                <span className="material-symbols-outlined text-3xl">map</span>
+                            </div>
+                            <h4 className="font-serif font-black text-3xl text-primary-950 tracking-tighter cinzel-title uppercase mb-2">Montréal, QC</h4>
+                            <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.4em]">Google Maps API Required</p>
                         </div>
                     </div>
                 </div>
             </section>
-
-        </>
+        </div>
     );
 }

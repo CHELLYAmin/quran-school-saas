@@ -33,16 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 }
 
-export function generateStaticParams() {
-    return [
-        { slug: 'home' },
-        { slug: 'historique' },
-        { slug: 'islam' },
-        { slug: 'services' },
-        { slug: 'cimetiere' },
-        { slug: 'ramadan-2026' }
-    ];
-}
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 export default async function SiteSlugPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

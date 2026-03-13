@@ -21,13 +21,15 @@ export default function LoginPage() {
         try {
             const { data } = await authApi.login({ email, password });
             login(data);
+            // Don't set state anymore, just redirect
             router.push('/dashboard');
+            return; // Exit early to avoid finally block setting loading to false if we are redirecting? 
+            // Actually router.push is async-ish, but let's keep it simple.
         } catch (err: any) {
             console.error('Login error details:', err);
             const msg = err.response?.data?.message || err.message || 'Login failed';
             setError(msg + (err.code ? ` (${err.code})` : ''));
-        } finally {
-            setLoading(false);
+            setLoading(false); // Only stop loading on error here
         }
     };
 

@@ -381,8 +381,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             </div>
                         );
                     })}
-                    {/* Safe area for mobile scrolling to reach the bottom item */}
-                    <div className="h-20 lg:hidden" />
+                    {/* Safe area for mobile scrolling to reach the bottom item and avoid being cut by Safari/Chrome bars */}
+                    <div className="h-32 lg:hidden pointer-events-none" />
                 </nav>
 
                 {/* Footer */}

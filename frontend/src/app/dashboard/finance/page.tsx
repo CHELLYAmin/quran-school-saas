@@ -1,24 +1,48 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { FiTrendingUp, FiArrowUpRight, FiArrowDownLeft, FiDollarSign, FiPieChart, FiUsers, FiClock } from 'react-icons/fi';
+import { financeApi } from '@/lib/api/client';
+import toast from 'react-hot-toast';
+import PageSkeleton from '@/components/ui/PageSkeleton';
 
 export default function FinanceDashboardPage() {
-    const stats = [
-        { label: 'Solde Total', value: '45,280.00 €', change: '+12.5%', icon: <FiDollarSign />, color: 'primary' },
-        { label: 'Revenus (Mois)', value: '12,450.00 €', change: '+8.2%', icon: <FiArrowUpRight />, color: 'emerald' },
-        { label: 'Dépenses (Mois)', value: '3,120.00 €', change: '-5.1%', icon: <FiArrowDownLeft />, color: 'rose' },
-        { label: 'Dons Reçus', value: '8,900.00 €', change: '+15.3%', icon: <FiUsers />, color: 'amber' },
-    ];
+    const [stats, setStats] = useState<any[]>([]);
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const recentTransactions = [
-        { id: 1, type: 'Revenue', category: 'Cotisation', amount: '+120.00 €', date: 'Aujourd\'hui', status: 'Complété' },
-        { id: 2, type: 'Expense', category: 'Loyer', amount: '-1,200.00 €', date: 'Hier', status: 'Complété' },
-        { id: 3, type: 'Revenue', category: 'Don Projet Mosquée', amount: '+500.00 €', date: 'Il y a 2 jours', status: 'Complété' },
-        { id: 4, type: 'Revenue', category: 'Don de Zakat', amount: '+2,000.00 €', date: 'Il y a 3 jours', status: 'En attente' },
-    ];
+    useEffect(() => {
+        async function loadFinanceData() {
+            setLoading(true);
+            try {
+                const [summaryRes, transRes] = await Promise.all([
+                    financeApi.getSummary(),
+                    financeApi.getTransactions({ limit: 5 })
+                ]);
+                
+                const summary = summaryRes.data;
+                setStats([
+                    { label: 'Solde Total', value: `${summary.totalBalance.toLocaleString()} €`, change: `${summary.balanceChange}%`, icon: <FiDollarSign />, color: 'primary' },
+                    { label: 'Revenus (Mois)', value: `${summary.monthlyRevenue.toLocaleString()} €`, change: `${summary.revenueChange}%`, icon: <FiArrowUpRight />, color: 'emerald' },
+                    { label: 'Dépenses (Mois)', value: `${summary.monthlyExpenses.toLocaleString()} €`, change: `${summary.expenseChange}%`, icon: <FiArrowDownLeft />, color: 'rose' },
+                    { label: 'Dons Reçus', value: `${summary.totalDonations.toLocaleString()} €`, change: `${summary.donationsChange}%`, icon: <FiUsers />, color: 'amber' },
+                ]);
+
+                setTransactions(transRes.data);
+            } catch (err) {
+                console.error(err);
+                toast.error("Erreur lors du chargement des finances réelles");
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadFinanceData();
+    }, []);
+
+    if (loading) return <PageSkeleton variant="cards" />;
 
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-10">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -48,8 +72,8 @@ export default function FinanceDashboardPage() {
                             `}>
                                 {stat.icon}
                             </div>
-                            <span className={`text-xs font-black px-2 py-1 rounded-full ${stat.change.startsWith('+') ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20'}`}>
-                                {stat.change}
+                            <span className={`text-xs font-black px-2 py-1 rounded-full ${stat.change.startsWith('+') || parseFloat(stat.change) > 0 ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-rose-600 bg-rose-50 dark:bg-rose-900/20'}`}>
+                                {stat.change.startsWith('+') || stat.change.startsWith('-') ? stat.change : (parseFloat(stat.change) > 0 ? `+${stat.change}%` : `${stat.change}%`)}
                             </span>
                         </div>
                         <div>
@@ -82,27 +106,29 @@ export default function FinanceDashboardPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-dark-50 dark:divide-dark-800/50">
-                                {recentTransactions.map((tx) => (
+                                {transactions.length === 0 ? (
+                                    <tr><td colSpan={4} className="px-6 py-10 text-center text-dark-400 font-medium">Aucune transaction trouvée</td></tr>
+                                ) : transactions.map((tx) => (
                                     <tr key={tx.id} className="hover:bg-dark-50/50 dark:hover:bg-dark-800/30 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm
-                                                    ${tx.type === 'Revenue' ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30' : 'bg-rose-100 text-rose-600 dark:bg-rose-900/30'}
+                                                    ${tx.type === 'Revenue' || tx.type === 0 ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30' : 'bg-rose-100 text-rose-600 dark:bg-rose-900/30'}
                                                 `}>
-                                                    {tx.type === 'Revenue' ? <FiArrowUpRight /> : <FiArrowDownLeft />}
+                                                    {tx.type === 'Revenue' || tx.type === 0 ? <FiArrowUpRight /> : <FiArrowDownLeft />}
                                                 </div>
-                                                <span className="font-bold text-dark-700 dark:text-dark-200">{tx.category}</span>
+                                                <span className="font-bold text-dark-700 dark:text-dark-200">{tx.categoryName || tx.category}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-sm font-medium text-dark-500">{tx.date}</td>
-                                        <td className={`px-6 py-4 text-sm font-black text-right ${tx.type === 'Revenue' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                            {tx.amount}
+                                        <td className="px-6 py-4 text-sm font-medium text-dark-500">{new Date(tx.date).toLocaleDateString()}</td>
+                                        <td className={`px-6 py-4 text-sm font-black text-right ${tx.type === 'Revenue' || tx.type === 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                                            {tx.type === 'Revenue' || tx.type === 0 ? '+' : '-'}{tx.amount.toLocaleString()} €
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <span className={`text-[10px] font-black px-2 py-1 rounded-full uppercase tracking-tighter
-                                                ${tx.status === 'Complété' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20' : 'bg-amber-50 text-amber-600 dark:bg-amber-900/20'}
+                                                ${tx.status === 'Completed' || tx.status === 1 ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20' : 'bg-amber-50 text-amber-600 dark:bg-amber-900/20'}
                                             `}>
-                                                {tx.status}
+                                                {tx.status === 'Completed' || tx.status === 1 ? 'Complété' : 'En attente'}
                                             </span>
                                         </td>
                                     </tr>
@@ -112,36 +138,15 @@ export default function FinanceDashboardPage() {
                     </div>
                 </div>
 
-                {/* Right Panel - Budget Distribution (Mock) */}
+                {/* Right Panel - Simple placeholder for logic */}
                 <div className="space-y-6">
                     <h2 className="text-xl font-black text-dark-900 dark:text-white flex items-center gap-2">
-                        <FiTrendingUp className="text-primary-500" /> Répartition Budget
+                        <FiTrendingUp className="text-primary-500" /> Pilotage
                     </h2>
                     <div className="card p-8 flex flex-col items-center justify-center gap-6">
-                        {/* Mock Chart */}
-                        <div className="relative w-40 h-40">
-                            <div className="absolute inset-0 rounded-full border-[12px] border-dark-100 dark:border-dark-800" />
-                            <div className="absolute inset-0 rounded-full border-[12px] border-primary-500 border-t-transparent border-l-transparent rotate-45" />
-                            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <span className="text-2xl font-black text-dark-900 dark:text-white">68%</span>
-                                <span className="text-[10px] font-bold text-dark-400 uppercase tracking-widest">Utilisé</span>
-                            </div>
-                        </div>
-                        
-                        <div className="w-full space-y-4">
-                            {[
-                                { label: 'Scolaire', amount: '12,500 €', color: 'bg-primary-500' },
-                                { label: 'Entretien', amount: '4,200 €', color: 'bg-amber-500' },
-                                { label: 'Événements', amount: '2,800 €', color: 'bg-emerald-500' },
-                            ].map((item, i) => (
-                                <div key={i} className="flex items-center justify-between text-sm">
-                                    <div className="flex items-center gap-2">
-                                        <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                                        <span className="font-bold text-dark-600 dark:text-dark-300">{item.label}</span>
-                                    </div>
-                                    <span className="font-black text-dark-900 dark:text-white">{item.amount}</span>
-                                </div>
-                            ))}
+                        <p className="text-dark-500 text-sm text-center">Les analyses détaillées de budget seront disponibles dès que suffisamment de transactions seront enregistrées.</p>
+                        <div className="w-16 h-1 w-full bg-dark-100 dark:bg-dark-800 rounded-full overflow-hidden">
+                            <div className="h-full bg-primary-500 w-1/3 animate-pulse" />
                         </div>
                     </div>
                 </div>

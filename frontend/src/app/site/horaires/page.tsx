@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiChevronLeft } from 'react-icons/fi';
+import { mosqueApi } from '@/lib/api/client';
+import { ramadanApi } from '@/lib/api/ramadanSettings';
 
 interface PrayerTime {
     name: string;
@@ -26,10 +28,9 @@ export default function SiteHorairesPage() {
 
     const loadRamadanCalendar = async () => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const res = await fetch(`${apiUrl}/api/RamadanSettings`);
-            if (res.ok) {
-                const data = await res.json();
+            const res = await ramadanApi.getSettings();
+            if (res.data) {
+                const data = res.data;
                 if (data.isVisible && data.calendarJson) {
                     setRamadan({
                         ...data,
@@ -44,14 +45,8 @@ export default function SiteHorairesPage() {
 
     const loadPrayerTimes = async () => {
         try {
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-            const settingsRes = await fetch(`${apiUrl}/api/MosqueSettings`);
-            if (!settingsRes.ok) {
-                console.warn('MosqueSettings API returned', settingsRes.status);
-                setLoading(false);
-                return;
-            }
-            const settings = await settingsRes.json();
+            const settingsRes = await mosqueApi.getSettings();
+            const settings = settingsRes.data;
 
             if (settings?.latitude && settings?.longitude) {
                 const now = new Date();
@@ -77,13 +72,10 @@ export default function SiteHorairesPage() {
                         return { ...p, time: cleanTime, isPast: (h * 60 + m) < nowMinutes, isNext: false };
                     });
 
-                    // Mark next prayer
                     const nextIdx = prayerList.findIndex(p => !p.isPast);
                     if (nextIdx >= 0) prayerList[nextIdx].isNext = true;
 
                     setPrayers(prayerList);
-
-                    // Date display
                     setDateStr(now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
                     if (prayerJson.data?.date?.hijri) {
                         const h = prayerJson.data.date.hijri;
@@ -99,156 +91,83 @@ export default function SiteHorairesPage() {
     };
 
     if (loading) return (
-        <div className="flex justify-center py-32">
-            <div className="spinner w-10 h-10 border-primary-600" />
+        <div className="min-h-screen bg-[#FDFCFB] flex flex-col items-center justify-center">
+            <div className="size-16 rounded-[2rem] border-4 border-primary-900/10 border-t-primary-900 animate-spin" />
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans relative overflow-hidden">
-            {/* Background Decorative Elements */}
-            <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-primary-900/5 to-transparent -z-10" />
-            <div className="absolute -top-24 -right-24 size-[500px] border border-primary-900/5 rounded-full -z-10" />
-            
-            <div className="max-w-4xl mx-auto px-6 lg:px-8 py-20 md:py-32 relative">
-                {/* Header */}
-                <div className="text-center mb-20 space-y-4">
-                    <span className="text-accent-gold text-[10px] font-black uppercase tracking-[0.5em] mb-4 block">Rythme Spirituel</span>
-                    <h1 className="text-5xl md:text-7xl font-serif font-black text-primary-950 dark:text-white tracking-tighter cinzel-title uppercase">
-                        Horaires <br className="md:hidden" /> de <span className="text-accent-gold">Prière</span>
+        <div className="min-h-screen bg-[#FDFCFB] font-sans relative overflow-hidden">
+            {/* Light Premium Hero */}
+            <section className="relative overflow-hidden bg-[#FDFCFB] text-primary-950 pt-32 pb-48 px-6 border-b border-slate-100">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border-[1px] border-primary-900/5 rounded-full -z-0" />
+                <div className="container mx-auto max-w-4xl text-center relative z-20">
+                    <div className="inline-flex mb-8 px-6 py-2.5 rounded-full bg-primary-900/5 border border-primary-900/10 text-primary-950 text-[10px] font-black tracking-[0.3em] uppercase">
+                        Rythme Spirituel
+                    </div>
+                    <h1 className="text-6xl md:text-8xl font-serif font-black mb-8 tracking-tighter leading-[0.9] cinzel-title uppercase text-primary-950">
+                        Horaires de <span className="text-accent-gold italic">Prière</span>
                     </h1>
-                    
                     <div className="flex flex-col items-center gap-2 pt-8">
-                        <div className="h-px w-24 bg-accent-gold/30 mb-2" />
-                        <p className="text-slate-500 text-xl font-medium capitalize tracking-tight">{dateStr}</p>
-                        {hijriDate && (
-                            <p className="text-accent-gold text-sm font-black tracking-widest uppercase opacity-80">{hijriDate}</p>
-                        )}
+                        <p className="text-slate-500 text-2xl font-medium capitalize tracking-tight">{dateStr}</p>
+                        {hijriDate && <p className="text-accent-gold text-sm font-black tracking-widest uppercase">{hijriDate}</p>}
                     </div>
                 </div>
+            </section>
 
-                {/* Prayer Cards Container */}
-                {prayers.length === 0 ? (
-                    <div className="text-center py-20 bg-white rounded-[3rem] border-4 border-dashed border-slate-100 flex flex-col items-center gap-6 shadow-xl">
-                        <span className="material-symbols-outlined text-6xl text-slate-200">schedule</span>
-                        <p className="text-slate-400 font-black uppercase tracking-widest text-xs max-w-xs mx-auto">Les horaires ne sont pas encore configurés pour cette période.</p>
-                    </div>
-                ) : (
-                    <div className="grid gap-6">
-                        {prayers.map(p => (
-                            <div key={p.name}
-                                className={`group flex items-center justify-between px-8 py-7 rounded-[2.5rem] border-2 transition-all duration-500 relative overflow-hidden ${p.isNext
-                                        ? 'bg-primary-950 text-white border-primary-900 shadow-2xl scale-[1.05] z-10'
-                                        : p.isPast
-                                            ? 'bg-white/40 grayscale opacity-60 border-slate-100'
-                                            : 'bg-white text-primary-950 border-slate-50 shadow-xl hover:border-accent-gold/30 hover:-translate-y-1'
-                                    }`}
-                            >
-                                {p.isNext && <div className="absolute inset-0 zellige-pattern opacity-5" />}
-                                
-                                <div className="flex items-center gap-6 relative z-10">
-                                    <div className={`size-14 rounded-2xl flex items-center justify-center transition-colors duration-500 ${p.isNext ? 'bg-accent-gold text-primary-950' : 'bg-slate-50 text-slate-400 group-hover:bg-accent-gold/10 group-hover:text-accent-gold'}`}>
-                                        <span className="material-symbols-outlined text-3xl">
-                                            {p.name === 'Sunrise' ? 'wb_sunny' : 'mosque'}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <h3 className={`text-2xl font-serif font-black cinzel-title uppercase tracking-tighter ${p.isNext ? 'text-white' : 'text-primary-950'}`}>
-                                            {p.name}
-                                        </h3>
-                                        <p className={`text-[11px] font-black tracking-[0.2em] uppercase ${p.isNext ? 'text-accent-gold' : 'text-slate-400'}`}>
-                                            {p.nameAr}
-                                        </p>
-                                    </div>
+            <div className="max-w-4xl mx-auto px-6 lg:px-8 py-20 pb-32 relative z-30 -mt-32">
+                <div className="grid gap-6">
+                    {prayers.map(p => (
+                        <div key={p.name} className={`group flex items-center justify-between px-10 py-8 rounded-[3rem] border-2 transition-all duration-500 ${p.isNext ? 'bg-primary-950 text-white border-primary-950 shadow-2xl scale-[1.05] z-10' : p.isPast ? 'bg-white/40 grayscale opacity-60 border-slate-50' : 'bg-white text-primary-950 border-slate-100 shadow-xl hover:-translate-y-1'}`}>
+                            <div className="flex items-center gap-8">
+                                <div className={`size-16 rounded-[1.5rem] flex items-center justify-center transition-all ${p.isNext ? 'bg-accent-gold text-primary-950' : 'bg-slate-50 text-slate-300'}`}>
+                                    <span className="material-symbols-outlined text-3xl">{p.name === 'Sunrise' ? 'wb_sunny' : 'mosque'}</span>
                                 </div>
-
-                                <div className="text-right relative z-10">
-                                    <p className={`text-4xl font-mono font-black tracking-tighter ${p.isNext ? 'text-accent-gold' : 'text-primary-900'}`}>
-                                        {p.time}
-                                    </p>
-                                    {p.isNext && (
-                                        <span className="text-[9px] font-black uppercase tracking-widest bg-white/10 px-3 py-1 rounded-full border border-white/10 animate-pulse">
-                                            Prochaine Prière
-                                        </span>
-                                    )}
+                                <div>
+                                    <h3 className="text-3xl font-serif font-black cinzel-title uppercase tracking-tighter leading-none">{p.name}</h3>
+                                    <p className={`text-[10px] font-black tracking-[0.3em] uppercase mt-2 ${p.isNext ? 'text-accent-gold' : 'text-slate-400'}`}>{p.nameAr}</p>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                )}
-
-                {/* Ramadan Calendar Section */}
-                {ramadan && ramadan.calendar && ramadan.calendar.length > 0 && (
-                    <div className="mt-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                        <div className="text-center mb-12">
-                            <span className="text-accent-gold text-[10px] font-black uppercase tracking-[0.5em] mb-4 block">Mois Sacré</span>
-                            <h2 className="text-4xl md:text-5xl font-serif font-black text-primary-950 dark:text-white tracking-tighter cinzel-title uppercase mb-4">
-                                Calendrier <span className="text-accent-gold">Ramadan</span> {ramadan.year}
-                            </h2>
-                            <div className="h-px w-24 bg-accent-gold/30 mx-auto" />
+                            <div className="text-right">
+                                <p className={`text-5xl font-mono font-black tracking-tighter ${p.isNext ? 'text-accent-gold' : 'text-primary-900'}`}>{p.time}</p>
+                            </div>
                         </div>
+                    ))}
+                </div>
 
-                        <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl overflow-hidden">
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left border-collapse">
-                                    <thead>
-                                        <tr className="bg-primary-950 text-white text-[10px] font-black uppercase tracking-[0.3em]">
-                                            <th className="py-6 px-8 border-b border-white/10">Jour</th>
-                                            <th className="py-6 px-8 border-b border-white/10">Grégorien</th>
-                                            <th className="py-6 px-8 border-b border-white/10">Hijri</th>
-                                            <th className="py-6 px-8 border-b border-white/10 text-accent-gold">Imsak</th>
-                                            <th className="py-6 px-8 border-b border-white/10 text-accent-gold">Iftar</th>
+                {ramadan && ramadan.calendar && (
+                    <div className="mt-32 space-y-12">
+                        <div className="text-center">
+                            <h2 className="text-4xl md:text-5xl font-serif font-black cinzel-title uppercase text-primary-950">Ramadan <span className="text-accent-gold">{ramadan.year}</span></h2>
+                        </div>
+                        <div className="bg-white rounded-[4rem] border border-slate-100 shadow-2xl overflow-hidden">
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="bg-primary-950 text-white text-[10px] font-black uppercase tracking-[0.3em]">
+                                        <th className="py-8 px-10">Jour</th>
+                                        <th className="py-8 px-10">Date</th>
+                                        <th className="py-8 px-10 text-accent-gold text-right">Imsak</th>
+                                        <th className="py-8 px-10 text-accent-gold text-right">Iftar</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-50">
+                                    {ramadan.calendar.map((d: any) => (
+                                        <tr key={d.day} className="hover:bg-slate-50/50 transition-colors">
+                                            <td className="py-8 px-10 font-serif font-black text-xl text-primary-950 uppercase">Jour {d.day}</td>
+                                            <td className="py-8 px-10 text-slate-400 font-medium">{d.gregorianDate}</td>
+                                            <td className="py-8 px-10 text-primary-950 font-mono font-black text-2xl text-right">{d.imsak}</td>
+                                            <td className="py-8 px-10 text-primary-950 font-mono font-black text-2xl text-right">{d.iftar}</td>
                                         </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-50">
-                                        {ramadan.calendar.map((d: any) => (
-                                            <tr key={d.day} className="hover:bg-slate-50/50 transition-colors group">
-                                                <td className="py-6 px-8">
-                                                    <span className="text-primary-950 font-serif font-black text-lg">Jour {d.day}</span>
-                                                </td>
-                                                <td className="py-6 px-8">
-                                                    <span className="text-slate-500 font-medium">{d.gregorianDate}</span>
-                                                </td>
-                                                <td className="py-6 px-8">
-                                                    <span className="text-accent-gold font-black text-[10px] uppercase tracking-widest">{d.hijriDate}</span>
-                                                </td>
-                                                <td className="py-6 px-8">
-                                                    <span className="text-primary-950 font-mono font-black text-xl">{d.imsak}</span>
-                                                </td>
-                                                <td className="py-6 px-8">
-                                                    <span className="text-primary-950 font-mono font-black text-xl group-hover:text-amber-600 transition-colors">{d.iftar}</span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div className="bg-slate-50 p-6 text-center text-[9px] font-black text-slate-400 uppercase tracking-widest">
-                                * Horaires calculés selon la méthode locale configurée
-                            </div>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 )}
 
-                {/* Footer Note */}
-                <div className="mt-16 p-10 bg-white rounded-[3rem] border border-slate-100 shadow-2xl relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-2 h-full bg-accent-gold opacity-30 group-hover:opacity-100 transition-opacity" />
-                    <div className="flex flex-col md:flex-row items-center gap-8">
-                        <div className="size-16 rounded-full bg-slate-50 flex items-center justify-center text-accent-gold shrink-0">
-                            <span className="material-symbols-outlined text-3xl">info</span>
-                        </div>
-                        <p className="text-lg text-slate-500 font-medium leading-relaxed text-center md:text-left">
-                            Ces horaires sont extraits directement des données géographiques du centre pour garantir une précision absolue. Les horaires d&apos;Iqama peuvent varier de quelques minutes.
-                        </p>
-                    </div>
-                </div>
-
-                <div className="mt-16 text-center">
-                    <Link href="/site" className="group inline-flex items-center gap-3 text-[11px] font-black text-primary-900 uppercase tracking-[0.3em] hover:text-accent-gold transition-all">
-                        <span className="size-10 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-accent-gold group-hover:bg-accent-gold/5 transition-all">
-                             <FiChevronLeft className="group-hover:-translate-x-1 transition-transform" />
-                        </span>
-                        Retour au Hub de Vie
+                <div className="mt-24 text-center">
+                    <Link href="/site" className="group inline-flex items-center gap-4 text-[11px] font-black text-primary-950 uppercase tracking-[0.4em] hover:text-accent-gold transition-all">
+                        <FiChevronLeft className="group-hover:-translate-x-2 transition-transform" /> Retour au Portail
                     </Link>
                 </div>
             </div>
