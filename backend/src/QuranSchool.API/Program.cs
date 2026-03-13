@@ -103,8 +103,9 @@ var app = builder.Build();
 
 // Seed database based on CLI arguments or environment variables
 var envReset = Environment.GetEnvironmentVariable("RESET_DATABASE") == "true";
+var envSeed = Environment.GetEnvironmentVariable("SEED_DATABASE") == "true";
 var seedReset = args.Contains("--seed-reset") || envReset;
-var seed = args.Contains("--seed") || seedReset;
+var seed = args.Contains("--seed") || seedReset || envSeed;
 
 using (var scope = app.Services.CreateScope())
 {
