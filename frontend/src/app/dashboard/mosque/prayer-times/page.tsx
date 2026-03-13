@@ -192,6 +192,7 @@ export default function PrayerTimesPage() {
 
             await saveMosqueSettings(dto);
             toast.success("Configuration sauvegardée avec succès !", { id: toastId });
+            setHasChanges(false);
         } catch (error: any) {
             console.error("Save error:", error);
             toast.error(`Erreur lors de la sauvegarde: ${error?.message || "Erreur inconnue"}`, { id: toastId });
@@ -228,6 +229,7 @@ export default function PrayerTimesPage() {
 
             toast.success("Horaires mis à jour ! N'oubliez pas de sauvegarder.", { id: toastId });
             setSource('Automatique (API Aladhan)');
+            setHasChanges(true);
         } catch (error) {
             toast.error("Erreur lors de la récupération des horaires via l'API", { id: toastId });
             console.error(error);
@@ -352,8 +354,8 @@ export default function PrayerTimesPage() {
                                             {isFetching ? "Calcul en cours..." : "Calculer automatiquement"}
                                         </button>
                                         <button
-                                            onClick={() => { handleSaveAll(); setHasChanges(false); }}
-                                            disabled={!hasChanges}
+                                            onClick={handleSaveAll}
+                                            disabled={!hasChanges && source !== 'Manuel'}
                                             className="btn w-full text-white px-6 py-4 rounded-2xl flex justify-center items-center gap-2 font-bold transition-all shadow-lg disabled:opacity-40 disabled:cursor-not-allowed bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20"
                                         >
                                             <FiSave size={18} />

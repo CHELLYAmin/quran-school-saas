@@ -1,0 +1,4 @@
+2026-03-12 20:05:09.163 -04:00 [ERR] Failed executing DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ef_temp_MosqueSettings" ("Id", "Address", "CalculationMethod", "CreatedAt", "IsDeleted", "IsLiveAnnouncementActive", "Latitude", "LiveAnnouncementEndDate", "LiveAnnouncementStartDate", "LiveAnnouncementText", "Longitude", "PrayersJson", "SchoolId", "UpdatedAt")
+SELECT "Id", "Address", "CalculationMethod", "CreatedAt", "IsDeleted", "IsLiveAnnouncementActive", "Latitude", "LiveAnnouncementEndDate", "LiveAnnouncementStartDate", "LiveAnnouncementText", "Longitude", "PrayersJson", IFNULL("SchoolId", '00000000-0000-0000-0000-000000000000'), "UpdatedAt"
+FROM "MosqueSettings";

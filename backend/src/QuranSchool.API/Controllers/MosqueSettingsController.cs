@@ -71,9 +71,8 @@ public class MosqueSettingsController : ControllerBase
                 IsLiveAnnouncementActive = dto.IsLiveAnnouncementActive,
                 LiveAnnouncementText = dto.LiveAnnouncementText,
                 LiveAnnouncementStartDate = dto.LiveAnnouncementStartDate,
-                LiveAnnouncementEndDate = dto.LiveAnnouncementEndDate
-                // Assign to default SchoolId if required by your context setup, 
-                // but SchoolId is marked nullable in the entity we created.
+                LiveAnnouncementEndDate = dto.LiveAnnouncementEndDate,
+                SchoolId = Guid.Parse("11111111-1111-1111-1111-111111111111")
             };
             _context.MosqueSettings.Add(settings);
         }

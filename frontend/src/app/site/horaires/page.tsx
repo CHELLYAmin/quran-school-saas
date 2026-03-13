@@ -17,10 +17,30 @@ export default function SiteHorairesPage() {
     const [loading, setLoading] = useState(true);
     const [dateStr, setDateStr] = useState('');
     const [hijriDate, setHijriDate] = useState('');
+    const [ramadan, setRamadan] = useState<any>(null);
 
     useEffect(() => {
         loadPrayerTimes();
+        loadRamadanCalendar();
     }, []);
+
+    const loadRamadanCalendar = async () => {
+        try {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+            const res = await fetch(`${apiUrl}/api/RamadanSettings`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.isVisible && data.calendarJson) {
+                    setRamadan({
+                        ...data,
+                        calendar: JSON.parse(data.calendarJson)
+                    });
+                }
+            }
+        } catch (e) {
+            console.error('Failed to load Ramadan calendar', e);
+        }
+    };
 
     const loadPrayerTimes = async () => {
         try {
@@ -154,6 +174,59 @@ export default function SiteHorairesPage() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                )}
+
+                {/* Ramadan Calendar Section */}
+                {ramadan && ramadan.calendar && ramadan.calendar.length > 0 && (
+                    <div className="mt-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                        <div className="text-center mb-12">
+                            <span className="text-accent-gold text-[10px] font-black uppercase tracking-[0.5em] mb-4 block">Mois Sacré</span>
+                            <h2 className="text-4xl md:text-5xl font-serif font-black text-primary-950 dark:text-white tracking-tighter cinzel-title uppercase mb-4">
+                                Calendrier <span className="text-accent-gold">Ramadan</span> {ramadan.year}
+                            </h2>
+                            <div className="h-px w-24 bg-accent-gold/30 mx-auto" />
+                        </div>
+
+                        <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl overflow-hidden">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-primary-950 text-white text-[10px] font-black uppercase tracking-[0.3em]">
+                                            <th className="py-6 px-8 border-b border-white/10">Jour</th>
+                                            <th className="py-6 px-8 border-b border-white/10">Grégorien</th>
+                                            <th className="py-6 px-8 border-b border-white/10">Hijri</th>
+                                            <th className="py-6 px-8 border-b border-white/10 text-accent-gold">Imsak</th>
+                                            <th className="py-6 px-8 border-b border-white/10 text-accent-gold">Iftar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-50">
+                                        {ramadan.calendar.map((d: any) => (
+                                            <tr key={d.day} className="hover:bg-slate-50/50 transition-colors group">
+                                                <td className="py-6 px-8">
+                                                    <span className="text-primary-950 font-serif font-black text-lg">Jour {d.day}</span>
+                                                </td>
+                                                <td className="py-6 px-8">
+                                                    <span className="text-slate-500 font-medium">{d.gregorianDate}</span>
+                                                </td>
+                                                <td className="py-6 px-8">
+                                                    <span className="text-accent-gold font-black text-[10px] uppercase tracking-widest">{d.hijriDate}</span>
+                                                </td>
+                                                <td className="py-6 px-8">
+                                                    <span className="text-primary-950 font-mono font-black text-xl">{d.imsak}</span>
+                                                </td>
+                                                <td className="py-6 px-8">
+                                                    <span className="text-primary-950 font-mono font-black text-xl group-hover:text-amber-600 transition-colors">{d.iftar}</span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="bg-slate-50 p-6 text-center text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                * Horaires calculés selon la méthode locale configurée
+                            </div>
+                        </div>
                     </div>
                 )}
 

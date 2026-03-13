@@ -1045,7 +1045,7 @@ namespace QuranSchool.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("SchoolId")
+                    b.Property<Guid>("SchoolId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -1304,6 +1304,44 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("ProgressRecords");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.RamadanSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CalendarJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("FirstDay")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("SchoolId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("RamadanSettings");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.Role", b =>
@@ -2805,7 +2843,8 @@ namespace QuranSchool.Infrastructure.Migrations
                     b.HasOne("QuranSchool.Domain.Entities.School", "School")
                         .WithMany()
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("School");
                 });
@@ -2841,6 +2880,17 @@ namespace QuranSchool.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("QuranSchool.Domain.Entities.RamadanSettings", b =>
+                {
+                    b.HasOne("QuranSchool.Domain.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("School");
                 });
 
             modelBuilder.Entity("QuranSchool.Domain.Entities.RolePermission", b =>

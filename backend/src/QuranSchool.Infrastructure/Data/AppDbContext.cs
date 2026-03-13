@@ -60,6 +60,7 @@ public class AppDbContext : DbContext
     public DbSet<DonationRecord> DonationRecords => Set<DonationRecord>();
     public DbSet<VolunteerMission> VolunteerMissions => Set<VolunteerMission>();
     public DbSet<VolunteerSignup> VolunteerSignups => Set<VolunteerSignup>();
+    public DbSet<RamadanSettings> RamadanSettings => Set<RamadanSettings>();
     
     // Finance Module
     public DbSet<FinancialTransaction> FinancialTransactions => Set<FinancialTransaction>();

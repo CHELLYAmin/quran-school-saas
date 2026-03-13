@@ -16,8 +16,6 @@ public class MosqueSettings : BaseEntity
     public DateTime? LiveAnnouncementStartDate { get; set; }
     public DateTime? LiveAnnouncementEndDate { get; set; }
 
-    // Using a 1:1 or linking to School if multi-tenant exists
-    // For now we'll store a single global setting or attach it to School if MultiSchool is enabled.
-    public Guid? SchoolId { get; set; }
-    public School? School { get; set; }
+    // BaseEntity already contains SchoolId
+    public virtual School? School { get; set; }
 }

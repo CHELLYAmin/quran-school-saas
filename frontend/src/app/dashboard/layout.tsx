@@ -143,6 +143,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiBell size={18} />, label: 'Bandeau actualité', href: '/dashboard/mosque/banner' },
                 { icon: <FiSettings size={18} />, label: 'Réglages Web', href: '/dashboard/mosque/settings' },
                 { icon: <FiClock size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
+                { icon: <FiCalendar size={18} />, label: 'Calendrier Ramadan', href: '/dashboard/mosque/ramadan' },
             ]
         },
         {
@@ -232,7 +233,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     );
 
     return (
-        <div className="flex h-screen overflow-hidden bg-dark-50 dark:bg-dark-950">
+        <div className="flex h-[100dvh] overflow-hidden bg-dark-50 dark:bg-dark-950">
             {/* Backdrop for mobile */}
             {sidebarOpen && (
                 <div
@@ -242,8 +243,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             )}
 
             {/* Sidebar */}
+            {/* Sidebar */}
             <aside className={`
-                fixed inset-y-0 left-0 z-50 w-72 h-screen bg-white dark:bg-dark-900 border-r border-dark-100 dark:border-dark-800/50 
+                fixed inset-y-0 left-0 z-50 w-72 h-[100dvh] bg-white dark:bg-dark-900 border-r border-dark-100 dark:border-dark-800/50 
                 flex flex-col transition-all duration-300 overflow-hidden
                 lg:translate-x-0 lg:static lg:flex
                 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:w-20 lg:translate-x-0'}
@@ -320,7 +322,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </div>
 
                 {/* Navigation - Main scrolling area */}
-                <nav className="flex-1 overflow-y-auto overflow-x-hidden p-3 py-4 space-y-4 touch-pan-y overscroll-contain min-h-0 scroll-smooth">
+                <nav className="flex-1 overflow-y-auto overflow-x-hidden p-3 py-4 space-y-4 touch-pan-y overscroll-contain min-h-0 scroll-smooth custom-scrollbar">
 
                     {/* Expand/Collapse All Toggle */}
                     {(sidebarOpen || (typeof window !== 'undefined' && window.innerWidth < 1024)) && (
@@ -379,6 +381,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             </div>
                         );
                     })}
+                    {/* Safe area for mobile scrolling to reach the bottom item */}
+                    <div className="h-20 lg:hidden" />
                 </nav>
 
                 {/* Footer */}
