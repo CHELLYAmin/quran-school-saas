@@ -108,17 +108,20 @@ export default function RamadanPage() {
         setSaving(true);
         const toastId = toast.loading("Enregistrement...");
         try {
+            console.log("Saving Ramadan settings with data:", { year, firstDay, isVisible, calendarCount: calendar.length });
             const settings: RamadanSettingsDto = {
                 year,
                 firstDay: new Date(firstDay).toISOString(),
                 isVisible,
                 calendarJson: JSON.stringify(calendar)
             };
-            await saveRamadanSettings(settings);
+            const result = await saveRamadanSettings(settings);
+            console.log("Save successful. Result:", result);
             toast.success("Calendrier enregistré avec succès !", { id: toastId });
-        } catch (error) {
-            console.error("Save error:", error);
-            toast.error("Erreur lors de l'enregistrement.", { id: toastId });
+        } catch (error: any) {
+            console.error("Save error full object:", error);
+            const errorMsg = error.response?.data?.message || error.message || "Erreur inconnue";
+            toast.error(`Erreur lors de l'enregistrement: ${errorMsg}`, { id: toastId });
         } finally {
             setSaving(false);
         }

@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+import apiClient from './client';
 
 export interface RamadanSettingsDto {
     id?: string;
@@ -12,11 +10,7 @@ export interface RamadanSettingsDto {
 
 export const fetchRamadanSettings = async (): Promise<RamadanSettingsDto | null> => {
     try {
-        const response = await axios.get(`${API_URL}/api/RamadanSettings`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await apiClient.get('/api/RamadanSettings');
         return response.data;
     } catch (error) {
         console.error('Error fetching Ramadan settings:', error);
@@ -25,10 +19,6 @@ export const fetchRamadanSettings = async (): Promise<RamadanSettingsDto | null>
 };
 
 export const saveRamadanSettings = async (settings: RamadanSettingsDto): Promise<RamadanSettingsDto> => {
-    const response = await axios.post(`${API_URL}/api/RamadanSettings`, settings, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-    });
+    const response = await apiClient.post('/api/RamadanSettings', settings);
     return response.data;
 };
