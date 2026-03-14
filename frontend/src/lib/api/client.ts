@@ -26,7 +26,7 @@ const getBaseUrl = () => {
     }
     
     // Fallback par défaut (utile pour le build local si .env absent)
-    return 'https://grgvcjsiap.us-east-1.awsapprunner.com';
+    return 'http://127.0.0.1:5000';
 };
 
 const ROOT_URL = getBaseUrl();

@@ -28,7 +28,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     // Section collapse state
     const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
-    const [activeModule, setActiveModule] = useState<'scolarite' | 'gestion' | 'admin'>('scolarite');
+    const [activeModule, setActiveModule] = useState<'scolarite' | 'gestion' | 'web' | 'admin'>('scolarite');
     const [moduleMenuOpen, setModuleMenuOpen] = useState(false);
     const [settingsMenuOpen, setSettingsMenuOpen] = useState(false);
 
@@ -54,8 +54,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     useEffect(() => {
         if (isAuthenticated) {
             loadNotifications();
+            // Default active module by role
+            const primaryRole = user?.roles?.[0];
+            if (primaryRole === 'Admin' || primaryRole === 'Teacher' || primaryRole === 'Examiner') {
+                setActiveModule('scolarite');
+            } else if (pathname.includes('/mosque/hub') || pathname.includes('/mosque/pages')) {
+                setActiveModule('web');
+            }
         }
-    }, [isAuthenticated, pathname]);
+    }, [isAuthenticated, pathname, user]);
 
     const loadNotifications = async () => {
         try {
@@ -126,32 +133,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 { icon: <FiGrid size={18} />, label: 'Dashboard Hub', href: '/dashboard/mosque/hub' },
                 { icon: <FiFileText size={18} />, label: 'Page et contenu', href: '/dashboard/mosque/pages' },
                 { icon: <FiMenu size={18} />, label: 'Menu du site', href: '/dashboard/mosque/menu' },
-            ]
-        },
-        {
-            title: 'Engagement',
-            module: 'web',
-            items: [
                 { icon: <FiHeart size={18} />, label: 'Campagnes de Dons', href: '/dashboard/mosque/donations' },
                 { icon: <FiUsers size={18} />, label: 'Missions Bénévolat', href: '/dashboard/mosque/volunteering' },
-            ]
-        },
-        {
-            title: 'Configuration',
-            module: 'web',
-            items: [
-                { icon: <FiBell size={18} />, label: 'Bandeau actualité', href: '/dashboard/mosque/banner' },
-                { icon: <FiSettings size={18} />, label: 'Réglages Web', href: '/dashboard/mosque/settings' },
-                { icon: <FiClock size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
-                { icon: <FiCalendar size={18} />, label: 'Calendrier Ramadan', href: '/dashboard/mosque/ramadan' },
             ]
         },
         {
             title: 'Activités Mosquée',
             module: 'gestion',
             items: [
-                { icon: <FiPocket size={18} />, label: 'Projets & Budget', href: '/dashboard/finance/projects' },
-                { icon: <FiFileText size={18} />, label: 'Congés & Absences', href: '/dashboard/staff/absences' },
                 { icon: <FiShield size={18} />, label: 'Service Funéraire', href: '/dashboard/mosque/funeral' },
                 { icon: <FiMapPin size={18} />, label: 'Cimetière', href: '/dashboard/mosque/cemetery' },
             ]
@@ -185,6 +174,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ]
         },
         {
+            title: 'Finances Scolaires',
+            module: 'scolarite',
+            items: [
+                { icon: <FiDollarSign size={18} />, label: 'Paiements & Scolarité', href: '/dashboard/payments', permissions: [Permissions.PaymentsView] },
+            ]
+        },
+        {
             title: 'Ressources Humaines',
             module: 'admin',
             items: [
@@ -193,21 +189,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ]
         },
         {
-            title: 'Gestion Financière',
+            title: 'Trésorerie',
             module: 'admin',
             items: [
-                { icon: <FiTrendingUp size={18} />, label: 'Tableau de Bord', href: '/dashboard/finance', permissions: [Permissions.FinanceView] },
-                { icon: <FiDollarSign size={18} />, label: 'Transactions (Grand Livre)', href: '/dashboard/finance/transactions', permissions: [Permissions.FinanceView] },
-                { icon: <FiPieChart size={18} />, label: 'Projets & Budgets', href: '/dashboard/finance/projects', permissions: [Permissions.FinanceView] },
+                { icon: <FiTrendingUp size={18} />, label: 'Dashboard Financier', href: '/dashboard/finance', permissions: [Permissions.FinanceView] },
+                { icon: <FiDollarSign size={18} />, label: 'Grand Livre', href: '/dashboard/finance/transactions', permissions: [Permissions.FinanceView] },
+                { icon: <FiPocket size={18} />, label: 'Budgets Projets', href: '/dashboard/finance/projects', permissions: [Permissions.FinanceView] },
             ]
         },
         {
-            title: 'Administration',
+            title: 'Configuration Rapide',
+            module: 'web',
+            items: [
+                { icon: <FiClock size={18} />, label: 'Horaires de Prière', href: '/dashboard/mosque/prayer-times' },
+                { icon: <FiCalendar size={18} />, label: 'Calendrier Ramadan', href: '/dashboard/mosque/ramadan' },
+                { icon: <FiBell size={18} />, label: 'Bandeau actualité', href: '/dashboard/mosque/banner' },
+                { icon: <FiSettings size={18} />, label: 'Réglages Web', href: '/dashboard/mosque/settings' },
+            ]
+        },
+        {
+            title: 'Administration Système',
             module: 'admin',
             items: [
                 { icon: <FiUsers size={18} />, label: 'Utilisateurs', href: '/dashboard/users', permissions: [Permissions.UsersManage] },
                 { icon: <FiPieChart size={18} />, label: 'Statistiques Globales', href: '/dashboard/analytics', permissions: [Permissions.AdminDashboardView] },
-                { icon: <FiDollarSign size={18} />, label: 'Paiements Scolaires', href: '/dashboard/payments', permissions: [Permissions.PaymentsView] },
             ]
         }
     ];

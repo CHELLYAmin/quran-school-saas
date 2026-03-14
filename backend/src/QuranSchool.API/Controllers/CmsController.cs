@@ -264,4 +264,37 @@ public class CmsController : ControllerBase
 
         return Ok(new { page.Id, page.IsPublished });
     }
+ 
+    // POST: api/cms/cleanup
+    [HttpPost("cleanup")]
+    public async Task<IActionResult> CleanupDemoData()
+    {
+        // 1. Purge CMS Pages
+        var pages = await _context.CmsPages.ToListAsync();
+        _context.CmsPages.RemoveRange(pages);
+ 
+        // 2. Purge Donation Campaigns
+        var campaigns = await _context.DonationCampaigns.ToListAsync();
+        _context.DonationCampaigns.RemoveRange(campaigns);
+ 
+        // 3. Purge Volunteer Missions
+        var missions = await _context.VolunteerMissions.ToListAsync();
+        _context.VolunteerMissions.RemoveRange(missions);
+
+        // 4. Purge Ramadan Settings
+        var ramadan = await _context.RamadanSettings.ToListAsync();
+        _context.RamadanSettings.RemoveRange(ramadan);
+
+        // 5. Reset Mosque Settings (Bandeau news)
+        var mosqueSettings = await _context.MosqueSettings.FirstOrDefaultAsync();
+        if (mosqueSettings != null)
+        {
+            mosqueSettings.IsLiveAnnouncementActive = false;
+            mosqueSettings.LiveAnnouncementText = string.Empty;
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Demo data cleaned up successfully (CMS, Donations, Missions, Ramadan, Mosque Settings reset)." });
+    }
 }

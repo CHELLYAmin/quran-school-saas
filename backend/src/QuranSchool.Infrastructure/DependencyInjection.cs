@@ -18,29 +18,16 @@ public static class DependencyInjection
     {
         // Database
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        
-        bool useSqlite = true;
-        
-        // If we have a valid PostgreSQL connection string AND we are NOT in a local dev environment that requires SQLite
-        if (connectionString != null && connectionString.Contains("rds.amazonaws.com") && configuration["USE_SQLITE"] != "true")
-        {
-            // Only use Postgres if we are sure we are in an environment that can reach RDS
-            useSqlite = false;
-        }
+        bool useSqlite = string.IsNullOrEmpty(connectionString) || 
+                         !connectionString.Contains("rds.amazonaws.com") || 
+                         configuration["USE_SQLITE"] == "true";
 
-        if (useSqlite || string.IsNullOrEmpty(connectionString))
+        if (useSqlite)
         {
             var sqlitePath = connectionString != null && connectionString.Contains(".db") ? connectionString : "Data Source=quranschool.db";
             Console.WriteLine($">>> Using SQLite Database: {sqlitePath}");
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(sqlitePath));
-        }
-
-        if (useSqlite)
-        {
-            Console.WriteLine(">>> Using SQLite Database");
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(connectionString ?? "Data Source=quranschool.db"));
         }
         else
         {

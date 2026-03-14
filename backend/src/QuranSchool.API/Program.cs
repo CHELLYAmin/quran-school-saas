@@ -41,12 +41,13 @@ builder.Services.AddHealthChecks();
 // CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+        options.AddPolicy("AllowAll", policy =>
+        {
+            policy.SetIsOriginAllowed(origin => true)
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
+        });
 
     options.AddPolicy("ProductionPolicy", policy =>
     {
@@ -101,7 +102,22 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Seed database based on CLI arguments or environment variables
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.AccessControlAllowOrigin = "*";
+    context.Response.Headers.AccessControlAllowMethods = "*";
+    context.Response.Headers.AccessControlAllowHeaders = "*";
+    
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.StatusCode = 200;
+        await context.Response.CompleteAsync();
+        return;
+    }
+    await next();
+});
+
+// Configure the HTTP request pipeline. based on CLI arguments or environment variables
 var envReset = Environment.GetEnvironmentVariable("RESET_DATABASE") == "true";
 var envSeed = Environment.GetEnvironmentVariable("SEED_DATABASE") == "true";
 var seedReset = args.Contains("--seed-reset") || envReset;
@@ -117,23 +133,30 @@ using (var scope = app.Services.CreateScope())
         {
             Console.WriteLine(">>> Resetting database (DELETING ALL DATA)...");
             try {
-                // Sur AWS RDS, détruire/recréer le schéma supprime les permissions.
-                // Au lieu de ça, on supprime dynamiquement tout ce qu'il contient.
-                var wipeScript = @"
-                    DO $$ DECLARE
-                        r RECORD;
-                    BEGIN
-                        FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-                            EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
-                        END LOOP;
-                        FOR r IN (SELECT relname FROM pg_class WHERE relkind = 'S' AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')) LOOP
-                            EXECUTE 'DROP SEQUENCE IF EXISTS public.' || quote_ident(r.relname) || ' CASCADE';
-                        END LOOP;
-                        FOR r IN (SELECT typname FROM pg_type WHERE typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public') AND typtype = 'e') LOOP
-                            EXECUTE 'DROP TYPE IF EXISTS public.' || quote_ident(r.typname) || ' CASCADE';
-                        END LOOP;
-                    END $$;";
-                db.Database.ExecuteSqlRaw(wipeScript);
+                if (db.Database.IsNpgsql()) 
+                {
+                    // Sur AWS RDS, détruire/recréer le schéma supprime les permissions.
+                    // Au lieu de ça, on supprime dynamiquement tout ce qu'il contient.
+                    var wipeScript = @"
+                        DO $$ DECLARE
+                            r RECORD;
+                        BEGIN
+                            FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+                                EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
+                            END LOOP;
+                            FOR r IN (SELECT relname FROM pg_class WHERE relkind = 'S' AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')) LOOP
+                                EXECUTE 'DROP SEQUENCE IF EXISTS public.' || quote_ident(r.relname) || ' CASCADE';
+                            END LOOP;
+                            FOR r IN (SELECT typname FROM pg_type WHERE typnamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public') AND typtype = 'e') LOOP
+                                EXECUTE 'DROP TYPE IF EXISTS public.' || quote_ident(r.typname) || ' CASCADE';
+                            END LOOP;
+                        END $$;";
+                    db.Database.ExecuteSqlRaw(wipeScript);
+                }
+                else 
+                {
+                    db.Database.EnsureDeleted();
+                }
 
                 Console.WriteLine(">>> Applying new clean migrations...");
                 db.Database.Migrate();
@@ -277,7 +300,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quran School API V1");
         c.RoutePrefix = "swagger";
     });
-    app.UseCors("AllowAll");
 }
 else 
 {

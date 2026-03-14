@@ -5,6 +5,15 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect, ReactNode } from 'react';
 import api from '@/lib/api/client';
 
+const NAV_LINKS = [
+    { name: 'Accueil', href: '/site' },
+    { name: 'Le Centre', href: '/site/centre' },
+    { name: 'Services', href: '/site/services' },
+    { name: "L'Islam", href: '/site/islam' },
+    { name: 'Horaires', href: '/site/horaires' },
+    { name: 'Cimeti├¿re', href: '/site/cimetiere' },
+    { name: 'Contact', href: '/site/contact' },
+];
 
 interface PrayerInfo {
     name: string;
@@ -31,11 +40,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     const [mosqueAddress, setMosqueAddress] = useState('');
     const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
 
-    const [navLinks, setNavLinks] = useState<any[]>([
-        { name: 'Accueil', href: '/site' },
-        { name: 'Contact', href: '/site/contact' }
-    ]);
-    const [isMenuLoading, setIsMenuLoading] = useState(false);
+    const [navLinks, setNavLinks] = useState(NAV_LINKS);
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
@@ -128,7 +133,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] font-sans text-dark-900">
+        <div className="min-h-screen bg-[#FDFCFB] dark:bg-dark-950 font-sans text-dark-900 dark:text-dark-100">
             {/* News Ticker / Live Announcement - TOP PLACEMENT */}
             {settings?.isLiveAnnouncementActive && settings?.liveAnnouncementText && (
                 <div className="bg-accent-gold py-3 relative z-[100] overflow-hidden border-b border-black/5 shadow-2xl">

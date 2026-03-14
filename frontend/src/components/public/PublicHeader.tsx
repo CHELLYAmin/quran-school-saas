@@ -28,10 +28,9 @@ export default function PublicHeader() {
     const navLinks = [
         { name: 'Accueil', href: '/site' },
         { name: 'Le Centre', href: '/site/centre' },
+        { name: 'Éducation', href: '/site/education' },
         { name: 'Services', href: '/site/services' },
-        { name: "L'Islam", href: '/site/islam' },
-        { name: 'Horaires', href: '/site/horaires' },
-        { name: 'Cimetière', href: '/site/cimetiere' },
+        { name: 'Dons', href: '/site/donate' },
         { name: 'Contact', href: '/contact' },
     ];
 
@@ -72,9 +71,9 @@ export default function PublicHeader() {
                         </div>
                         <div>
                             <h2 className="text-primary-900 text-lg md:text-xl font-serif font-black tracking-tight leading-none uppercase">
-                                Al-Sanctuaire
+                                CCIQ
                             </h2>
-                            <p className="text-[9px] font-bold text-accent-gold tracking-[0.2em] leading-none mt-1">Digital Academy</p>
+                            <p className="text-[9px] font-bold text-accent-gold tracking-[0.2em] leading-none mt-1">CULTUREL & SCOLAIRE</p>
                         </div>
                     </Link>
 
