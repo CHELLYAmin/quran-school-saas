@@ -43,10 +43,9 @@ builder.Services.AddCors(options =>
 {
         options.AddPolicy("AllowAll", policy =>
         {
-            policy.SetIsOriginAllowed(origin => true)
+            policy.AllowAnyOrigin()
                   .AllowAnyMethod()
-                  .AllowAnyHeader()
-                  .AllowCredentials();
+                  .AllowAnyHeader();
         });
 
     options.AddPolicy("ProductionPolicy", policy =>
@@ -102,12 +101,22 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+// MANUAL CORS MIDDLEWARE (FORCE HEADERS)
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.AccessControlAllowOrigin = "*";
-    context.Response.Headers.AccessControlAllowMethods = "*";
-    context.Response.Headers.AccessControlAllowHeaders = "*";
-    
+    context.Response.OnStarting(() =>
+    {
+        if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Origin"))
+            context.Response.Headers.AccessControlAllowOrigin = "*";
+        if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Methods"))
+            context.Response.Headers.AccessControlAllowMethods = "*";
+        if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Headers"))
+            context.Response.Headers.AccessControlAllowHeaders = "*";
+        if (!context.Response.Headers.ContainsKey("Access-Control-Expose-Headers"))
+            context.Response.Headers.AccessControlExposeHeaders = "*";
+        return Task.CompletedTask;
+    });
+
     if (context.Request.Method == "OPTIONS")
     {
         context.Response.StatusCode = 200;
@@ -116,6 +125,7 @@ app.Use(async (context, next) =>
     }
     await next();
 });
+
 
 // Configure the HTTP request pipeline. based on CLI arguments or environment variables
 var envReset = Environment.GetEnvironmentVariable("RESET_DATABASE") == "true";
@@ -285,6 +295,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Middleware pipeline
+app.UseRouting();
+app.UseCors("AllowAll");
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -303,11 +315,12 @@ if (app.Environment.IsDevelopment())
 }
 else 
 {
-    app.UseCors("ProductionPolicy");
+    // Use production logging etc
 }
 
 app.UseStaticFiles();
 app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 app.MapGet("/", () => Results.Ok("CCIQ API is healthy."));

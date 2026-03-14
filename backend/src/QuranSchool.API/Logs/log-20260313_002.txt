@@ -2085,3 +2085,21 @@ System.Net.Sockets.SocketException (11001): Hôte inconnu.
 2026-03-13 21:57:12.816 -04:00 [WRN] The WebRootPath was not found: C:\Users\aminc\.gemini\antigravity\scratch\quran-school-saas\backend\src\QuranSchool.API\wwwroot. Static files may be unavailable.
 2026-03-13 21:57:31.912 -04:00 [INF] >>> Request Started: GET /health
 2026-03-13 21:57:31.973 -04:00 [INF] >>> Request Finished: GET /health
+2026-03-13 22:02:26.895 -04:00 [INF] >>> Request Started: POST /api/auth/login
+2026-03-13 22:02:27.918 -04:00 [INF] >>> Request Finished: POST /api/auth/login
+2026-03-13 22:03:41.887 -04:00 [INF] >>> Request Started: GET /api/cms/pages
+2026-03-13 22:03:41.889 -04:00 [INF] >>> Request Started: GET /api/donation/campaigns
+2026-03-13 22:03:41.890 -04:00 [INF] >>> Request Started: GET /api/volunteer/missions
+2026-03-13 22:03:41.892 -04:00 [INF] >>> Request Started: GET /api/analytics/overview
+2026-03-13 22:03:41.893 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-13 22:03:41.895 -04:00 [INF] >>> Request Started: GET /api/cms/menu
+2026-03-13 22:03:42.010 -04:00 [INF] >>> Request Finished: GET /api/volunteer/missions
+2026-03-13 22:03:42.022 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-13 22:03:42.023 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-13 22:03:42.028 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-13 22:03:42.030 -04:00 [INF] >>> Request Started: GET /api/MosqueSettings
+2026-03-13 22:03:42.032 -04:00 [INF] >>> Request Finished: GET /api/donation/campaigns
+2026-03-13 22:03:42.036 -04:00 [INF] >>> Request Finished: GET /api/MosqueSettings
+2026-03-13 22:03:42.039 -04:00 [INF] >>> Request Finished: GET /api/cms/menu
+2026-03-13 22:03:42.042 -04:00 [INF] >>> Request Finished: GET /api/analytics/overview
+2026-03-13 22:03:42.067 -04:00 [INF] >>> Request Finished: GET /api/cms/pages
